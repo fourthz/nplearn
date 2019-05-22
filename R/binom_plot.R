@@ -7,6 +7,8 @@
 #' @param p double
 #'
 #' @return plot
+#' @importFrom graphics plot
+#' @importFrom stats dbinom
 #' @export
 #'
 #' @examples
