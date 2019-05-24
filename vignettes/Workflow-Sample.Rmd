@@ -24,7 +24,6 @@ package must be installed prior to running this script.
 
 ```{r setup}
 library(nplearn)
-library(readr)
 ```
 
 First, data are imported into the statistical software.
