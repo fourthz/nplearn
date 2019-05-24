@@ -1,0 +1,35 @@
+---
+title: "Workflow Sample"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Workflow-Sample}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The purpose of this vignette is to illustrate the typical steps and assumptions 
+used by researchers when analyzing data.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+data_file <- system.file("extdata", "IQ_Study_Data.csv", package = "nplearn")
+```
+
+This example uses the readr package that is part of the tidyverse, so this 
+package must be installed prior to running this script.
+
+```{r setup}
+library(nplearn)
+library(readr)
+```
+
+First, data are imported into the statistical software.
+
+```{r}
+iq_data <- read_csv(data_file)
+```
+
