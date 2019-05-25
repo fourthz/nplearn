@@ -38,4 +38,4 @@ library(nplearn)
 binom_plot(8, .4)
 ```
 
-<img src="man/figures/example-1.png" width="100%" />
+<img src="README_files/figure-gfm/example-1.png" width="100%" />
