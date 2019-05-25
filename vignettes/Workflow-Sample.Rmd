@@ -2,7 +2,7 @@
 title: "Workflow Sample"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Workflow-Sample}
+  %\VignetteIndexEntry{Workflow Sample}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
