@@ -6,8 +6,8 @@
 \alias{nplearn-package}
 \title{nplearn: Nonparametric Statistics Learning}
 \description{
-This is to facilitate the teaching and learning of nonparametric
-    statistics. The functions in the package are primarily for explaining
+This is to facilitate the teaching and learning of nonparametric 
+    statistics. The functions in the package are primarily for explaining 
     concepts, rather than for real-world application.
 }
 \author{
