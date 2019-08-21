@@ -6,7 +6,7 @@ Authors@R:
            family = "Seaman",
            role = c("aut", "cre"),
            email = "fourthz@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0002-7406-5398"))
 Description: This is to facilitate the teaching and learning of nonparametric 
     statistics. The functions in the package are primarily for explaining 
     concepts, rather than for real-world application.
