@@ -79,22 +79,35 @@ iq_data_long$Social <- fct_relevel(iq_data_long$Social,
 ### Graphical Display
 
 Next, we construct graphical displays to illustrate the major features of the 
-data.
+data. First, side-by-side boxplots to compare the foster twins IQ to the 
+biological twins IQ.
 
-```{r}
+```{r fig1, fig.height = 5, fig.width = 7, fig.align = "center"}
 ggplot(iq_data_long, aes(x = Upbringing, y = IQ)) +
   geom_boxplot() +
   labs(x = "Type of Upbringing",
        y = "Intelligence Quotient",
        title = "Comparison of IQ Scores for Twins with Different Upbringing")
+```
 
+Here are boxplots to compare IQ score differences for each twin pair across 
+the three SES categories.
 
+```{r fig2, fig.height = 5, fig.width = 7, fig.align = "center"}
 ggplot(iq_data, aes(x = Social, y = IQ_Diff)) +
   geom_boxplot() +
   labs(x = "Socioeconomic Status",
        y = "IQ Difference Scores",
        title = "Comparison of Twin IQ Differences for SES Categories")
+```
 
+Here is a scatterplot illustrating the relationship of IQ scores for foster 
+home and biological twins. A regression line is included, as well as 
+differing colors and shapes for the social categories. Social category does 
+not appear to make much difference in the relationship, so a single regression 
+line is sufficient.
+
+```{r fig3, fig.height = 5, fig.width = 7, fig.align = "center"}
 ggplot(iq_data, aes(x = Biological, y = Foster)) +
   geom_point(aes(color = Social, shape = Social)) +
   geom_smooth(method = lm, se = FALSE) +
