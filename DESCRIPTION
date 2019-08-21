@@ -18,7 +18,7 @@ RoxygenNote: 6.1.1
 Imports: 
     graphics,
     stats,
-    readr
+    tidyverse
 Suggests: 
     knitr,
     rmarkdown
