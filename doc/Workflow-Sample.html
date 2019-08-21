@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Workflow Sample</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Workflow Sample</h1>
+
+
+
+<p>The purpose of this vignette is to illustrate the typical steps and assumptions used by researchers when analyzing data. The illustration uses the data from a study of twin intelligence. In 1966, Cyril Burt published data obtained from 27 pairs of monozygotic twins. These 27 pairs were special cases in that one twin was raised in a foster home, while the other was raised by the birth parents. Burt measured the intelligence of the adult twins in order to determine whether environmental factors influence intelligence, or whether it is primarily a function of genetics. He also classified each twin pair as having come from a “low,” “medium,” or “high” social class.</p>
+<div id="reference" class="section level3">
+<h3>Reference</h3>
+<p>Burt, C. (1966). The genetic determination of differences in intelligence: A study of monozygotic twins reared together and apart. <em>British Journal of Psychology, 57,</em> 137 –153.</p>
+</div>
+<div id="required-packages" class="section level3">
+<h3>Required packages</h3>
+<p>This example uses packages that are part of the tidyverse. Installation of the complete tidyverse package will facilitate running this script.</p>
+<pre><code>#&gt; Registered S3 methods overwritten by &#39;ggplot2&#39;:
+#&gt;   method         from 
+#&gt;   [.quosures     rlang
+#&gt;   c.quosures     rlang
+#&gt;   print.quosures rlang
+#&gt; Registered S3 method overwritten by &#39;rvest&#39;:
+#&gt;   method            from
+#&gt;   read_xml.response xml2
+#&gt; -- Attaching packages ---------------------------------- tidyverse 1.2.1 --
+#&gt; v ggplot2 3.1.1       v purrr   0.3.2  
+#&gt; v tibble  2.1.3       v dplyr   0.8.0.1
+#&gt; v tidyr   0.8.3       v stringr 1.4.0  
+#&gt; v readr   1.3.1       v forcats 0.4.0
+#&gt; -- Conflicts ------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="data-import" class="section level3">
+<h3>Data Import</h3>
+<p>First, data are imported into the statistical software.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">iq_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(data_file)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;   Foster = col_double(),</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;   Biological = col_double(),</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;   Social = col_character()</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; )</span></a></code></pre></div>
+</div>
+<div id="data-cleaning-and-preparation" class="section level3">
+<h3>Data Cleaning and Preparation</h3>
+<p>Next, we clean data and prepare it for analysis. In this case, because we have repeated measurements (due to correlated twin scores) in the original data set, we will need both long and wide formats. The data are currently in wide format only. We also should obtain a variable for the difference in IQ scores for each twin pair.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">iq_data_long &lt;-<span class="st"> </span><span class="kw">gather</span>(iq_data,</a>
+<a class="sourceLine" id="cb3-2" title="2">                       <span class="st">&#39;Foster&#39;</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">                       <span class="st">&#39;Biological&#39;</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                       <span class="dt">key =</span> <span class="st">&quot;Upbringing&quot;</span>,</a>
+<a class="sourceLine" id="cb3-5" title="5">                       <span class="dt">value =</span> <span class="st">&quot;IQ&quot;</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7">iq_data<span class="op">$</span>IQ_Diff &lt;-<span class="st"> </span>iq_data<span class="op">$</span>Foster <span class="op">-</span><span class="st"> </span>iq_data<span class="op">$</span>Biological</a>
+<a class="sourceLine" id="cb3-8" title="8"></a>
+<a class="sourceLine" id="cb3-9" title="9">iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">as.factor</span>(iq_data<span class="op">$</span>Social)</a>
+<a class="sourceLine" id="cb3-10" title="10">iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">as.factor</span>(iq_data_long<span class="op">$</span>Social)</a>
+<a class="sourceLine" id="cb3-11" title="11"></a>
+<a class="sourceLine" id="cb3-12" title="12">iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data<span class="op">$</span>Social,</a>
+<a class="sourceLine" id="cb3-13" title="13">                              <span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;middle&quot;</span>, <span class="st">&quot;high&quot;</span>))</a>
+<a class="sourceLine" id="cb3-14" title="14"></a>
+<a class="sourceLine" id="cb3-15" title="15">iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data_long<span class="op">$</span>Social,</a>
+<a class="sourceLine" id="cb3-16" title="16">                                   <span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;middle&quot;</span>, <span class="st">&quot;high&quot;</span>))</a></code></pre></div>
+</div>
+<div id="graphical-display" class="section level3">
+<h3>Graphical Display</h3>
+<p>Next, we construct graphical displays to illustrate the major features of the data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">ggplot</span>(iq_data_long, <span class="kw">aes</span>(<span class="dt">x =</span> Upbringing, <span class="dt">y =</span> IQ)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Social, <span class="dt">y =</span> IQ_Diff)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Biological, <span class="dt">y =</span> Foster)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> Social, <span class="dt">shape =</span> Social)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="descriptive-statistics" class="section level3">
+<h3>Descriptive Statistics</h3>
+<p>Descriptive statistics are indices of characteristics of a set of scores. We can calculate these for the entire set of scores, or for subsets. These should align with our graphs and provide more details.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">iq_data_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Upbringing) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="kw">mean</span>(IQ),</a>
+<a class="sourceLine" id="cb7-4" title="4">            <span class="kw">sd</span>(IQ),</a>
+<a class="sourceLine" id="cb7-5" title="5">            <span class="kw">min</span>(IQ),</a>
+<a class="sourceLine" id="cb7-6" title="6">            <span class="kw">quantile</span>(IQ, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb7-7" title="7">            <span class="kw">median</span>(IQ),</a>
+<a class="sourceLine" id="cb7-8" title="8">            <span class="kw">quantile</span>(IQ, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb7-9" title="9">            <span class="kw">max</span>(IQ))</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; # A tibble: 2 x 8</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;   Upbringing `mean(IQ)` `sd(IQ)` `min(IQ)` `quantile(IQ, 0~ `median(IQ)`</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; 1 Biological       95.3     15.7        68             83.5           94</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; 2 Foster           95.1     16.1        63             84.5           94</span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; # ... with 2 more variables: `quantile(IQ, 0.75)` &lt;dbl&gt;, `max(IQ)` &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-16" title="16"></a>
+<a class="sourceLine" id="cb7-17" title="17">iq_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-18" title="18"><span class="st">  </span><span class="kw">group_by</span>(Social) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-19" title="19"><span class="st">  </span><span class="kw">summarize</span>(<span class="kw">mean</span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb7-20" title="20">            <span class="kw">sd</span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb7-21" title="21">            <span class="kw">min</span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb7-22" title="22">            <span class="kw">quantile</span>(IQ_Diff, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb7-23" title="23">            <span class="kw">median</span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb7-24" title="24">            <span class="kw">quantile</span>(IQ_Diff, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb7-25" title="25">            <span class="kw">max</span>(IQ_Diff))</a>
+<a class="sourceLine" id="cb7-26" title="26"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
+<a class="sourceLine" id="cb7-27" title="27"><span class="co">#&gt;   Social `mean(IQ_Diff)` `sd(IQ_Diff)` `min(IQ_Diff)` `quantile(IQ_Di~</span></a>
+<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt;   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-29" title="29"><span class="co">#&gt; 1 low               2.5           7.92            -13            -1.5 </span></a>
+<a class="sourceLine" id="cb7-30" title="30"><span class="co">#&gt; 2 middle           -1.67          8.16            -12            -6.25</span></a>
+<a class="sourceLine" id="cb7-31" title="31"><span class="co">#&gt; 3 high             -4.29          5.41            -12            -8.5 </span></a>
+<a class="sourceLine" id="cb7-32" title="32"><span class="co">#&gt; # ... with 3 more variables: `median(IQ_Diff)` &lt;dbl&gt;, `quantile(IQ_Diff,</span></a>
+<a class="sourceLine" id="cb7-33" title="33"><span class="co">#&gt; #   0.75)` &lt;dbl&gt;, `max(IQ_Diff)` &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-34" title="34"></a>
+<a class="sourceLine" id="cb7-35" title="35"><span class="kw">lm</span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb7-36" title="36"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-37" title="37"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb7-38" title="38"><span class="co">#&gt; lm(formula = iq_data$Foster ~ iq_data$Biological)</span></a>
+<a class="sourceLine" id="cb7-39" title="39"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-40" title="40"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb7-41" title="41"><span class="co">#&gt;        (Intercept)  iq_data$Biological  </span></a>
+<a class="sourceLine" id="cb7-42" title="42"><span class="co">#&gt;             9.2076              0.9014</span></a>
+<a class="sourceLine" id="cb7-43" title="43"><span class="kw">cor</span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb7-44" title="44"><span class="co">#&gt; [1] 0.8819877</span></a></code></pre></div>
+</div>
+<div id="inferential-statistics" class="section level3">
+<h3>Inferential Statistics</h3>
+<p>Inferential statistics attach a degree of probability to point estimates that are compared to hypothesized values or to interval estimates. Such statistics are a function of effect size, variation, and form of the population distribution. Inferences should not be made in isolation, but only to supplement graphical and descriptive analysis.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">t.test</span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt;  Welch Two Sample t-test</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; t = -0.042767, df = 51.975, p-value = 0.9661</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  -8.874252  8.503881</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; mean of x mean of y </span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  95.11111  95.29630</span></a>
+<a class="sourceLine" id="cb8-13" title="13"></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="kw">anova</span>(<span class="kw">lm</span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; Analysis of Variance Table</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; Response: iq_data$IQ_Diff</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt;                Df  Sum Sq Mean Sq F value Pr(&gt;F)</span></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; iq_data$Social  2  231.81 115.906  2.1006 0.1443</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; Residuals      24 1324.26  55.178</span></a>
+<a class="sourceLine" id="cb8-21" title="21"></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="kw">TukeyHSD</span>(<span class="kw">aov</span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</a>
+<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt;   Tukey multiple comparisons of means</span></a>
+<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt;     95% family-wise confidence level</span></a>
+<a class="sourceLine" id="cb8-25" title="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-26" title="26"><span class="co">#&gt; Fit: aov(formula = iq_data$IQ_Diff ~ iq_data$Social)</span></a>
+<a class="sourceLine" id="cb8-27" title="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-28" title="28"><span class="co">#&gt; $`iq_data$Social`</span></a>
+<a class="sourceLine" id="cb8-29" title="29"><span class="co">#&gt;                  diff       lwr      upr     p adj</span></a>
+<a class="sourceLine" id="cb8-30" title="30"><span class="co">#&gt; middle-low  -4.166667 -13.21826 4.884929 0.4939156</span></a>
+<a class="sourceLine" id="cb8-31" title="31"><span class="co">#&gt; high-low    -6.785714 -15.37281 1.801384 0.1405651</span></a>
+<a class="sourceLine" id="cb8-32" title="32"><span class="co">#&gt; high-middle -2.619048 -12.93945 7.701360 0.8031459</span></a>
+<a class="sourceLine" id="cb8-33" title="33"></a>
+<a class="sourceLine" id="cb8-34" title="34"><span class="kw">anova</span>(<span class="kw">lm</span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological))</a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="co">#&gt; Analysis of Variance Table</span></a>
+<a class="sourceLine" id="cb8-36" title="36"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="co">#&gt; Response: iq_data$Foster</span></a>
+<a class="sourceLine" id="cb8-38" title="38"><span class="co">#&gt;                    Df Sum Sq Mean Sq F value    Pr(&gt;F)    </span></a>
+<a class="sourceLine" id="cb8-39" title="39"><span class="co">#&gt; iq_data$Biological  1 5231.1  5231.1  87.563 1.204e-09 ***</span></a>
+<a class="sourceLine" id="cb8-40" title="40"><span class="co">#&gt; Residuals          25 1493.5    59.7                      </span></a>
+<a class="sourceLine" id="cb8-41" title="41"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb8-42" title="42"><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
+<a class="sourceLine" id="cb8-43" title="43"></a>
+<a class="sourceLine" id="cb8-44" title="44"><span class="kw">cor.test</span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb8-45" title="45"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-46" title="46"><span class="co">#&gt;  Pearson&#39;s product-moment correlation</span></a>
+<a class="sourceLine" id="cb8-47" title="47"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-48" title="48"><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></a>
+<a class="sourceLine" id="cb8-49" title="49"><span class="co">#&gt; t = 9.3575, df = 25, p-value = 1.204e-09</span></a>
+<a class="sourceLine" id="cb8-50" title="50"><span class="co">#&gt; alternative hypothesis: true correlation is not equal to 0</span></a>
+<a class="sourceLine" id="cb8-51" title="51"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb8-52" title="52"><span class="co">#&gt;  0.7550380 0.9452009</span></a>
+<a class="sourceLine" id="cb8-53" title="53"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb8-54" title="54"><span class="co">#&gt;       cor </span></a>
+<a class="sourceLine" id="cb8-55" title="55"><span class="co">#&gt; 0.8819877</span></a></code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
