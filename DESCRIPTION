@@ -12,6 +12,7 @@ Description: This is to facilitate the teaching and learning of nonparametric
     concepts, rather than for real-world application.
 License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://fourthz.github.io/nplearn
 LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
