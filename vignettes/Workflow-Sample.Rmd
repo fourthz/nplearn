@@ -36,7 +36,7 @@ data_file <- system.file("extdata", "IQ_Study_Data.csv", package = "nplearn")
 This example uses packages that are part of the tidyverse. Installation of 
 the complete tidyverse package will facilitate running this script.
 
-```{r setup, echo = FALSE}
+```{r setup, message = FALSE}
 library(nplearn)
 library(tidyverse)
 ```
@@ -155,15 +155,30 @@ are a function of effect size, variation, and form of the population
 distribution. Inferences should not be made in isolation, but only to 
 supplement graphical and descriptive analysis.
 
+This generates a t-test confidence interval for the comparison of foster home 
+twin IQ score to biological twin IQ score.
+
 ```{r}
 t.test(iq_data$Foster, iq_data$Biological)
+```
 
+This provides a *p* value for the test that all social categories have the 
+same mean IQ score. It is followed by Tukey confidence intervals, to control 
+the overall Type I error rate.
+
+```{r}
 anova(lm(iq_data$IQ_Diff ~ iq_data$Social))
 
 TukeyHSD(aov(iq_data$IQ_Diff ~ iq_data$Social))
+```
 
+This provides a *p* value for the test that there is no relationshiop of the 
+foster twin IQ score to the biological twin IQ score. It is followed by 
+the construction of a confidence interval for the correlation among these 
+variables.
+
+```{r}
 anova(lm(iq_data$Foster ~ iq_data$Biological))
 
 cor.test(iq_data$Foster, iq_data$Biological)
 ```
-
