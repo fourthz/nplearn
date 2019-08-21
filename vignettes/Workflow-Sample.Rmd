@@ -45,7 +45,7 @@ library(tidyverse)
 
 First, data are imported into the statistical software.
 
-```{r}
+```{r message = FALSE}
 iq_data <- read_csv(data_file)
 ```
 
@@ -83,14 +83,24 @@ data.
 
 ```{r}
 ggplot(iq_data_long, aes(x = Upbringing, y = IQ)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(x = "Type of Upbringing",
+       y = "Intelligence Quotient",
+       title = "Comparison of IQ Scores for Twins with Different Upbringing")
+
 
 ggplot(iq_data, aes(x = Social, y = IQ_Diff)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(x = "Socioeconomic Status",
+       y = "IQ Difference Scores",
+       title = "Comparison of Twin IQ Differences for SES Categories")
 
 ggplot(iq_data, aes(x = Biological, y = Foster)) +
   geom_point(aes(color = Social, shape = Social)) +
-  geom_smooth(method = lm, se = FALSE)
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Biological Twin IQ Score",
+       y = "Foster Home Twin IQ Score",
+       title = "Relationship of Twin IQ Scores")
 ```
 
 ### Descriptive Statistics
@@ -98,6 +108,8 @@ ggplot(iq_data, aes(x = Biological, y = Foster)) +
 Descriptive statistics are indices of characteristics of a set of scores. We 
 can calculate these for the entire set of scores, or for subsets. These should 
 align with our graphs and provide more details.
+
+Here are statistics comparing IQ scores for different types of upbringing.
 
 ```{r}
 iq_data_long %>%
@@ -109,7 +121,12 @@ iq_data_long %>%
             median(IQ),
             quantile(IQ, 0.75),
             max(IQ))
+```
 
+Here are statistics comparing IQ difference scores for different social 
+categories.
+
+```{r}
 iq_data %>%
   group_by(Social) %>%
   summarize(mean(IQ_Diff),
@@ -119,7 +136,13 @@ iq_data %>%
             median(IQ_Diff),
             quantile(IQ_Diff, 0.75),
             max(IQ_Diff))
+```
 
+Here are the coefficients for the regression line in the model relating 
+the foster home twin IQ score to the biological twin IQ score, as well as the 
+correlation among these scores.
+
+```{r}
 lm(iq_data$Foster ~ iq_data$Biological)
 cor(iq_data$Foster, iq_data$Biological)
 ```
