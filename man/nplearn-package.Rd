@@ -10,6 +10,13 @@ This is to facilitate the teaching and learning of nonparametric
     statistics. The functions in the package are primarily for explaining 
     concepts, rather than for real-world application.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://fourthz.github.io/nplearn}
+}
+
+}
 \author{
 \strong{Maintainer}: Michael Seaman \email{fourthz@gmail.com} (0000-0002-7406-5398)
 
