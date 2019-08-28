@@ -18,8 +18,5 @@ RoxygenNote: 6.1.1
 Imports: 
     graphics,
     stats,
-    tidyverse
-Suggests: 
-    knitr,
-    rmarkdown
+    Rlab
 VignetteBuilder: knitr
