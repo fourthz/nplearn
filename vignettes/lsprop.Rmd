@@ -1,0 +1,71 @@
+---
+title: "Large-Sample Proportion Inference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Large-Sample Proportion Inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The Central Limit Theorem (CLT) provides a means of inference for proportions with 
+large sample sizes. This is because with a large-sample size, the sampling 
+distribution of proportions is approximately normal.
+
+### Required packages
+
+No additional packages are required for this vignette. All the functions used 
+are in the base package.
+
+### Conditions for valid inference
+
+Theoretically, data must be a simple random sample drawn from the population 
+of interest. That is because a premise of the CLT is that we are working with 
+random variables. In the behavioral and social sciences, as well as other 
+disciplines, such as medical science, that is seldom the case. The question 
+then becomes, who does our sample represent? That is, we conceive of our 
+sample as a possible "random" sample from some population with characteristics 
+that mimic those found in our sample. By "characteristics" we mean variables 
+that may be related to the response variable that is the focus of our study.
+
+Another premise of the CLT is that we have a sum of independent variables, 
+so this means that our observations must be independent. This is one of the 
+easiest conditions of inference to accomplish, but also an important condition.
+
+We must be inferring to a population that is at least 10 times as large as 
+the sample. The theory of inference used for large-sample approximations is 
+that we are working with infinite-sized populations, which of course we are 
+not, but as long as the population is still 10 times as large as the sample, 
+or more, the theory works quite well. 
+
+Finally, the sampling distribution must be approximately normal. This is 
+a function of both the sample size and the value of our population proportion. 
+The closer the population proportion is to the middle value of 0.5, the 
+smaller the sample size can be. The further away from 0.5 our population 
+proportion, the larger the sample size we need. A good rule-of-thumb is that 
+the product of the sample size and the population proportion, as well as the 
+product of the sample size and one minus the population proportion, are both 
+at least 10. In symbols:
+
+$n(\pi) \ge 10$ and $n(1-\pi) \ge 10$
+
+Under these conditions, the sampling distribution of the sample proportion 
+will look fairly normal.
+
+### Test of a proportion
+
+If it has occurred to you to wonder how we would know that we have a large 
+enough sample size for a large-sample approximation if the rule-of-thumb 
+is based on the population proportion, you are not alone. One possible 
+answer is to hypothesize a population proportion. In fact, that is what we 
+do when we conduct a hypothesis test. Another advantage to such a hypothesis 
+is that we can calculate the standard deviation of sampling distribution, 
+because this also depends on us knowing the population parameter.
+
+$\sigma_\hat{\pi} = \sqrt{\frac{\pi_0(1-\pi_0)}{n}}$
