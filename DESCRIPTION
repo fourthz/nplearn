@@ -1,6 +1,6 @@
 Package: nplearn
 Title: Nonparametric Statistics Learning
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Michael",
            family = "Seaman",
@@ -19,4 +19,8 @@ Imports:
     graphics,
     stats,
     Rlab
+Suggests:
+    knitr,
+    tidyverse,
+    rmarkdown
 VignetteBuilder: knitr

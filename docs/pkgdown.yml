@@ -2,5 +2,6 @@ pandoc: '2.6'
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
+  Bernoulli-Events: Bernoulli-Events.html
   Workflow-Sample: Workflow-Sample.html
 
