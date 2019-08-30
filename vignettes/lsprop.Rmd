@@ -1,0 +1,497 @@
+---
+title: "Large-Sample Proportion Inference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Large-Sample Proportion Inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5,
+  fig.height = 5
+)
+```
+
+The Central Limit Theorem (CLT) provides a means of inference for proportions 
+with large sample sizes. This is because with a large sample size, the sampling 
+distribution of proportions is approximately normal.
+
+### Required packages
+
+The Rlab package is required for this vignette. All other functions used 
+are in the base package.
+
+```{r setup, echo = TRUE, message = FALSE}
+library(Rlab)
+```
+
+### The sampling distribution of a proportion
+
+A *sampling distribution* is a distribution of a statistic obtained by 
+random resampling numerous times from the population. For each sample of 
+size n that is randomly selected, we calculate the value of the statistic. 
+After doing this repeatedly (in theory an infinite number of times), the 
+distribution of these statistics is a sampling distribution.
+
+When observing Bernoulli events, the typical parameter of interest is the 
+population proportion, or rate, of success. The statistic to estimate this 
+proportion is the proportion success in the sample. We can use the rbern 
+function to simulate random Bernoulli events.
+
+Here is a simulation of randomly observing 40 Bernoulli events with the 
+probability of success set at 70\%.
+
+```{r}
+n <- 40
+pi <- 0.7
+
+rbern(n, pi)
+```
+
+Now we will repeat this simulation 10,000 times. Each time, we will calculate 
+the proportion success in the sample and save it.
+
+```{r}
+reps <- 10000
+
+pi_hat <- replicate(reps, sum(rbern(n, pi))/n)
+```
+
+Let's look at the sampling distribution of the proportions.
+
+```{r}
+hist(pi_hat)
+```
+
+We can see the CLT at work. Further, note that if we calculate the mean of all 
+10,000 values of the sample proportions, it is quite close to the population 
+proportion of 0.7.
+
+```{r}
+mean(pi_hat)
+```
+
+When the mean of a statistic's sampling distribution is the population value 
+of the parameter the statistic is estimating, we refer to the statistic as 
+*unbiased*. This is a desirable property because it tells us that the 
+average of many wrongs is a right!
+
+If we increase the sample size, we can see the Law of Large Numbers at work. 
+Let's try increasing it from 40 to 200.
+
+```{r}
+n <- 200
+
+pi_hat <- replicate(reps, sum(rbern(n, pi))/n)
+hist(pi_hat)
+```
+
+Compare the horizontal axis values on this distribution with the previous 
+distribution and you will see that this distribution has less variability. 
+The Law of Large Numbers tells us that with an increase in sample size, the 
+variability of the sampling distribution decreases. In practical terms, this 
+means that with larger sample sizes there is a higher probability of 
+obtaining a sample with a proportion statistic that is near the proportion 
+parameter that we are estimating.
+
+### Conditions for valid inference
+
+Theoretically, data must be a simple random sample drawn from the population 
+of interest. That is because a premise of the CLT is that we are working with 
+random variables. In the behavioral and social sciences, as well as other 
+disciplines, such as medical science, that is seldom the case. The question 
+then becomes, who does our sample represent? That is, we conceive of our 
+sample as a possible "random" sample from some population with characteristics 
+that mimic those found in our sample. By "characteristics" we mean variables 
+that may be related to the response variable that is the focus of our study.
+
+Another condition of the CLT is that we have a sum of independent variables, 
+so this means that our observations must be independent. This is one of the 
+easiest conditions of inference to accomplish, but also an important condition.
+
+We must be inferring to a population that is at least 10 times as large as 
+the sample. The theory of inference used for large-sample approximations is 
+that we are working with infinite-sized populations, which of course we are 
+not, but as long as the population is still 10 times as large as the sample, 
+or more, the theory works quite well. 
+
+Finally, the sampling distribution must be approximately normal. This is 
+a function of both the sample size and the value of our population proportion. 
+The closer the population proportion is to the middle value of 0.5, the 
+smaller the sample size can be. The further away from 0.5 our population 
+proportion, the larger the sample size we need. A good rule-of-thumb is that 
+the product of the sample size and the population proportion, as well as the 
+product of the sample size and one minus the population proportion, are both 
+at least 10. In symbols:
+
+$n(\pi) \ge 10$ and $n(1-\pi) \ge 10$
+
+Under these conditions, the sampling distribution of the sample proportion 
+will look fairly normal.
+
+In the 2003 outbreak of Severe Acute Respiratory Syndrome (SARS) in Singapore, 
+there were 17 deaths among the 132 victims who did not receive treatment. 
+We want to estimate the probability of dying from SARS without 
+treatment. Let's see if the sampling distribution of the proportion estimate 
+will be approximately normal for these data. We don't know the population 
+proportion, but let's see if using a probability of death of 10\% will yield 
+a normal sampling distribution.
+
+```{r}
+x = 17
+n = 132
+
+pi_0 <- 0.10
+
+n*pi_0
+n*(1-pi_0)
+```
+
+If the probability of death from SARS is 10\%, it is reasonable for us to use 
+the normal distribution for our inference.
+
+### Test of a proportion
+
+If it has occurred to you to wonder how we would know that we have a large 
+enough sample size for a large-sample approximation if the rule-of-thumb 
+is based on the population proportion, you are not alone. One possible 
+answer is to hypothesize a population proportion. In fact, that is what we 
+do when we conduct a hypothesis test. Another advantage to such a hypothesis 
+is that we can calculate the standard deviation of sampling distribution, 
+because this also depends on us knowing the population parameter.
+
+$\Large \sigma_\hat{\pi} = \sqrt{\frac{\pi_0(1-\pi_0)}{n}}$
+
+Here's the standard deviation of the sampling distribution using a 10\% 
+probability of death from SARS.
+
+```{r}
+sd_pi_hat <- sqrt(pi_0*(1-pi_0)/n)
+sd_pi_hat
+```
+
+
+With the standard deviation in hand, and knowing that the distribution of 
+the sample proportions (i.e., the sampling distribution) will be approximately 
+normal, we can determine the deviation of the sample proportion from the 
+hypothesized proportion in standardized units. This is, of course, called 
+a Z score.
+
+$\Large Z = \frac{\hat{\pi}-\pi_0}{\sigma_\hat{\pi}}$
+
+Here it is for the Singapore SARS data.
+
+```{r}
+pi_hat = x/n
+z = (pi_hat - pi_0)/sd_pi_hat
+z
+```
+
+If we want to use a 95\% level of confidence, this is clearly not far enough 
+out in the tail of the standard normal distribution to suggest rejection of 
+this null hypothesis, so we will retain a 10% probability of death from SARS 
+as a potential rate for the population.
+
+```{r}
+2*pnorm(z, lower.tail = FALSE)
+```
+
+### A confidence interval for a proportion (traditional)
+
+Testing a single hypothesis results in very little information. All we know 
+is that the death probability for SARS might be 10\%, but then again it might 
+be something else. A more informative inference is a confidence interval.
+
+The traditional method for constructing a confidence interval is to calculate 
+a margin of error (MOE), then add and subtract that from our estimate. MOE 
+is the product of a test statistic (in this case, a Z score because we are 
+using the normal distribution as a large-sample approximation of our 
+sampling distribution) and the standard error of the estimate. A standard 
+error is an estimate of the standard deviation. We saw above that the 
+standard deviation for the sampling distribution of $\hat{\pi}$ is given by 
+the following formula.
+
+$\Large \sigma_\hat{\pi} = \sqrt{\frac{\pi_0(1-\pi_0)}{n}}$
+
+This requires us knowing the true population parameter, which of course we 
+don't know or we wouldn't be creating a confidence interval for it. We got 
+around that by making up a hypothesized value, but now instead of testing a 
+single hypothesis we want to form a confidence interval. We can obtain an 
+estimate of the standard deviation (this is called the *standard error*) by 
+replacing the population parameter with an estimate based on sample data. Note 
+that I've added a hat to $\sigma$ to indicate that I'm now estimating it.
+
+$\Large \hat{\sigma}_\hat{\pi} = \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}}$
+
+Here's the calculation of the standard error for our SARS data.
+
+```{r}
+se_pi_hat <- sqrt(pi_hat*(1-pi_hat)/n)
+se_pi_hat
+```
+
+With the standard error in hand, we can now calculate the MOE. Keep in mind 
+that we are using the normal distribution as our model of the sampling 
+distribution, so our critical value must come from the normal distribution. 
+Here's the MOE for a 95\% confidence interval using the SARS data.
+
+```{r}
+MOE <- qnorm(.975)*se_pi_hat
+MOE
+```
+
+Now we can calculate the 95% confidence interval by adding and subtracting MOE 
+from our point estimate for the death rate.
+
+```{r}
+pi_hat + c(-1,1)*MOE
+```
+
+Putting it all together, here's the traditional formula for a confidence 
+interval for a population proportion. I'm using $z^*$ to indicate that this is 
+a Z quantile, but it is the critical Z quantile that is based on our confidence 
+level.
+
+$\Large \hat{\pi} \pm z^*\sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}}$
+
+If we want a one-sided confidence set, we would change the $z^*$ so that it 
+corresponds to a one-sided test and would either add or subtract MOE from 
+our point estimate, rather than doing both.
+
+### A confidence interval for a proportion (better!)
+
+The confidence interval formula above is in every introductory statistics 
+book that I have ever seen. It may be easy to learn, but it is not the best 
+we can do when using the normal distribution to construct a confidence 
+interval. Look closely at the formula. Notice that to calculate MOE we are 
+using a quantile of the standard normal distribution and we are using the 
+standard error. This is a contradiction! To calculate Z scores, you must 
+**know** the standard deviation. We are using standard error, which is 
+an estimate of the standard deviation.
+
+I know what you're probably thinking. You want to remind me that the 
+standard deviation formula for the sampling distribution of a proportion 
+requires knowing the population standard deviation and we do not know the 
+population standard deviation. You are correct! Yet there is a method of 
+confidence interval construction that is prevalent in nonparametric statistics 
+that can solve this dilemma for us. It is known as the *inversion method* of 
+confidence interval construction. It is based on the following principle.
+
+>A confidence interval consists of all possible null hypotheses that are 
+**not** rejected given the observations in hand.
+
+If you recall, we were able to calculate an actual standard deviation, rather 
+than the standard error, for the sampling distribution by hypothesizing a 
+population parameter.
+
+$\Large \sigma_\hat{\pi} = \sqrt{\frac{\pi_0(1-\pi_0)}{n}}$
+
+Note the $\pi_0$ in the above formula. That refers to our hypothesized value 
+of $\pi$. If a confidence interval consists of all possible null hypotheses 
+that we retain, then why not conduct all possible hypothesis tests, changing 
+the standard deviation each time to reflect our changing hypothesis? In fact, 
+that is exactly how the inversion method of confidence interval construction 
+works.
+
+As you might have guessed, testing all possible hypotheses can be a bit time 
+consuming, but we have R to help us out. Let's test all hypotheses with our 
+SARS data.
+
+```{r}
+pi_0 <- seq(from = 0, to = 1, by = .01)
+
+sd_pi_hat <- sqrt(pi_0*(1-pi_0)/n)
+z <- (pi_hat - pi_0)/sd_pi_hat
+```
+
+Let's look at a table of hypothesized values next to our Z score for each 
+value.
+
+```{r}
+cbind(pi_0, z)
+```
+
+As a reminder, here are our critical values.
+
+```{r}
+qnorm(.025)
+qnorm(.975)
+```
+
+So we want to reject all hypotheses that are not in between these values. 
+Let's add that information to our table.
+
+```{r}
+
+outcome <- ifelse((z > qnorm(.025)) & (z < qnorm(.975)), "retain", "reject")
+cbind(pi_0, z, outcome)
+```
+
+Let's pull out just the retained values so that we can see our confidence 
+interval.
+
+```{r}
+CI <- subset(pi_0, outcome == "retain")
+CI
+```
+
+I'm going to do this all one more time with a bit more precision so that we 
+can do a better comparison to the traditional interval. I'll only show the 
+outcome, because the full table is rather long.
+
+```{r}
+pi_0 <- seq(from = 0, to = 1, by = .001)
+
+sd_pi_hat <- sqrt(pi_0*(1-pi_0)/n)
+z <- (pi_hat - pi_0)/sd_pi_hat
+outcome <- ifelse((z > qnorm(.025)) & (z < qnorm(.975)), "retain", "reject")
+CI <- subset(pi_0, outcome == "retain")
+CI
+```
+
+So the traditional method gave us 0.072 to 0.186. This more correct method 
+gives 0.082 to 0.196. The reason I say "more correct" instead of correct is
+because even though we are now using the standard deviation, rather than the 
+standard error, we are still using a normal distribution, and this is only 
+an approximation for the sampling distribution.
+
+### Correction for continuity
+
+There is one more element we can add to our calculation to make the more 
+correct method even more more correct. This is called the correction for 
+continuity. Nonparametric statisticians recognize that in the real world of 
+research, we always use discrete values. For our SARS data, we studied 
+132 individuals. The possible values for proportions would look like this: 
+0/132, 1/132, 2/132, 3/132, and so on, all the way to 131/132 and 132/132. 
+Values in between these numbers are not possible. Moving from 0 to 1 
+corresponds to a jump of 0/132 to 1/132, or 1/132. That is, the only 
+proportions possible, given our data, are all 1/132 away from each other. Yet 
+we are using a continuous distribution, the standard normal distribution, 
+to help us make a decision about whether to reject or retain our hypotheses.
+
+To understand why this is a problem, let's look again at our SARS data. We 
+observed 17 deaths out of 132 SARS victims. Here is the Z score again when 
+we are testing a hypothesis of a 10\% death rate.
+
+```{r}
+((17/132) - .10)/sqrt(.10*(1-.10)/132)
+```
+
+Suppose we had observed one fewer deaths (16). Now here is the Z score.
+
+```{r}
+((16/132) - .10)/sqrt(.10*(1-.10)/132)
+```
+
+Similarly, supposed we had observed one more death (18). Now here is the Z 
+score.
+
+```{r}
+((18/132) - .10)/sqrt(.10*(1-.10)/132)
+```
+
+Notice how different these scores are from one another! Even though every Z 
+score is theoretically a possibility, in practice only certain Z scores are 
+possible, due to the discrete nature of our data. Think about the implications 
+for hypothesis testing when we are trying to control the Type I error rate. 
+We may want to control that rate at something like 5\%, but in reality the 
+5\% error rate may not even be a possibility, due to our discrete "jumps" in 
+possible Z scores. If our error rate is a bit lower than our hoped-for rate 
+(for example, 4\% instead of 5\%), we probably won't mind too much. If the 
+error rate is larger than we hoped for (6\%, for example, when we have been 
+bragging about holding our errors at 5\%), that could be embarrassing.
+
+If we want to think of a correspondence between our discrete proportions and 
+the continuous Z scores, one way to do this is to consider all the Z scores 
+from one half of the jump in one direction to one half of the jump in the 
+other direction as belonging to our observed proportion. For example, for the 
+SARS observations, we might think of all the Z scores that would correspond to 
+these proportions: (16.5/132) to (17.5/132), since we observed (17/132). 
+Similarly, for an observation of 16 deaths, we could make this continuous by 
+thinking of all the scores from (15.5/132) to (16.5/132).
+
+Now we need to add one more piece and we'll be there. If I'm going to be a 
+little bit off in my error rate, I'd rather be off with less error than with 
+more error (say, 4\% rather than 6\% when I'm trying to keep error at 5\%). So 
+to add this protection, instead of using a Z score for the actual observation 
+(17/132, for the SARS data), we can use the Z score for one of the boundaries 
+of the interval when we make our discrete data continous (16.5/132 or 17.5/132, 
+for an observed value of 17). Which one do we use? The one that will reduce 
+the chance of rejecting the null hypothesis. This will slightly widen our 
+confidence interval, thus providing us more confidence, rather than less.
+
+The boundary that will reduce the chance of rejection depends on what we have 
+hypothesized. For a two-sided confidence interval, what we want to do is make 
+the absolute value of our Z score smaller. Thus, if our hypothesized value is 
+above our observed value, we want to take the upper value of our created 
+interval (e.g., 17.5/132 instead of 16.5/132). If our hypothesized value is 
+below our observed value, we want to take the lower value of our created 
+interval (e.g., 16.5/132 instead of 17.5/132). We are always moving a little 
+toward the null hypothesis to reduce the chance of rejecting this hypothesis, 
+thus slightly widening our confidence interval and avoiding the embarrassment 
+of inflating our Type I errors. Statisticians refer to this as being 
+*conservative* with our Type I errors, rather than *liberal* with our Type I 
+errors. (When it comes to Type I errors, conservative is a good thing, 
+regardless of our political leanings.)
+
+Recall that the jump in possible values was 1/132. Thus, we will adjust our 
+values by half of that jump in one direction or another.
+
+$\Large (\frac{1}{2})(\frac{1}{132})$
+
+In general, we will use this formula for our adjustment when working with 
+proportions using the normal distribution.
+
+$\Large \frac{1}{2n}$
+
+We will either add or subtract this from our observed proportion when we find 
+the Z score, depending on which will make it less likely to reject the null 
+hypothesis. This value that we add or subtract is known as the *correction for continuity*. The formula for the correction for continuity will be different 
+for different methods, but one thing will always be true: We will use 1/2 of 
+the size of the jump in our discrete values.
+
+Here is the code for finding the confidence interval for the death rate from 
+SARS using the correction for continuity. I also used the more correct method, 
+so now we are making it more more correct.
+
+```{r}
+pi_0 <- seq(from = 0, to = 1, by = .001)
+cc <- -1*(sign(pi_hat-pi_0)*(1/(2*n)))
+sd_pi_hat <- sqrt(pi_0*(1-pi_0)/n)
+z <- (pi_hat - pi_0 + cc)/sd_pi_hat
+outcome <- ifelse((z > qnorm(.025)) & (z < qnorm(.975)), "retain", "reject")
+CI <- subset(pi_0, outcome == "retain")
+CI
+```
+
+You may recall that our confidence interval without the correction for 
+continuity was 0.082 to 0.196. Now we have a bit wider interval: 0.079 to 
+0.200. This helps ensure that we are providing at least a 95% confidence 
+interval, rather than an interval that might relate to a lower confidence rate.
+
+### Some good news
+
+I have two good news items to share with you. First, there is a function 
+available in Base R (when we say *Base R* we mean that you don't have to load 
+any additional packages) that will give us a confidence interval for 
+proportions. Here it is in action for the SARS data.
+
+```{r}
+prop.test(17,132)
+```
+
+Check out that interval! That is what we obtained when we (a) used the more 
+correct method of testing all possible hypotheses and (b) added the correction 
+for continuity. Despite introductory textbooks using the less accurate formula 
+and despite most statistical packages using the less accurate formula, here we 
+have the more more correct confidence interval programmed right into R! Why? 
+Because top-of-the-heap statisticians use R, so what you get when you use R 
+is typically done right.
+
+That is a good segway to my second piece of good news. Soon we will be able to 
+drop the large-sample approximation and move from a more more correct 
+confidence interval to a just plain correct confidence interval. Stay tuned!
