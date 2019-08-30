@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Bernoulli Events</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Bernoulli Events</h1>
+
+
+
+<p>Bernoulli events have just two potential outcomes, often referred to as “success” or “failure”. (You need to consider these terms loosely. For example, if working with polling data, one candidate would consider voting a certain way as a success whereas the other candidate would certainly consider it a failure.)</p>
+<div id="required-packages" class="section level3">
+<h3>Required packages</h3>
+<p>This vignette uses the nplearn and Rlab packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(nplearn)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(Rlab)</span></code></pre></div>
+</div>
+<div id="probability-distributions" class="section level3">
+<h3>Probability distributions</h3>
+<p>A Bernoulli probability distribution is the simplest type of probability distribution.</p>
+<p>Here is a Bernoulli distribution for <span class="math inline">\(\pi\)</span> = 0.7.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">bern_plot</span>(<span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAUVBMVEUAAAAAADoAAGYAOjoAOpAAZrY6AAA6ADo6AGY6kNtmAABmADpmZmZmtv+QOgCQ2/+2ZgC2/7a2///bkDrb/9vb////tmb/25D//7b//9v///8Ave4kAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAE9ElEQVR4nO3d3XabRhRAYZrGbqw0ihpaLPH+D1pJWF1etdHmZ84wgr0vkhtg5G8hYASWq9buVi39AkpPIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIICgxUPUwLQWUdnNxCQQJBGUGGv/WXjr3IEggSCBIIEggSCBIIEggSCBIICgI6FBVT6f9eUbxI8nmFiwGqP76z9noqW2Pu5cEm1uyEKDT/szS/Paz7ajmbm7RQoCOu/M7q/nyq739O29zi+YeBAUfg65Usze3ZJ7FIK+DIIGgaKDas9i44fzQfpnNxSUQFAR0PcWf6zkCbR6ort6uD5vKC8VPenf97FTjs66T1S4nq5/lHkTVtzmYx6CejrvuLNaz/wiUe3NxwwmUak2BwobIsbm44QRKtaZAwxe8nsN7T+CJx01TVqDmehVYX+/qxI+bppxAt3nEYdY+tGKg20y0bxqaeNw05d2Dnq7/901DE4+bpszHoMt7rJl0DFrqQ/tsQLdJ6N2PU5OOmyavg8KGEyjVmu8WfH0+v8HmXQatGqg7SNe9D26kHTdNS1woeprvWdALRVjQPYgW9BhECw4+i70+9yKuGggbcL29YqDeB1ff9Xa/cJt70Lsb7/0dd5dD+DaBBp7fD+eD1DaB/jvAgFNdvWwTaHCvz78LdLfTvv9aadVA3va5v+Dbr/EM+7yjkAfJ814Hde+bSbd9Vv+Z9Lnj927XcTbfs+BtD3I237fg263nu7P50h4kX+RC8c7PX9yD5IVdB5X3GHBhQOU9SF4YkHsQVdyD5KUBFfcgeXFAuTcXN9wDAk1ZVaCw4QRKtaZAYUOk3pxAAasKFDacQKnWFChsiNSbWzVQig/tVw2UYnMCBawqUNhwAqVaU6CwIVJvTqCAVQUKG06gVGuOGyLy3vwagELvza8AKPbO6gqAYu/NrwDIPYgKvTe/BqDQe/OrAIrcnEABq5YLFPAg+bqA/r8VP5NeZnNxCQQ94GQ1bw84Wc3bYlONhykCaMBkdUZ5z2IhQwzYgzK9kjnrRA7Bk9Vcr2TGOqFD4GQ12yuZvk55QwxMIEggSCBIIEigx0wgSCBIIEggSCBIIEggSCBIIEggSCBIIKgQoGbSnxt4/Zb83sqHygC6fEXh+L8Jc9ylv/n0oSKAuvtJh6dxazUz/4rMsIoA6r49t++Zo56a6iXg9uWHygD64/LuGv/jbgaoO/yMPwgJROttBci3GDTpIN1uCGjaaX5DQBMvFDcE1NaTphobAio3gSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBIIEggSCBoNKBLo+dHXfpv2tmcKUDXR4+C/iyouGVDtQ2X/76Pv7RqnQVD9QeqtHPLqasfKCm+sELxVU80Gn/Z4YnEfsrHqj++vd+wZNY8UCXrybM8TBrb6UDHc6n+NN+wcN06UCLJxAkECQQJBAkECQQJBAkECQQJBAkECQQJBAkECQQJBAkECQQJBAkECQQJBAkEPQvImR5ZluIM14AAAAASUVORK5CYII=" /><!-- --></p>
+<p>A probability distribution based on a discrete event is the same as a density distribution. That is, the density and the probability are identical. Here is the density for x = 0 (a failure) when <span class="math inline">\(\pi\)</span> = 0.7. Note that it is identical to the probability of a failure.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">dbern</span>(<span class="dv">0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.3</span></span></code></pre></div>
+<p>This is different than the probability and density with continous distributions. The probability of any single value of a continuous distribution is 0. When we look at a plot for a continuous distribution, we are looking at a density plot, with potential values of the variable as the horizontal dimension and density as the vertical dimension. Here’s the density plot for the standard normal distribution. Note the function “dnorm” in the code. This is short for “density for the normal distribution.”</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>s &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,.<span class="dv">01</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">plot</span>(s, <span class="kw">dnorm</span>(s), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>),</span>
+<span id="cb4-4"><a href="#cb4-4"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Z Scores&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Standard Normal Distribution&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="cumulative-probability" class="section level3">
+<h3>Cumulative probability</h3>
+<p>In order to find probability for values on a continuous distribution, we must take a range of values in a continuous distribution. For example, here is the probability of obtaining a value between 0.2 and 0.3 on the standard normal distribution.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">pnorm</span>(<span class="fl">0.3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="fl">0.2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] 0.03865171</span></span></code></pre></div>
+<p>The pnorm function provides us the “cumulative probability” up to the specified value. Thus, the “pnorm(0.3)” gives us the area on the density curve that is below 0.3.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">pnorm</span>(<span class="fl">0.3</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; [1] 0.6179114</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>s &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,.<span class="dv">01</span>)</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">plot</span>(s, <span class="kw">dnorm</span>(s), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>),</span>
+<span id="cb6-7"><a href="#cb6-7"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Z Scores&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Standard Normal Distribution&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="kw">segments</span>(<span class="dt">x0 =</span> <span class="fl">0.3</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">x1 =</span> <span class="fl">0.3</span>, <span class="dt">y1 =</span> <span class="kw">dnorm</span>(<span class="fl">0.3</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>By subtracting the cumulative probability of one score from a second score, we can obtain the probability of obtaining a score between these two scores.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">pnorm</span>(<span class="fl">0.3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; [1] 0.6179114</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">pnorm</span>(<span class="fl">0.2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; [1] 0.5792597</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">pnorm</span>(<span class="fl">0.3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="fl">0.2</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; [1] 0.03865171</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>s &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,.<span class="dv">01</span>)</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="kw">plot</span>(s, <span class="kw">dnorm</span>(s), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.4</span>),</span>
+<span id="cb7-11"><a href="#cb7-11"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Z Scores&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Standard Normal Distribution&quot;</span>)</span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="kw">segments</span>(<span class="dt">x0 =</span> <span class="fl">0.2</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">x1 =</span> <span class="fl">0.2</span>, <span class="dt">y1 =</span> <span class="kw">dnorm</span>(<span class="fl">0.2</span>))</span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="kw">segments</span>(<span class="dt">x0 =</span> <span class="fl">0.3</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">x1 =</span> <span class="fl">0.3</span>, <span class="dt">y1 =</span> <span class="kw">dnorm</span>(<span class="fl">0.3</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>When we run a cumulative probability function for a continuous distribution, behind the scenes the function is using numerical integration to calculate the area under the curve. This is something you learn about in a calculus class. One reason that nonparametric statistical analysis can be considerably easier than traditional parametric analysis is that we work with discrete values, so we can do probability calculations with simple arithmetic since the probability is the same as the density.</p>
+<p>Here’s the cumulative probability for x = 1 on the Bernoulli distribution.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">pbern</span>(<span class="dv">1</span>, <span class="fl">0.7</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<p>The cumulative probability for x = 1 is found by summing the individual probabilities for x = 0 and x = 1. In short, this tells us that when the only outcomes possible are a success and a failure, the chance of obtaining one of these in a Bernoulli event is 100%.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">dbern</span>(<span class="dv">0</span>, <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span><span class="kw">dbern</span>(<span class="dv">1</span>, <span class="fl">0.7</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+</div>
+<div id="quantiles" class="section level3">
+<h3>Quantiles</h3>
+<p>The general term for a score in a distribution (pictured on the horizontal axis for a graph of a density distribution) is “quantile”. Quantile functions are the opposite of cumulative probability functions. We submit the cumulative probability and the function will tell us what quantile has that cumulative probability. Recall that the cumulative probability for 0.3 on the standard normal distribution is 0.6179114.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">qnorm</span>(<span class="fl">0.6179114</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; [1] 0.2999999</span></span></code></pre></div>
+<p>Here is the quantile for the cumulative probability of 0.3 on a Bernoulli distribution with a probility of success of 0.7.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">qbern</span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>Here is the quantile for the cumulative probability of 0.7 on a Bernoulli distribution with a probility of success of 0.7.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">qbern</span>(<span class="fl">0.7</span>, <span class="fl">0.7</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<p>What is the quantile for the cumulative probability of 0.5 on a Bernoulli distribution with a probility of success of 0.7. This can be confusing because there are only two quantiles on the Bernoulli distribution. One characteristic of discrete distributions is that not every cumulative probability relates in a one-to-one fashion with a quantile, like it does on a continuous distribution. Quantiles are often defined as the smallest value of x on the distribution such that the cumulative probability to x is at least the specified probability. For example, if we want the quantile corresponding to a cumulative probability of 0.5 on the Bernoulli distribution, we need to find the smallest quantile that has a cumulative probability of at least 0.5.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">qbern</span>(<span class="fl">0.5</span>, <span class="fl">0.7</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<p>In R there are functions for density (d), cumulative probability (p), and quantiles (q) for many distributions. We have looked at dnorm, pnorm, qnorm, dbern, pbern, and qbern. By default, the p and q functions are based on accumulating from the lower tail, but we can switch that to the upper tail by setting lower.tail = FALSE.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="fl">0.3</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; [1] 0.3820886</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="kw">pnorm</span>(<span class="fl">0.3</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; [1] 0.3820886</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pbern</span>(<span class="dv">0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; [1] 0.7</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="kw">pbern</span>(<span class="dv">0</span>, <span class="fl">0.7</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
+</div>
+<div id="random-variates" class="section level3">
+<h3>Random variates</h3>
+<p>R also has (r) functions for many distributions (e.g., rnorm and rbern). These provide us a specified number of randomly seleted values from the corresponding distribution. These are known as “random variates”. This will be very handy when we study concepts such as Monte Carlo methods.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.53579638  0.09284582 -1.21976834  0.25628019 -0.79173784</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6] -0.07693036 -1.09026879  0.36288582  0.99736596  0.39907780</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="kw">rbern</span>(<span class="dv">10</span>, <span class="fl">0.7</span>)</span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 0 0 1 1 1 1 1 0</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

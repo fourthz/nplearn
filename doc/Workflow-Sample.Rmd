@@ -1,0 +1,197 @@
+---
+title: "Workflow Sample"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Workflow Sample}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The purpose of this vignette is to illustrate the typical steps and assumptions 
+used by researchers when analyzing data. The illustration uses the data from a 
+study of twin intelligence. In 1966, Cyril Burt published data obtained from 27 
+pairs of monozygotic twins. These 27 pairs were special cases in that one twin 
+was raised in a foster home, while the other was raised by the birth parents. 
+Burt measured the intelligence of the adult twins in order to determine whether environmental factors influence intelligence, or whether it is primarily a 
+function of genetics. He also classified each twin pair as having come from a 
+“low,” “medium,” or “high” social class.
+
+### Reference
+
+Burt, C. (1966). The genetic determination of differences in intelligence: A 
+study of monozygotic twins reared together and apart. *British Journal of 
+Psychology, 57,* 137 –153.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+data_file <- system.file("extdata", "IQ_Study_Data.csv", package = "nplearn")
+```
+
+### Required packages
+
+This example uses packages that are part of the tidyverse. Installation of 
+the complete tidyverse package will facilitate running this script.
+
+```{r setup, message = FALSE}
+library(nplearn)
+library(tidyverse)
+```
+
+### Data Import
+
+First, data are imported into the statistical software.
+
+```{r message = FALSE}
+iq_data <- read_csv(data_file)
+```
+
+### Data Cleaning and Preparation
+
+Next, we clean data and prepare it for analysis. In this case, because we 
+have repeated measurements (due to correlated twin scores) in the original 
+data set, we will need both long and wide formats. The data are currently in 
+wide format only. We also should obtain a variable for the difference in 
+IQ scores for each twin pair.
+
+```{r}
+iq_data_long <- gather(iq_data,
+                       'Foster',
+                       'Biological',
+                       key = "Upbringing",
+                       value = "IQ")
+
+iq_data$IQ_Diff <- iq_data$Foster - iq_data$Biological
+
+iq_data$Social <- as.factor(iq_data$Social)
+iq_data_long$Social <- as.factor(iq_data_long$Social)
+
+iq_data$Social <- fct_relevel(iq_data$Social,
+                              c("low", "middle", "high"))
+
+iq_data_long$Social <- fct_relevel(iq_data_long$Social,
+                                   c("low", "middle", "high"))
+```
+
+### Graphical Display
+
+Next, we construct graphical displays to illustrate the major features of the 
+data. First, side-by-side boxplots to compare the foster twins IQ to the 
+biological twins IQ.
+
+```{r fig1, fig.height = 5, fig.width = 7, fig.align = "center"}
+ggplot(iq_data_long, aes(x = Upbringing, y = IQ)) +
+  geom_boxplot() +
+  labs(x = "Type of Upbringing",
+       y = "Intelligence Quotient",
+       title = "Comparison of IQ Scores for Twins with Different Upbringing")
+```
+
+Here are boxplots to compare IQ score differences for each twin pair across 
+the three SES categories.
+
+```{r fig2, fig.height = 5, fig.width = 7, fig.align = "center"}
+ggplot(iq_data, aes(x = Social, y = IQ_Diff)) +
+  geom_boxplot() +
+  labs(x = "Socioeconomic Status",
+       y = "IQ Difference Scores",
+       title = "Comparison of Twin IQ Differences for SES Categories")
+```
+
+Here is a scatterplot illustrating the relationship of IQ scores for foster 
+home and biological twins. A regression line is included, as well as 
+differing colors and shapes for the social categories. Social category does 
+not appear to make much difference in the relationship, so a single regression 
+line is sufficient.
+
+```{r fig3, fig.height = 5, fig.width = 7, fig.align = "center"}
+ggplot(iq_data, aes(x = Biological, y = Foster)) +
+  geom_point(aes(color = Social, shape = Social)) +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Biological Twin IQ Score",
+       y = "Foster Home Twin IQ Score",
+       title = "Relationship of Twin IQ Scores")
+```
+
+### Descriptive Statistics
+
+Descriptive statistics are indices of characteristics of a set of scores. We 
+can calculate these for the entire set of scores, or for subsets. These should 
+align with our graphs and provide more details.
+
+Here are statistics comparing IQ scores for different types of upbringing.
+
+```{r}
+iq_data_long %>%
+  group_by(Upbringing) %>%
+  summarize(mean(IQ),
+            sd(IQ),
+            min(IQ),
+            quantile(IQ, 0.25),
+            median(IQ),
+            quantile(IQ, 0.75),
+            max(IQ))
+```
+
+Here are statistics comparing IQ difference scores for different social 
+categories.
+
+```{r}
+iq_data %>%
+  group_by(Social) %>%
+  summarize(mean(IQ_Diff),
+            sd(IQ_Diff),
+            min(IQ_Diff),
+            quantile(IQ_Diff, 0.25),
+            median(IQ_Diff),
+            quantile(IQ_Diff, 0.75),
+            max(IQ_Diff))
+```
+
+Here are the coefficients for the regression line in the model relating 
+the foster home twin IQ score to the biological twin IQ score, as well as the 
+correlation among these scores.
+
+```{r}
+lm(iq_data$Foster ~ iq_data$Biological)
+cor(iq_data$Foster, iq_data$Biological)
+```
+
+### Inferential Statistics
+
+Inferential statistics attach a degree of probability to point estimates that 
+are compared to hypothesized values or to interval estimates. Such statistics 
+are a function of effect size, variation, and form of the population 
+distribution. Inferences should not be made in isolation, but only to 
+supplement graphical and descriptive analysis.
+
+This generates a t-test confidence interval for the comparison of foster home 
+twin IQ score to biological twin IQ score.
+
+```{r}
+t.test(iq_data$Foster, iq_data$Biological)
+```
+
+This provides a *p* value for the test that all social categories have the 
+same mean IQ score. It is followed by Tukey confidence intervals, to control 
+the overall Type I error rate.
+
+```{r}
+anova(lm(iq_data$IQ_Diff ~ iq_data$Social))
+
+TukeyHSD(aov(iq_data$IQ_Diff ~ iq_data$Social))
+```
+
+This provides a *p* value for the test that there is no relationshiop of the 
+foster twin IQ score to the biological twin IQ score. It is followed by 
+the construction of a confidence interval for the correlation among these 
+variables.
+
+```{r}
+anova(lm(iq_data$Foster ~ iq_data$Biological))
+
+cor.test(iq_data$Foster, iq_data$Biological)
+```
