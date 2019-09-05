@@ -1,0 +1,224 @@
+---
+title: "The Binomial Distribution"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Binomial Distribution}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The binomial distribution is the key to exact inference about a proportion. 
+The purpose of this vignette is to explain the binomial distribution and then 
+demonstrate how it can be used for exact inference, including both hypothesis 
+testing and confidence interval construction.
+
+### Required packages
+
+The nplearn package is required for this vignette. All other functions used 
+are in the base package.
+
+```{r setup, echo = TRUE, message = FALSE}
+library(nplearn)
+```
+
+### Joint Events
+
+Multiple independent events that occur are referred to as *joint events*. 
+The total number of possible joint outcomes of a joint event is the product 
+of the number of potential outcomes of each separate event. For example, on 
+a five-item multiple choice quiz, where each question has four options, the 
+number of possible patterns of responses is the product of five fours.
+
+```{r}
+4*4*4*4*4
+```
+
+We can write this as an exponent.
+
+```{r}
+4^5
+```
+
+We know from the laws of probability that if each event is independent, the probability of a specific set of joint events is equal to the product of the 
+probability of the individual events. In our multiple-choice quiz example, 
+here is the probability of a test taker getting a perfect score just by 
+guessing.
+
+```{r}
+(1/4)*(1/4)*(1/4)*(1/4)*(1/4)
+```
+
+Here it is written another way.
+
+```{r}
+(1/4)^5
+```
+
+Here it is written yet another way.
+
+```{r}
+0.25^5
+```
+
+Suppose we have a series of Bernoulli events. For example, suppose that we 
+again administer a five-question quiz, but this time the items are true-false. 
+This is a series of Bernoulli events because there are only two possible 
+outcomes for each event. Here is the probability of getting a perfect score 
+just by guessing.
+
+```{r}
+0.5^5
+```
+
+A more sophisticated test taker will actually have studied for the test, so 
+this test taker will not just be guessing. We could think of the probability 
+of success on an item as a function of this person's knowledge after learning 
+the content. Here is the probability of a perfect score if the probability of 
+success on each item is 0.7.
+
+```{r}
+0.7^5
+```
+
+Let's see what the chance of a perfect score is for someone who is very well 
+prepared so that the success rate for each item is 0.95.
+
+```{r}
+0.95^5
+```
+
+Of course all of this is making the unrealistic assumption that the rate of 
+success is the same for every item. In fact, so items are more difficult than 
+others, so the actual probability of a perfect score might be something more 
+like this.
+
+```{r}
+0.8*0.95*0.75*0.95*0.70
+```
+
+This kind of test-taking discussion with different item difficulties is best 
+left for a measurement course, such as item response theory. We will step 
+out of the test-taking domain in a bit, but for now let's proceed with this 
+example and the (unrealistic) assumption that each item has the same 
+difficulty level.
+
+### Permutations
+
+Suppose I'm not just interested in a perfect score, but I'm also interested 
+in questions like, what is the chance of obtaining four out of five correct 
+on this true-false quiz if the probability of success for each item is 0.7? 
+This is a bit tricky, because we don't know which item the person will get 
+wrong. Here is the probability of getting just the first item wrong.
+
+```{r}
+0.3*0.7*0.7*0.7*0.7
+```
+
+Here it is written another way.
+
+```{r}
+0.7^4 * 0.3^1
+```
+
+What about the probability of getting just the second item wrong?
+
+```{r}
+0.7*0.3*0.7*0.7*0.7
+```
+
+The probability is the same! In fact, we could still write it this way.
+
+```{r}
+0.7^4 * 0.3^1
+```
+
+It is pretty easy to figure out that there are five possible ways for the 
+test taker to get just one item wrong on a five-item test: The first one could 
+be wrong, the second item could be wrong, and so on. Thus, the total 
+probability of getting any one item wrong is calculated this way.
+
+```{r}
+5 * 0.7^4 * 0.3^1
+```
+
+That was straightforward, but it becomes more difficult with different 
+numbers of items correct and different numbers of items. For example, how many 
+different patterns will there be for three items correct and two items 
+incorrect? What about if there are 10 items instead of five? How many patterns 
+will there be for four items correct and six incorrect? Clearly these 
+questions are not as easy to answer. What we need are some counting rules. 
+Many nonparametric statistics are based on working with discrete values, 
+so we often need to count. Methods of counting for various situations are 
+an important component of nonparametric analysis.
+
+The first counting rule is about permutations. A permutation of objects is a 
+distinct ordering of objects. We can calculate the number of permutations 
+of N objects with a product known as a *factorial*. For example, for five 
+objects we use 5! (read as, five factorial).
+
+```{r}
+5 * 4 * 3 * 2 * 1
+```
+
+R includes a factorial function.
+
+```{r}
+factorial(5)
+```
+
+A side note: What do we do with 0!? By definition, 0! = 1.
+
+```{r}
+factorial(0)
+```
+
+### The Binomial Coefficient
+
+In our true-false quiz example we had five questions, so the number of possible 
+permutations of the answers is 5! = 120. Yet if we want to know how many ways 
+there are to get two incorrect answers out of the five questions, we really 
+only care about two incorrect and three correct answers, regardless of where 
+they occur. That is, we consider all incorrect answers as indisitinguishable 
+from one another. There are only two distinct type of answers here: correct 
+and incorrect. The permutation of wrong, wrong, right, right, right does not 
+need to be considered different than the permutation of wrong, right, right, 
+right, wrong.
+
+To calculate how many permutations there are when we include identical 
+"objects" (we consider every "right" and every "wrong" as identical) we need 
+to divide the total number of permutations by the number of permutations of 
+each identical object. Here's the calculation for five true-false items when 
+three are correct and two are incorrect.
+
+```{r}
+factorial(5)/(factorial(3)*factorial(2))
+```
+
+This can be extended to any number of identical objects. The case where we 
+have only two identical objects is all we will need when looking at a series 
+of Bernoulli events, because by definition a Bernoulli event only has one of 
+two outcomes. Given this case is so special, there is a special expression for 
+it, as well as a special function for it. When we want to know how many ways 
+we can get three items correct out of five Bernoulli trials, we say 
+*five choose three*. Here's the function.
+
+```{r}
+choose(5, 3)
+```
+
+This function is referred to as the *binomial coefficient*. It would seem 
+quite difficult to figure how many different ways there are to obtain 13 
+correct answers on a 20-item true-false quiz, but the binomial coefficient 
+function makes it easy.
+
+```{r}
+choose(20,13)
+```
+
