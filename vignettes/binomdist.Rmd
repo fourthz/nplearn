@@ -207,18 +207,103 @@ of Bernoulli events, because by definition a Bernoulli event only has one of
 two outcomes. Given this case is so special, there is a special expression for 
 it, as well as a special function for it. When we want to know how many ways 
 we can get three items correct out of five Bernoulli trials, we say 
-*five choose three*. Here's the function.
+*five choose three*. Here is how we represent it.
+
+$\binom{5}{3}$
+
+Here's the R function.
 
 ```{r}
 choose(5, 3)
 ```
 
-This function is referred to as the *binomial coefficient*. It would seem 
-quite difficult to figure how many different ways there are to obtain 13 
-correct answers on a 20-item true-false quiz, but the binomial coefficient 
-function makes it easy.
+This function is referred to as the *binomial coefficient*. In general, we 
+represent the number of ways that we can have $x$ successes in $n$ trials 
+like this, which we read as *n choose x*.
+
+$\binom{n}{x}$
+
+It would seem quite difficult to figure how many different ways there are 
+to obtain 13 correct answers on a 20-item true-false quiz, but the 
+binomial coefficient function makes it easy.
 
 ```{r}
 choose(20,13)
 ```
 
+### The Binomial Probability Function
+
+If we combine the concepts of joint events with the binomial coefficient, 
+we can answer an interesting question. When we observe $n$ independent Bernoulli 
+events, each with the same probability of success, $pi$, what is the 
+probability that $x$ of these events will be a success? If that doesn't really 
+sound very interesting to you, consider a couple of examples.
+
+If the overall pass rate on an entrance exam is 70%, what is the probability 
+that we will be able to fill eight slots with successful examinees if there 
+are 11 applicants for the position?
+
+If the chance of contracting an illness is 10% when coming into contact with 
+another person with the illness, what is the probability that all six people 
+who came into contact with an ill person will avoid aquiring the illness 
+themself?
+
+As we will see shortly, knowing the probability of $x$ successes in $n$ trials 
+can also be used to conduct hypotheses tests and construct confidence intervals 
+for a proportion, so the value of being able to calculate probabilities based 
+on $n$ Bernoulli events goes beyond answering questions like those above.
+
+Recall that we calculate the probability of independent joint events by 
+taking the product of the probability of each event. When there is a 70% chance 
+of passing an item on a five-item quiz, we calculate the probability of 
+getting the first three items correct but missing the two remaining items like 
+this.
+
+```{r}
+0.7^3 * 0.3^2
+```
+
+In more general terms, the chance of getting the first $x$ items correct but 
+missing the remaining items on an $n$-item quiz when the probability of 
+success is $pi$ is calculated like this.
+
+$\pi^x (1-\pi)^{(n-x)}$
+
+That is, we multiply the $x$ successes by the $n-x$ failures.
+
+I can't think of a reason why I would want to know the chance of getting the 
+first three items correct and missing the last two, but I can think of why 
+I might want to know the probability of missing *any* two, not just the last 
+two. That is where the binomial coefficient comes in handy. The binomial 
+coefficient tells us how many ways we can arrange $x$ successes in $n$ trials. 
+Here is how many ways we can have exactly three items correct on a five-item 
+quiz.
+
+```{r}
+choose(5, 3)
+```
+
+If I multiply the probability of one specific sequence of three correct and 
+two wrong with the number of ways I can have three correct and two wrong, that 
+will give me the probability of obtaining any three correct on a five-item 
+quiz.
+
+```{r}
+choose(5, 3) * 0.7^3 * 0.3^2
+```
+
+We can right this in general terms like this.
+
+$P(X = x) = \binom{n}{x}\pi^x (1-\pi)^{(n-x)}$
+
+This is the binomial probability function. It tells us the probability of 
+$x$ successes in $n$ Bernoulli events when the probability of success is $\pi$ 
+for each Bernoulli event. Note that whereas the values of $x$ are either 0 or 
+1 for a Bernoulli event, the values of $x$ for the binomial function will 
+range from 0 to $n$. That is, you can have 0 success, 1 success, 2 successes, 
+and so on, all the way up to $n$ successes.
+
+Let's now answer one of our two questions. If the chance of contracting an 
+illness is 10% when coming into contact with another person with the illness, 
+what is the probability that all six people who came into contact with an ill 
+person will avoid aquiring the illness themself? This is 
