@@ -62,6 +62,9 @@
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
     </li>
     <li>
+      <a href="../articles/OnePropExact.html">Exact Inference for a Single Proportion</a>
+    </li>
+    <li>
       <a href="../articles/Workflow-Sample.html">Workflow Sample</a>
     </li>
   </ul>
@@ -273,7 +276,7 @@
 <p>The important trick to remember here is that if we want an upper tail that includes a specified value (in this case, the value of eight), we need to subtract one from this value to make sure it is included in the upper region of the distribution.</p>
 <p>Finally, suppose we wanted to do a simulation using the binomial distribution. Here are 20 random draws from a distribution with <span class="math inline">\(\pi\)</span> = 0.8 when the sample size is 15.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="fl">0.8</span>)</span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="co">#&gt;  [1] 10 11 12 12 14 10 12 13 13 10 11 12 13 12 11 11 13 11 11 10</span></span></code></pre></div>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="co">#&gt;  [1]  9 12 14 15 13 11 12 11 13 12 15 12 12 15 14 12 13 12 11 13</span></span></code></pre></div>
 <p>Keep in mind that what each number we are randomly generating is the value of <span class="math inline">\(x\)</span>, which is the number of successes in <span class="math inline">\(n\)</span> trials. In this example there are 15 opportunities for success. The probability of success is quite high, so we are primarily seeing high numbers of successes out of the 15 trials.</p>
 <p>In this example, we were drawing from a binomial distribution with <span class="math inline">\(n\)</span> trials and a probability of success, <span class="math inline">\(\pi\)</span>. These are the parameters of the binomial distribution. Any binomial distribution can be generated if we know these two parameters. Let’s end with a picture of a binomial distribution when <span class="math inline">\(n\)</span> = 100 and <span class="math inline">\(\pi\)</span> = 0.5.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">100</span>, <span class="fl">0.5</span>)</span></code></pre></div>
