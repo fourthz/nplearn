@@ -2,6 +2,7 @@
 
 export(bern_plot)
 export(binom_plot)
+export(power_plot)
 importFrom(Rlab,dbern)
 importFrom(graphics,axis)
 importFrom(graphics,plot)

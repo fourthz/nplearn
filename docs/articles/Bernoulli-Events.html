@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9005</span>
       </span>
     </div>
 
@@ -60,6 +60,9 @@
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
+    </li>
+    <li>
+      <a href="../articles/OnePropExact.html">Exact Inference for a Single Proportion</a>
     </li>
     <li>
       <a href="../articles/Workflow-Sample.html">Workflow Sample</a>
@@ -186,10 +189,10 @@
 <a href="#random-variates" class="anchor"></a>Random variates</h3>
 <p>R also has (r) functions for many distributions (e.g., rnorm and rbern). These provide us a specified number of randomly seleted values from the corresponding distribution. These are known as “random variates”. This will be very handy when we study concepts such as Monte Carlo methods.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1] -0.77865372  0.66249826  0.88020305  0.60216879 -0.04766313</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6]  0.23929405  0.92589892  2.19008046  0.83072639  0.23701051</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.07781155  0.05362289  0.94862998  0.01597652 -0.68606528</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6] -0.83258883 -0.65621139  0.11574558  0.35671043  1.15616514</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="kw">rbern</span>(<span class="dv">10</span>, <span class="fl">0.7</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 0 1 1 1 1 0 1 1</span></span></code></pre></div>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 1 0 1 0 1 1 1 1</span></span></code></pre></div>
 </div>
   </div>
 
