@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9005</span>
       </span>
     </div>
 
@@ -108,8 +108,8 @@
 <li>The observations are independent of each other</li>
 </ul>
 <p>Considering the first condition, we can see that if this condition is met that it will satisfy at least a portion of the second condition. The units of analysis will not be related to each other if we indeed selected at random from the population. The only additional consideration we need to make in the design and measurement phase is to make sure that we keep it that way. That is, we should not establish a relationship among our observations by letting the measurement of one unit influence the measurement of another unit. For example, we will not let one person observe the measurement of another person, such as would happen if we survey individuals in earshot of one another or let individuals collaborate on a measurement task.</p>
-<p>It is probably obvious to you that in many disciplines it is the first of these conditions that is more difficult to achieve. We seldom have access to the entire population of interest, even if we do have the means to select a random sample. All is not lost! If can randomly sample from an accessible population, and if we know something about the characteristics of this population, we can estimate the proportion for this population. If our real interest is in some larger population, we at least have more information about a subset of that population, which would suggest that future study might be replication with additional subsets.</p>
-<p>What if we cannot randomly sample from any population but are instead confined to something a bit more convenient? This may happen due to limited funding or the unwillingness of individuals to become study participants. There are still inferences to be made, but we should be aware that it may not be the inference we hoped to make. We can envision some hypothetical population that could very well have yielded a random sample that is the sample we have at hand. For example, a study conducted with a class of undergraduate psychology students could be considered as representative of undergraduate psychology students in other classes that semester, as well as the type of students who very well might have enrolled in psychology, but decided to postpone it for another time. Assuming that time dose not influence the response variable of interest (which is probably not a very reasonable assumption for many response variables as more time goes by), we can even consider past students in undergraduate psychology courses as part of this hypothetical population. The key point is that we cannot know exactly what this population looks like, but we may know some key characteristics of this population and we must restrict our inference based on these characteristics.</p>
+<p>It is probably obvious to you that in many disciplines it is the first of these conditions that is more difficult to achieve. We seldom have access to the entire population of interest, even if we do have the means to select a random sample. All is not lost! If we can randomly sample from an accessible population, and if we know something about the characteristics of this population, we can estimate the proportion for this population. If our real interest is in some larger population, we at least have more information about a subset of that population, which would suggest that future study might be replication with additional subsets.</p>
+<p>What if we cannot randomly sample from any population but are instead confined to something a bit more convenient? This may happen due to limited funding or the unwillingness of individuals to become study participants. There are still inferences to be made, but we should be aware that it may not be the inference we hoped to make. We can envision some hypothetical population that could very well have yielded a random sample that is the sample we have at hand. For example, a study conducted with a class of undergraduate psychology students could be considered as representative of undergraduate psychology students in other classes that semester, as well as the type of students who very well might have enrolled in psychology, but decided to postpone it for another time. Assuming that time does not influence the response variable of interest (which is probably not a very reasonable assumption for many response variables as more time goes by), we can even consider past students in undergraduate psychology courses as part of this hypothetical population. The key point is that we cannot know exactly what this population looks like, but we may know some key characteristics of this population and we must restrict our inference based on these characteristics.</p>
 <p>The above reasoning may convince us that there is still value to making inferences, even when we have not met the condition of random sampling, but it should also give us pause when we think about the term “exact” when talking about exact inferences. The term is precise when the conditions are completely met. We can calculate our error rates and be confident about our stated level of confidence. If we have not used random sampling or if our units are not independent of one another (as they are not apt to be if we have not randomly sampled), the term <em>exact</em> applies to our cacluations, yet our inferences are not exactly known. This is not peculiar to nonparametric statistical methods, but is a consequence of inference, regardless whether parametric or nonparametric methods are being employed. In fact, this situation is more apt to apply to parametric methods due to the longer list of conditions that often include conditions that are even more difficult to justify than those we need for inferences for a single proportion.</p>
 <p>When estimating a proprtion, there is one type of research study in which random sampling is not even an issue. Consider a well-known population proportion, such as a the proportion of examinees who exceed a specified score on a standardized test or a long-time treatment with an established cure rate. We might be interested in whether individuals in a test prep program or patients receiving a new treatment can be considered as random samples of the aforementioned populations. In these cases an inference that points to a different proportion exceeding a score or achieving a cure suggests that we do <em>not</em> have a random sample from the population, yet that is what we wanted to know! If the test preparation or the newer treatment results in different proportions than those that have been established through long-term observation, we have observations from a different population, such as one that is scoring higher or being cured more often.</p>
 </div>
@@ -208,7 +208,7 @@
 <div id="a-confidence-interval-for-a-proportion" class="section level3">
 <h3 class="hasAnchor">
 <a href="#a-confidence-interval-for-a-proportion" class="anchor"></a>A confidence interval for a proportion</h3>
-<p>Using both of the examples above, I will build confidence intervals (one lower-bounded and one two-sided)by inverting the hypothesis tests.</p>
+<p>Using both of the examples above, I will build confidence intervals (one lower-bounded and one two-sided) by inverting the hypotheses tests.</p>
 <p>If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 16 patients who agreed to try the new treatment, how much better is the new treatment? Estimate the new cure rate with 90% confidence.</p>
 <p>Let’s use the exact binomial test to test all possible hypotheses. (I’ll actually start with the old treatment cure rate to keep our output more manageable.) For this problem, we will calculate the <span class="math inline">\(p\)</span> values using the upper tail.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>h_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">0.60</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
@@ -302,46 +302,48 @@
 <span id="cb19-26"><a href="#cb19-26"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(a, b, c) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(up_val <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, b, c, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>))</span>
 <span id="cb19-27"><a href="#cb19-27"></a>}</span>
 <span id="cb19-28"><a href="#cb19-28"></a></span>
-<span id="cb19-29"><a href="#cb19-29"></a>p_val &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span> (pi_hat <span class="op">&gt;</span><span class="st"> </span>h_<span class="dv">0</span>,</span>
-<span id="cb19-30"><a href="#cb19-30"></a>                 <span class="kw">pi_hat_greater</span>(x, n, h_<span class="dv">0</span>),</span>
-<span id="cb19-31"><a href="#cb19-31"></a>                 <span class="kw">pi_hat_less</span>(x, n, h_<span class="dv">0</span>))</span>
-<span id="cb19-32"><a href="#cb19-32"></a></span>
-<span id="cb19-33"><a href="#cb19-33"></a><span class="co"># Determine the outcome</span></span>
-<span id="cb19-34"><a href="#cb19-34"></a>outcome &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.05</span>, <span class="st">"reject"</span>, <span class="st">"retain"</span>)</span>
-<span id="cb19-35"><a href="#cb19-35"></a><span class="co"># Display results</span></span>
-<span id="cb19-36"><a href="#cb19-36"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(h_<span class="dv">0</span>, p_val, outcome)</span>
-<span id="cb19-37"><a href="#cb19-37"></a><span class="co">#&gt;       h_0    p_val                  outcome </span></span>
-<span id="cb19-38"><a href="#cb19-38"></a><span class="co">#&gt;  [1,] "0"    "0"                    "reject"</span></span>
-<span id="cb19-39"><a href="#cb19-39"></a><span class="co">#&gt;  [2,] "0.01" "3.61597705838997e-14" "reject"</span></span>
-<span id="cb19-40"><a href="#cb19-40"></a><span class="co">#&gt;  [3,] "0.02" "1.58466568159866e-09" "reject"</span></span>
-<span id="cb19-41"><a href="#cb19-41"></a><span class="co">#&gt;  [4,] "0.03" "5.19079773106855e-07" "reject"</span></span>
-<span id="cb19-42"><a href="#cb19-42"></a><span class="co">#&gt;  [5,] "0.04" "2.28444171789944e-05" "reject"</span></span>
-<span id="cb19-43"><a href="#cb19-43"></a><span class="co">#&gt;  [6,] "0.05" "0.000334239131290808" "reject"</span></span>
-<span id="cb19-44"><a href="#cb19-44"></a><span class="co">#&gt;  [7,] "0.06" "0.00243577888657468"  "reject"</span></span>
-<span id="cb19-45"><a href="#cb19-45"></a><span class="co">#&gt;  [8,] "0.07" "0.0117339085847196"   "reject"</span></span>
-<span id="cb19-46"><a href="#cb19-46"></a><span class="co">#&gt;  [9,] "0.08" "0.051692873382411"    "retain"</span></span>
-<span id="cb19-47"><a href="#cb19-47"></a><span class="co">#&gt; [10,] "0.09" "0.126664758568051"    "retain"</span></span>
-<span id="cb19-48"><a href="#cb19-48"></a><span class="co">#&gt; [11,] "0.1"  "0.307396410227212"    "retain"</span></span>
-<span id="cb19-49"><a href="#cb19-49"></a><span class="co">#&gt; [12,] "0.11" "0.578208699903566"    "retain"</span></span>
-<span id="cb19-50"><a href="#cb19-50"></a><span class="co">#&gt; [13,] "0.12" "0.78823258600851"     "retain"</span></span>
-<span id="cb19-51"><a href="#cb19-51"></a><span class="co">#&gt; [14,] "0.13" "1"                    "retain"</span></span>
-<span id="cb19-52"><a href="#cb19-52"></a><span class="co">#&gt; [15,] "0.14" "0.80237859813876"     "retain"</span></span>
-<span id="cb19-53"><a href="#cb19-53"></a><span class="co">#&gt; [16,] "0.15" "0.544485718640118"    "retain"</span></span>
-<span id="cb19-54"><a href="#cb19-54"></a><span class="co">#&gt; [17,] "0.16" "0.346328031101614"    "retain"</span></span>
-<span id="cb19-55"><a href="#cb19-55"></a><span class="co">#&gt; [18,] "0.17" "0.246160152973726"    "retain"</span></span>
-<span id="cb19-56"><a href="#cb19-56"></a><span class="co">#&gt; [19,] "0.18" "0.140725928444915"    "retain"</span></span>
-<span id="cb19-57"><a href="#cb19-57"></a><span class="co">#&gt; [20,] "0.19" "0.0759841014234179"   "retain"</span></span>
-<span id="cb19-58"><a href="#cb19-58"></a><span class="co">#&gt; [21,] "0.2"  "0.0492258004585849"   "reject"</span></span>
-<span id="cb19-59"><a href="#cb19-59"></a><span class="co">#&gt; [22,] "0.21" "0.0241471386866497"   "reject"</span></span>
-<span id="cb19-60"><a href="#cb19-60"></a><span class="co">#&gt; [23,] "0.22" "0.0112353946905877"   "reject"</span></span>
-<span id="cb19-61"><a href="#cb19-61"></a><span class="co">#&gt; [24,] "0.23" "0.00688520741469472"  "reject"</span></span>
-<span id="cb19-62"><a href="#cb19-62"></a><span class="co">#&gt; [25,] "0.24" "0.00293131460859641"  "reject"</span></span>
-<span id="cb19-63"><a href="#cb19-63"></a><span class="co">#&gt; [26,] "0.25" "0.0018119232311538"   "reject"</span></span>
-<span id="cb19-64"><a href="#cb19-64"></a><span class="co">#&gt; [27,] "0.26" "0.000708425744407884" "reject"</span></span>
-<span id="cb19-65"><a href="#cb19-65"></a><span class="co">#&gt; [28,] "0.27" "0.000262230507511154" "reject"</span></span>
-<span id="cb19-66"><a href="#cb19-66"></a><span class="co">#&gt; [29,] "0.28" "0.000160126996474669" "reject"</span></span>
-<span id="cb19-67"><a href="#cb19-67"></a><span class="co">#&gt; [30,] "0.29" "5.42162481835015e-05" "reject"</span></span>
-<span id="cb19-68"><a href="#cb19-68"></a><span class="co">#&gt; [31,] "0.3"  "1.72855023244583e-05" "reject"</span></span></code></pre></div>
+<span id="cb19-29"><a href="#cb19-29"></a><span class="co"># Determine whether pi_hat is above or below h_0, then call the appropriate </span></span>
+<span id="cb19-30"><a href="#cb19-30"></a><span class="co"># function.</span></span>
+<span id="cb19-31"><a href="#cb19-31"></a>p_val &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span> (pi_hat <span class="op">&gt;</span><span class="st"> </span>h_<span class="dv">0</span>,</span>
+<span id="cb19-32"><a href="#cb19-32"></a>                 <span class="kw">pi_hat_greater</span>(x, n, h_<span class="dv">0</span>),</span>
+<span id="cb19-33"><a href="#cb19-33"></a>                 <span class="kw">pi_hat_less</span>(x, n, h_<span class="dv">0</span>))</span>
+<span id="cb19-34"><a href="#cb19-34"></a></span>
+<span id="cb19-35"><a href="#cb19-35"></a><span class="co"># Determine the outcome</span></span>
+<span id="cb19-36"><a href="#cb19-36"></a>outcome &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.05</span>, <span class="st">"reject"</span>, <span class="st">"retain"</span>)</span>
+<span id="cb19-37"><a href="#cb19-37"></a><span class="co"># Display results</span></span>
+<span id="cb19-38"><a href="#cb19-38"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(h_<span class="dv">0</span>, p_val, outcome)</span>
+<span id="cb19-39"><a href="#cb19-39"></a><span class="co">#&gt;       h_0    p_val                  outcome </span></span>
+<span id="cb19-40"><a href="#cb19-40"></a><span class="co">#&gt;  [1,] "0"    "0"                    "reject"</span></span>
+<span id="cb19-41"><a href="#cb19-41"></a><span class="co">#&gt;  [2,] "0.01" "3.61597705838997e-14" "reject"</span></span>
+<span id="cb19-42"><a href="#cb19-42"></a><span class="co">#&gt;  [3,] "0.02" "1.58466568159866e-09" "reject"</span></span>
+<span id="cb19-43"><a href="#cb19-43"></a><span class="co">#&gt;  [4,] "0.03" "5.19079773106855e-07" "reject"</span></span>
+<span id="cb19-44"><a href="#cb19-44"></a><span class="co">#&gt;  [5,] "0.04" "2.28444171789944e-05" "reject"</span></span>
+<span id="cb19-45"><a href="#cb19-45"></a><span class="co">#&gt;  [6,] "0.05" "0.000334239131290808" "reject"</span></span>
+<span id="cb19-46"><a href="#cb19-46"></a><span class="co">#&gt;  [7,] "0.06" "0.00243577888657468"  "reject"</span></span>
+<span id="cb19-47"><a href="#cb19-47"></a><span class="co">#&gt;  [8,] "0.07" "0.0117339085847196"   "reject"</span></span>
+<span id="cb19-48"><a href="#cb19-48"></a><span class="co">#&gt;  [9,] "0.08" "0.051692873382411"    "retain"</span></span>
+<span id="cb19-49"><a href="#cb19-49"></a><span class="co">#&gt; [10,] "0.09" "0.126664758568051"    "retain"</span></span>
+<span id="cb19-50"><a href="#cb19-50"></a><span class="co">#&gt; [11,] "0.1"  "0.307396410227212"    "retain"</span></span>
+<span id="cb19-51"><a href="#cb19-51"></a><span class="co">#&gt; [12,] "0.11" "0.578208699903566"    "retain"</span></span>
+<span id="cb19-52"><a href="#cb19-52"></a><span class="co">#&gt; [13,] "0.12" "0.78823258600851"     "retain"</span></span>
+<span id="cb19-53"><a href="#cb19-53"></a><span class="co">#&gt; [14,] "0.13" "1"                    "retain"</span></span>
+<span id="cb19-54"><a href="#cb19-54"></a><span class="co">#&gt; [15,] "0.14" "0.80237859813876"     "retain"</span></span>
+<span id="cb19-55"><a href="#cb19-55"></a><span class="co">#&gt; [16,] "0.15" "0.544485718640118"    "retain"</span></span>
+<span id="cb19-56"><a href="#cb19-56"></a><span class="co">#&gt; [17,] "0.16" "0.346328031101614"    "retain"</span></span>
+<span id="cb19-57"><a href="#cb19-57"></a><span class="co">#&gt; [18,] "0.17" "0.246160152973726"    "retain"</span></span>
+<span id="cb19-58"><a href="#cb19-58"></a><span class="co">#&gt; [19,] "0.18" "0.140725928444915"    "retain"</span></span>
+<span id="cb19-59"><a href="#cb19-59"></a><span class="co">#&gt; [20,] "0.19" "0.0759841014234179"   "retain"</span></span>
+<span id="cb19-60"><a href="#cb19-60"></a><span class="co">#&gt; [21,] "0.2"  "0.0492258004585849"   "reject"</span></span>
+<span id="cb19-61"><a href="#cb19-61"></a><span class="co">#&gt; [22,] "0.21" "0.0241471386866497"   "reject"</span></span>
+<span id="cb19-62"><a href="#cb19-62"></a><span class="co">#&gt; [23,] "0.22" "0.0112353946905877"   "reject"</span></span>
+<span id="cb19-63"><a href="#cb19-63"></a><span class="co">#&gt; [24,] "0.23" "0.00688520741469472"  "reject"</span></span>
+<span id="cb19-64"><a href="#cb19-64"></a><span class="co">#&gt; [25,] "0.24" "0.00293131460859641"  "reject"</span></span>
+<span id="cb19-65"><a href="#cb19-65"></a><span class="co">#&gt; [26,] "0.25" "0.0018119232311538"   "reject"</span></span>
+<span id="cb19-66"><a href="#cb19-66"></a><span class="co">#&gt; [27,] "0.26" "0.000708425744407884" "reject"</span></span>
+<span id="cb19-67"><a href="#cb19-67"></a><span class="co">#&gt; [28,] "0.27" "0.000262230507511154" "reject"</span></span>
+<span id="cb19-68"><a href="#cb19-68"></a><span class="co">#&gt; [29,] "0.28" "0.000160126996474669" "reject"</span></span>
+<span id="cb19-69"><a href="#cb19-69"></a><span class="co">#&gt; [30,] "0.29" "5.42162481835015e-05" "reject"</span></span>
+<span id="cb19-70"><a href="#cb19-70"></a><span class="co">#&gt; [31,] "0.3"  "1.72855023244583e-05" "reject"</span></span></code></pre></div>
 <p>We now have a 95% exact confidence interval from (and including) 0.08 to 0.19. Let’s see how this compares to the base R function.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/binom.test">binom.test</a></span>(<span class="dv">17</span>, <span class="dv">132</span>)</span>
 <span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt; </span></span>
@@ -361,7 +363,7 @@
 <div id="power-for-the-exact-test-of-a-proportion" class="section level3">
 <h3 class="hasAnchor">
 <a href="#power-for-the-exact-test-of-a-proportion" class="anchor"></a>Power for the exact test of a proportion</h3>
-<p>Power is the probability of rejecting a null hypothesis when a specific alternative hypothesis is correct. Recall this question that we consider earlier.</p>
+<p>Power is the probability of rejecting a null hypothesis when a specific alternative hypothesis is correct. Recall this question that we considered earlier.</p>
 <p>If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 16 patients who agreed to try the new treatment, is there enough evidence to say with 90% confidence that the new treatment has a better cure rate?</p>
 <p>Here are the hypotheses that we used to answer this question.</p>
 <p><span class="math inline">\(H_0: \pi = 0.60\)</span></p>
@@ -385,7 +387,7 @@
 <li>Find the critical value(s) using the null hypothesized proportion.</li>
 <li>Find the probability of being in the rejection region when the simple alternative hypothesis is correct.</li>
 </ol>
-<p>Let’s do it. First, let’s adopt a maximum acceptable Type I error rate of 10%, or 0.10. Now we need the critical value for our one-sided test. we want our rejection region to be no more than 10% so we seek the 90th percentile, our sample size is 16, and the null hypothesized probability is 0.60.</p>
+<p>Let’s do it. First, let’s adopt a maximum acceptable Type I error rate of 10%, or 0.10. Now we need the critical value for our one-sided test. We want our rejection region to be no more than 10% so we seek the 90th percentile, our sample size is 16, and the null hypothesized probability is 0.60.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">16</span>, <span class="fl">0.60</span>)</span>
 <span id="cb23-2"><a href="#cb23-2"></a>cv</span>
 <span id="cb23-3"><a href="#cb23-3"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
@@ -409,12 +411,12 @@
 <li>Use a higher cure rate for our simple alternative hypothesis.</li>
 <li>Increase the sample size.</li>
 </ul>
-<p>The first option means that we can make mistakes more often. We will have a hard time establishing credibility in our discipline if we raise this too high. The second option suggests we are not really interesting in detecting a cure rate of 70%, yet have the rate increase by 10 percentage points would seem quite substantial to most people, especially if you have contracted this illness. That leaves us with the final option, which may be costly, but such is the price of science. If we can’t increase our sample size, we’ll have to live with one of the first two options recognizing that there are consequences to conducting research with small samples.</p>
+<p>The first option means that we can make mistakes more often. We will have a hard time establishing credibility in our discipline if we raise this too high. The second option suggests we are not really interesting in detecting a cure rate of 70%, yet having the rate increase by 10 percentage points would seem quite substantial to most people, especially if you have contracted this illness. That leaves us with the final option, which may be costly, but such is the price of science. If we can’t increase our sample size, we’ll have to live with one of the first two options recognizing that there are consequences to conducting research with small samples.</p>
 <p>If we <em>can</em> increase the sample size, we should do so. But by how much? Power analysis is useful for helping us determine this. This is a trial and error process. We increase the sample size and then repeat the above steps to see if we are there yet. Let’s get wild and increase our sample size to 100.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">100</span>, <span class="fl">0.60</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">100</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb28-3"><a href="#cb28-3"></a><span class="co">#&gt; [1] 0.7792578</span></span></code></pre></div>
-<p>We’re still not there, but almost! We can actually all of the above on one line. Let’s try 105.</p>
+<p>We’re still not there, but almost! We can actually put all of the above on one line. Let’s try 105.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">105</span>, <span class="fl">0.60</span>), <span class="dv">105</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; [1] 0.8039252</span></span></code></pre></div>
 <p>That’s got it! What if we had tried 104.</p>
