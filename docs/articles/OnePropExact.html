@@ -273,7 +273,216 @@
 <span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; probability of success </span></span>
 <span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt;                  0.875</span></span></code></pre></div>
 <p>Good! This agrees with our results, but provides more accuracy.</p>
-<p>In the 2003 outbreak of Severe Acute Respiratory Syndrome (SARS) in Singapore, there were 17 deaths among the 132 victims who did not receive the treatment. Let us determine the rate of death for all untreated SARS victims with 95% confidence.</p>
+<p>In the 2003 outbreak of Severe Acute Respiratory Syndrome (SARS) in Singapore, there were 17 deaths among the 132 victims who did not receive the treatment. Let us determine the rate of death for all untreated SARS victims with 95% confidence. We will construct a two-sided confidence interval. We do this by testing all possible hypotheses (with a two-sided test) using a maximum Type I error rate of 5%. The confidence interval will consist of all retained hypotheses.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Create all possible null hypotheses. I have restricted the range a bit to </span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co"># make the output more readable.</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>h_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span> (<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="dt">by =</span> <span class="fl">.01</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co"># Create function for when pi_hat &gt; h_0</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>pi_hat_greater &lt;-<span class="st"> </span><span class="cf">function</span>(a, b, c) {</span>
+<span id="cb19-7"><a href="#cb19-7"></a>  <span class="co"># Find the value of pi_hat</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>  prop &lt;-<span class="st"> </span>a<span class="op">/</span>b</span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="co"># Find the distance above h_0</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a>  dist &lt;-<span class="st"> </span>prop <span class="op">-</span><span class="st"> </span>c</span>
+<span id="cb19-11"><a href="#cb19-11"></a>  <span class="co"># Find out the lower-tail value the same distance below</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a>  low_val &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">floor</a></span>(b <span class="op">*</span><span class="st"> </span>(c <span class="op">-</span><span class="st"> </span>dist))</span>
+<span id="cb19-13"><a href="#cb19-13"></a>  <span class="co"># Return the p-value</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(low_val, b, c) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(a<span class="dv">-1</span>, b, c, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb19-15"><a href="#cb19-15"></a>}</span>
+<span id="cb19-16"><a href="#cb19-16"></a></span>
+<span id="cb19-17"><a href="#cb19-17"></a><span class="co"># Create function for when pi_hat &lt; h_0</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a>pi_hat_less &lt;-<span class="st"> </span><span class="cf">function</span>(a, b, c) {</span>
+<span id="cb19-19"><a href="#cb19-19"></a>  <span class="co"># Find the value of pi_hat</span></span>
+<span id="cb19-20"><a href="#cb19-20"></a>  prop &lt;-<span class="st"> </span>a<span class="op">/</span>b</span>
+<span id="cb19-21"><a href="#cb19-21"></a>  <span class="co"># Find the distance below h_0</span></span>
+<span id="cb19-22"><a href="#cb19-22"></a>  dist &lt;-<span class="st"> </span>c <span class="op">-</span><span class="st"> </span>prop</span>
+<span id="cb19-23"><a href="#cb19-23"></a>  <span class="co"># Find out the upper-tail value the same distance above</span></span>
+<span id="cb19-24"><a href="#cb19-24"></a>  up_val &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">ceiling</a></span>(b <span class="op">*</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>dist))</span>
+<span id="cb19-25"><a href="#cb19-25"></a>  <span class="co"># return the p-value</span></span>
+<span id="cb19-26"><a href="#cb19-26"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(a, b, c) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(up_val <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, b, c, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb19-27"><a href="#cb19-27"></a>}</span>
+<span id="cb19-28"><a href="#cb19-28"></a></span>
+<span id="cb19-29"><a href="#cb19-29"></a>p_val &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span> (pi_hat <span class="op">&gt;</span><span class="st"> </span>h_<span class="dv">0</span>,</span>
+<span id="cb19-30"><a href="#cb19-30"></a>                 <span class="kw">pi_hat_greater</span>(x, n, h_<span class="dv">0</span>),</span>
+<span id="cb19-31"><a href="#cb19-31"></a>                 <span class="kw">pi_hat_less</span>(x, n, h_<span class="dv">0</span>))</span>
+<span id="cb19-32"><a href="#cb19-32"></a></span>
+<span id="cb19-33"><a href="#cb19-33"></a><span class="co"># Determine the outcome</span></span>
+<span id="cb19-34"><a href="#cb19-34"></a>outcome &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.05</span>, <span class="st">"reject"</span>, <span class="st">"retain"</span>)</span>
+<span id="cb19-35"><a href="#cb19-35"></a><span class="co"># Display results</span></span>
+<span id="cb19-36"><a href="#cb19-36"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(h_<span class="dv">0</span>, p_val, outcome)</span>
+<span id="cb19-37"><a href="#cb19-37"></a><span class="co">#&gt;       h_0    p_val                  outcome </span></span>
+<span id="cb19-38"><a href="#cb19-38"></a><span class="co">#&gt;  [1,] "0"    "0"                    "reject"</span></span>
+<span id="cb19-39"><a href="#cb19-39"></a><span class="co">#&gt;  [2,] "0.01" "3.61597705838997e-14" "reject"</span></span>
+<span id="cb19-40"><a href="#cb19-40"></a><span class="co">#&gt;  [3,] "0.02" "1.58466568159866e-09" "reject"</span></span>
+<span id="cb19-41"><a href="#cb19-41"></a><span class="co">#&gt;  [4,] "0.03" "5.19079773106855e-07" "reject"</span></span>
+<span id="cb19-42"><a href="#cb19-42"></a><span class="co">#&gt;  [5,] "0.04" "2.28444171789944e-05" "reject"</span></span>
+<span id="cb19-43"><a href="#cb19-43"></a><span class="co">#&gt;  [6,] "0.05" "0.000334239131290808" "reject"</span></span>
+<span id="cb19-44"><a href="#cb19-44"></a><span class="co">#&gt;  [7,] "0.06" "0.00243577888657468"  "reject"</span></span>
+<span id="cb19-45"><a href="#cb19-45"></a><span class="co">#&gt;  [8,] "0.07" "0.0117339085847196"   "reject"</span></span>
+<span id="cb19-46"><a href="#cb19-46"></a><span class="co">#&gt;  [9,] "0.08" "0.051692873382411"    "retain"</span></span>
+<span id="cb19-47"><a href="#cb19-47"></a><span class="co">#&gt; [10,] "0.09" "0.126664758568051"    "retain"</span></span>
+<span id="cb19-48"><a href="#cb19-48"></a><span class="co">#&gt; [11,] "0.1"  "0.307396410227212"    "retain"</span></span>
+<span id="cb19-49"><a href="#cb19-49"></a><span class="co">#&gt; [12,] "0.11" "0.578208699903566"    "retain"</span></span>
+<span id="cb19-50"><a href="#cb19-50"></a><span class="co">#&gt; [13,] "0.12" "0.78823258600851"     "retain"</span></span>
+<span id="cb19-51"><a href="#cb19-51"></a><span class="co">#&gt; [14,] "0.13" "1"                    "retain"</span></span>
+<span id="cb19-52"><a href="#cb19-52"></a><span class="co">#&gt; [15,] "0.14" "0.80237859813876"     "retain"</span></span>
+<span id="cb19-53"><a href="#cb19-53"></a><span class="co">#&gt; [16,] "0.15" "0.544485718640118"    "retain"</span></span>
+<span id="cb19-54"><a href="#cb19-54"></a><span class="co">#&gt; [17,] "0.16" "0.346328031101614"    "retain"</span></span>
+<span id="cb19-55"><a href="#cb19-55"></a><span class="co">#&gt; [18,] "0.17" "0.246160152973726"    "retain"</span></span>
+<span id="cb19-56"><a href="#cb19-56"></a><span class="co">#&gt; [19,] "0.18" "0.140725928444915"    "retain"</span></span>
+<span id="cb19-57"><a href="#cb19-57"></a><span class="co">#&gt; [20,] "0.19" "0.0759841014234179"   "retain"</span></span>
+<span id="cb19-58"><a href="#cb19-58"></a><span class="co">#&gt; [21,] "0.2"  "0.0492258004585849"   "reject"</span></span>
+<span id="cb19-59"><a href="#cb19-59"></a><span class="co">#&gt; [22,] "0.21" "0.0241471386866497"   "reject"</span></span>
+<span id="cb19-60"><a href="#cb19-60"></a><span class="co">#&gt; [23,] "0.22" "0.0112353946905877"   "reject"</span></span>
+<span id="cb19-61"><a href="#cb19-61"></a><span class="co">#&gt; [24,] "0.23" "0.00688520741469472"  "reject"</span></span>
+<span id="cb19-62"><a href="#cb19-62"></a><span class="co">#&gt; [25,] "0.24" "0.00293131460859641"  "reject"</span></span>
+<span id="cb19-63"><a href="#cb19-63"></a><span class="co">#&gt; [26,] "0.25" "0.0018119232311538"   "reject"</span></span>
+<span id="cb19-64"><a href="#cb19-64"></a><span class="co">#&gt; [27,] "0.26" "0.000708425744407884" "reject"</span></span>
+<span id="cb19-65"><a href="#cb19-65"></a><span class="co">#&gt; [28,] "0.27" "0.000262230507511154" "reject"</span></span>
+<span id="cb19-66"><a href="#cb19-66"></a><span class="co">#&gt; [29,] "0.28" "0.000160126996474669" "reject"</span></span>
+<span id="cb19-67"><a href="#cb19-67"></a><span class="co">#&gt; [30,] "0.29" "5.42162481835015e-05" "reject"</span></span>
+<span id="cb19-68"><a href="#cb19-68"></a><span class="co">#&gt; [31,] "0.3"  "1.72855023244583e-05" "reject"</span></span></code></pre></div>
+<p>We now have a 95% exact confidence interval from (and including) 0.08 to 0.19. Let’s see how this compares to the base R function.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/binom.test">binom.test</a></span>(<span class="dv">17</span>, <span class="dv">132</span>)</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt; </span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co">#&gt;  Exact binomial test</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">#&gt; </span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="co">#&gt; data:  17 and 132</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co">#&gt; number of successes = 17, number of trials = 132, p-value &lt;</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="co">#&gt; 2.2e-16</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="co">#&gt; alternative hypothesis: true probability of success is not equal to 0.5</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt;  0.07684744 0.19817803</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt; probability of success </span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="co">#&gt;              0.1287879</span></span></code></pre></div>
+<p>Yes! It is the same interval, but with a bit more precision. I won’t have to rewrite the function after all because I always prefer confidence intervals to the test of a single hypothesis.</p>
+</div>
+<div id="power-for-the-exact-test-of-a-proportion" class="section level3">
+<h3 class="hasAnchor">
+<a href="#power-for-the-exact-test-of-a-proportion" class="anchor"></a>Power for the exact test of a proportion</h3>
+<p>Power is the probability of rejecting a null hypothesis when a specific alternative hypothesis is correct. Recall this question that we consider earlier.</p>
+<p>If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 16 patients who agreed to try the new treatment, is there enough evidence to say with 90% confidence that the new treatment has a better cure rate?</p>
+<p>Here are the hypotheses that we used to answer this question.</p>
+<p><span class="math inline">\(H_0: \pi = 0.60\)</span></p>
+<p><span class="math inline">\(H_1: \pi &gt; 0.60\)</span></p>
+<p>The alternative hypothesis is a <em>compound hypothesis</em>, meaning that it consists of many possible alternatives. The consequence of this is that we don’t know what the probability distribution looks like when the alternative hypothesis is correct. In order to calculate power, we need to know what the probability distribution looks like, so we need to adjust by creating a <em>simple hypothesis</em>. Here’s an example.</p>
+<p><span class="math inline">\(H_0: \pi = 0.60\)</span></p>
+<p><span class="math inline">\(H_1: \pi = 0.75\)</span></p>
+<p>How do we choose a simple hypothesis? I like to use this rule: Select the simple hypothesis that is the smallest value of the alternative hypothesis that would still provide a meaningful outcome. For example, if you found the new treatment to have a cure rate of 75%, rather than the present treatment cure rate of 60%, would you consider this a meaningful finding? Yes! What about if the new treatment cure rate is 61%? Maybe not, especially if there is expense involved in widely implementing the new treatment. What about 62%? You can see where this is going. You should also recognize that we are not learning statistics right now because the choice of the smallest value that is still important is a substantive choice, not a statistical one. So to teach the statistics involved in power calculations, we’re just going to have to make something up. How about 70%?</p>
+<p><span class="math inline">\(H_0: \pi = 0.60\)</span></p>
+<p><span class="math inline">\(H_1: \pi = 0.70\)</span></p>
+<p>Here is the probability distribution when the null hypothesis is true.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">16</span>, <span class="fl">0.6</span>)</span></code></pre></div>
+<p><img src="OnePropExact_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p>Here is the probability when our simple alternative hypothesis is true.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">16</span>, <span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="OnePropExact_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p>Notice the shift upward. Higher numbers of cures become more likely when we have a higher cure rate. That makes sense!</p>
+<p>Power is the probability of rejecting a null hypothesis when a specific alternative hypothesis is correct. So what is the probability of rejecting the first probability distribution when the second probability distribution is the correct distribution? Here are the steps.</p>
+<ol style="list-style-type: decimal">
+<li>Determine the maximum acceptable Type I error rate.</li>
+<li>Find the critical value(s) using the null hypothesized proportion.</li>
+<li>Find the probability of being in the rejection region when the simple alternative hypothesis is correct.</li>
+</ol>
+<p>Let’s do it. First, let’s adopt a maximum acceptable Type I error rate of 10%, or 0.10. Now we need the critical value for our one-sided test. we want our rejection region to be no more than 10% so we seek the 90th percentile, our sample size is 16, and the null hypothesized probability is 0.60.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">16</span>, <span class="fl">0.60</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>cv</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+<p>Let’s check to make sure this is indeed the critical value.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">16</span>, <span class="fl">0.60</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#&gt; [1] 0.1665674</span></span></code></pre></div>
+<p>This tells me that the probability of 12 and above is greater than our acceptable error rate. What happened? Remember the rule for quantiles. The function will give us the smallest value of x on the distribution such that the cumulative probability to, and including, x is at least the specified probability. So in this case, the quantile function returned 12 because the probability up to, and including, 12 is at least 90%. This tells us that the probability of being above 12 is no more than 10%, which is great for our rejection region. Putting this all together, when we find the upper-tail critical value we need to add one more to the quantile that is returned in order to keep the probability of our rejection region in the acceptable range. So here’s the calculation.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">16</span>, <span class="fl">0.60</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>cv</span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#&gt; [1] 13</span></span></code></pre></div>
+<p>Here’s the check that this works.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">16</span>, <span class="fl">0.60</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#&gt; [1] 0.06514674</span></span></code></pre></div>
+<p>Now that we have the critical value, we need to find the probability of rejecting the null hypothesis if the simple alternative hypothesis is true. Here it is.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">16</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="co">#&gt; [1] 0.2458559</span></span></code></pre></div>
+<p>The probability of rejecting the null hypothesis, that is, of obtaining enough successes so that we have at least as many as the critical value, when the simple alternative hypothesis of <span class="math inline">\(\pi\)</span> = 0.70 is true is only 25%. That’s the power and that is way too small! Most researchers will say that you should have at least 80% power. This happened because our sample size is small.</p>
+<p>We have several options.</p>
+<ul>
+<li>Increase our tolerance for error.</li>
+<li>Use a higher cure rate for our simple alternative hypothesis.</li>
+<li>Increase the sample size.</li>
+</ul>
+<p>The first option means that we can make mistakes more often. We will have a hard time establishing credibility in our discipline if we raise this too high. The second option suggests we are not really interesting in detecting a cure rate of 70%, yet have the rate increase by 10 percentage points would seem quite substantial to most people, especially if you have contracted this illness. That leaves us with the final option, which may be costly, but such is the price of science. If we can’t increase our sample size, we’ll have to live with one of the first two options recognizing that there are consequences to conducting research with small samples.</p>
+<p>If we <em>can</em> increase the sample size, we should do so. But by how much? Power analysis is useful for helping us determine this. This is a trial and error process. We increase the sample size and then repeat the above steps to see if we are there yet. Let’s get wild and increase our sample size to 100.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">100</span>, <span class="fl">0.60</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">100</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="co">#&gt; [1] 0.7792578</span></span></code></pre></div>
+<p>We’re still not there, but almost! We can actually all of the above on one line. Let’s try 105.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">105</span>, <span class="fl">0.60</span>), <span class="dv">105</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; [1] 0.8039252</span></span></code></pre></div>
+<p>That’s got it! What if we had tried 104.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">104</span>, <span class="fl">0.60</span>), <span class="dv">104</span>, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="co">#&gt; [1] 0.7621072</span></span></code></pre></div>
+<p>Nope, that doesn’t do it. In fact, look closely and you’ll see something quite peculiar. The power for 104 is less than the power for 100! How can this be? It is because we are working with discrete values, so only certain Type I error rates are possible for our critical values. More on that in a moment. For now, let’s use a little nplearn function to graph out the power as a function of sample size for a simple null and alternative hypothesis. We need to provide the arguments for the <em>power_plot</em> function. These are the null hypothesis, the alternative hypothesis, and the maximum Type I error rate.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw"><a href="../reference/power_plot.html">power_plot</a></span>(<span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.10</span>)</span></code></pre></div>
+<p><img src="OnePropExact_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p>You can see the strange behavior of power due to using discrete data in this plot. If we want to guarantee ourselves 80% power, we should probably shoot for finding the sample size in which all greater sample sizes will give us at least 80% power. To facilitate this, we can add an optional argument so as to provide a line at our target power rate.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw"><a href="../reference/power_plot.html">power_plot</a></span>(<span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.10</span>, <span class="fl">0.80</span>)</span></code></pre></div>
+<p><img src="OnePropExact_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p>It appears that somewhere around a sample size of 120 should be good. Let’s check several sample sizes in that vicinity.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>x &lt;-<span class="st"> </span><span class="dv">110</span><span class="op">:</span><span class="dv">125</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>power &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, x, <span class="fl">0.60</span>), x, <span class="fl">0.70</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(x, power)</span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="co">#&gt;         x     power</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="co">#&gt;  [1,] 110 0.7687002</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="co">#&gt;  [2,] 111 0.8087503</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="co">#&gt;  [3,] 112 0.7907277</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="co">#&gt;  [4,] 113 0.8279111</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a><span class="co">#&gt;  [5,] 114 0.8111042</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="co">#&gt;  [6,] 115 0.7934570</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a><span class="co">#&gt;  [7,] 116 0.8298827</span></span>
+<span id="cb33-12"><a href="#cb33-12"></a><span class="co">#&gt;  [8,] 117 0.8134201</span></span>
+<span id="cb33-13"><a href="#cb33-13"></a><span class="co">#&gt;  [9,] 118 0.7961345</span></span>
+<span id="cb33-14"><a href="#cb33-14"></a><span class="co">#&gt; [10,] 119 0.8318293</span></span>
+<span id="cb33-15"><a href="#cb33-15"></a><span class="co">#&gt; [11,] 120 0.8156989</span></span>
+<span id="cb33-16"><a href="#cb33-16"></a><span class="co">#&gt; [12,] 121 0.8487466</span></span>
+<span id="cb33-17"><a href="#cb33-17"></a><span class="co">#&gt; [13,] 122 0.8337512</span></span>
+<span id="cb33-18"><a href="#cb33-18"></a><span class="co">#&gt; [14,] 123 0.8179412</span></span>
+<span id="cb33-19"><a href="#cb33-19"></a><span class="co">#&gt; [15,] 124 0.8503517</span></span>
+<span id="cb33-20"><a href="#cb33-20"></a><span class="co">#&gt; [16,] 125 0.8356484</span></span></code></pre></div>
+<p>We are good at 119 and beyond!</p>
+<p>Lower-tailed hypothesis testing and two-sided hypothesis testing follow the same logic. The two-sided power calculation is a bit more complicated, but we will stick with the upper-sided test for now.</p>
+<p>One final note about power. The calculation of power is for a single hypothesis test, but we prefer confidence intervals. How can we relate the two? Keep in mind the relationship: A confidence interval consists of all null hypotheses that are retained given our observed data. For the above example, we determined that if we have 119 participants in our study, there is an 80% or better chance that we can reject the null hypothesis of a 60% cure rate if the actual cure rate is 70%. This means there is an 80% or better chance that if the actual cure rate is 70%, our confidence interval will not include 60%. This tells us something about the likely width of our interval.</p>
+</div>
+<div id="inference-for-discrete-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#inference-for-discrete-data" class="anchor"></a>Inference for discrete data</h3>
+<p>While working the above examples, we came across some new (and sometimes strange appearing) behaviors that are due to the discrete nature of data. Keep in mind that all measurement is discrete, so these “strange” behaviors reflect the actual state of affairs. If we want to get technical, the neat and tidy outcomes provided by using continuous distributions to approximate reality are really what is strange!</p>
+<p>One new discrete-related concept we observed is that the quantiles of our distribution do not match in a one-to-one fashion with our maximum Type I error rate. For one of the examples, we set the Type I error rate at 10%, but the actual error rate for our hypothesis test was something less.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.90</span>, <span class="dv">16</span>, <span class="fl">0.60</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(cv<span class="dv">-1</span>, <span class="dv">16</span>, <span class="fl">0.60</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="co">#&gt; [1] 0.06514674</span></span></code></pre></div>
+<p>For this configuration, setting the maximum rate at 10% resulted in an actual Type I error rate of 6.5%. If we had used a large-sample approximation, we could have used a critical value associated with 10% error, even though this was not really possible for these data. We designate our maximum error rate, specified by the researcher, as <span class="math inline">\(\alpha\)</span>. We designate our actual error rate, dependent on the sample size and hypotheses we propose, as <span class="math inline">\(\hat{\alpha}\)</span>.</p>
+<p>Should we report that we used an error rate that is equal to <span class="math inline">\(\hat{\alpha}\)</span>. No! This is a data-driven outcome and anytime you use data to arrive at a probability statement, you are not using the probability that you set out to use. Instead, we say that our maximum error rate is 10%. Conversely, for confidence intervals, we say that we are at least 90% confident that our interval has captured the actual parameter.</p>
+<p>The test statistic is the statistic we are observing to make decisions about our hypotheses. For this vignette, we have been using the number of successes as our test statistic. This is an integer with no allowance for fractional components (you can’t have 12.2 successes). The result of this is that we have “jumps” in the probability values. These jumps in the test statistic are responsible for the jumps in our potential error rates. This is what leads to situations like power curves that step up and down, even though the overall trend of the curve is for the power to move upward as we increase the sample size.</p>
+<p>Finally, let’s take another look at the two-sided confidence interval that we obtained above. Here it is again.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/binom.test">binom.test</a></span>(<span class="dv">17</span>, <span class="dv">132</span>)</span>
+<span id="cb35-2"><a href="#cb35-2"></a><span class="co">#&gt; </span></span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="co">#&gt;  Exact binomial test</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="co">#&gt; </span></span>
+<span id="cb35-5"><a href="#cb35-5"></a><span class="co">#&gt; data:  17 and 132</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="co">#&gt; number of successes = 17, number of trials = 132, p-value &lt;</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a><span class="co">#&gt; 2.2e-16</span></span>
+<span id="cb35-8"><a href="#cb35-8"></a><span class="co">#&gt; alternative hypothesis: true probability of success is not equal to 0.5</span></span>
+<span id="cb35-9"><a href="#cb35-9"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb35-10"><a href="#cb35-10"></a><span class="co">#&gt;  0.07684744 0.19817803</span></span>
+<span id="cb35-11"><a href="#cb35-11"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb35-12"><a href="#cb35-12"></a><span class="co">#&gt; probability of success </span></span>
+<span id="cb35-13"><a href="#cb35-13"></a><span class="co">#&gt;              0.1287879</span></span></code></pre></div>
+<p>The death rate for the sample was 0.1288. Look at the distance of the lower- and upper-bound of the interval from this observed value.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fl">.1288</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.07685</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="co">#&gt; [1] 0.05195</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="fl">.1982</span> <span class="op">-</span><span class="st"> </span><span class="fl">.1288</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="co">#&gt; [1] 0.0694</span></span></code></pre></div>
+<p>We are used to confidence intervals for a parameter being symmetric about observed value of the statistic. That is because we assume continuity and use symmetrical distributions to form the interval. When we come down to real life, where values are not continuous so that we have discrete jumps, the interval is no longer symmetrical. In this example, the assymetry is not very pronounced (0.52 is not that different from 0.69), but keep in mind that our sample size was 132. The larger the sample size, the more our discrete distributions approach continuous distributions. For smaller sample sizes, the assymetry can be very pronounced.</p>
+<p>The basic principles for exact inference that you are introduced to in this vignette extend to other methods. The binomial distribution is probably the easiest place to learn these principles.</p>
 </div>
   </div>
 

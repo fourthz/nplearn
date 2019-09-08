@@ -340,6 +340,337 @@ Good! This agrees with our results, but provides more accuracy.
 In the 2003 outbreak of Severe Acute Respiratory Syndrome (SARS) in Singapore, 
 there were 17 deaths among the 132 victims who did not receive the treatment. 
 Let us determine the rate of death for all untreated SARS victims with 95% 
-confidence.
+confidence. We will construct a two-sided confidence interval. We do this by 
+testing all possible hypotheses (with a two-sided test) using a maximum Type I 
+error rate of 5%. The confidence interval will consist of all retained 
+hypotheses.
 
+```{r}
+# Create all possible null hypotheses. I have restricted the range a bit to 
+# make the output more readable.
+h_0 <- seq (0, 0.3, by = .01)
 
+# Create function for when pi_hat > h_0
+pi_hat_greater <- function(a, b, c) {
+  # Find the value of pi_hat
+  prop <- a/b
+  # Find the distance above h_0
+  dist <- prop - c
+  # Find out the lower-tail value the same distance below
+  low_val <- floor(b * (c - dist))
+  # Return the p-value
+  return(pbinom(low_val, b, c) + pbinom(a-1, b, c, lower.tail = FALSE))
+}
+
+# Create function for when pi_hat < h_0
+pi_hat_less <- function(a, b, c) {
+  # Find the value of pi_hat
+  prop <- a/b
+  # Find the distance below h_0
+  dist <- c - prop
+  # Find out the upper-tail value the same distance above
+  up_val <- ceiling(b * (c + dist))
+  # return the p-value
+  return(pbinom(a, b, c) + pbinom(up_val - 1, b, c, lower.tail = FALSE))
+}
+
+p_val <- ifelse (pi_hat > h_0,
+                 pi_hat_greater(x, n, h_0),
+                 pi_hat_less(x, n, h_0))
+
+# Determine the outcome
+outcome <- ifelse(p_val <= .05, "reject", "retain")
+# Display results
+cbind(h_0, p_val, outcome)
+```
+
+We now have a 95% exact confidence interval from (and including) 0.08 to 0.19. 
+Let's see how this compares to the base R function.
+
+```{r}
+binom.test(17, 132)
+```
+
+Yes! It is the same interval, but with a bit more precision. I won't have to 
+rewrite the function after all because I always prefer confidence intervals 
+to the test of a single hypothesis.
+
+### Power for the exact test of a proportion
+
+Power is the probability of rejecting a null hypothesis when a specific 
+alternative hypothesis is correct. Recall this question that we consider 
+earlier.
+
+If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 
+16 patients who agreed to try the new treatment, is there enough evidence to 
+say with 90% confidence that the new treatment has a better cure rate?
+
+Here are the hypotheses that we used to answer this question.
+
+$H_0: \pi = 0.60$
+
+$H_1: \pi > 0.60$
+
+The alternative hypothesis is a *compound hypothesis*, meaning that it consists 
+of many possible alternatives. The consequence of this is that we don't know 
+what the probability distribution looks like when the alternative hypothesis is 
+correct. In order to calculate power, we need to know what the probability 
+distribution looks like, so we need to adjust by creating a 
+*simple hypothesis*. Here's an example.
+
+$H_0: \pi = 0.60$
+
+$H_1: \pi = 0.75$
+
+How do we choose a simple hypothesis? I like to use this rule: Select the 
+simple hypothesis that is the smallest value of the alternative hypothesis that 
+would still provide a meaningful outcome. For example, if you found the new 
+treatment to have a cure rate of 75%, rather than the present treatment cure 
+rate of 60%, would you consider this a meaningful finding? Yes! What about if 
+the new treatment cure rate is 61%? Maybe not, especially if there is expense 
+involved in widely implementing the new treatment. What about 62%? You can see 
+where this is going. You should also recognize that we are not learning 
+statistics right now because the choice of the smallest value that is still 
+important is a substantive choice, not a statistical one. So to teach the 
+statistics involved in power calculations, we're just going to have to make 
+something up. How about 70%?
+
+$H_0: \pi = 0.60$
+
+$H_1: \pi = 0.70$
+
+Here is the probability distribution when the null hypothesis is true.
+
+```{r}
+binom_plot(16, 0.6)
+```
+
+Here is the probability when our simple alternative hypothesis is true.
+
+```{r}
+binom_plot(16, 0.7)
+```
+
+Notice the shift upward. Higher numbers of cures become more likely when we 
+have a higher cure rate. That makes sense!
+
+Power is the probability of rejecting a null hypothesis when a specific 
+alternative hypothesis is correct. So what is the probability of rejecting 
+the first probability distribution when the second probability distribution is 
+the correct distribution? Here are the steps.
+
+1. Determine the maximum acceptable Type I error rate.
+2. Find the critical value(s) using the null hypothesized proportion.
+3. Find the probability of being in the rejection region when the simple 
+alternative hypothesis is correct.
+
+Let's do it. First, let's adopt a maximum acceptable Type I error rate of 
+10%, or 0.10. Now we need the critical value for our one-sided test. we want 
+our rejection region to be no more than 10% so we seek the 90th percentile, our sample size is 16, and the null hypothesized probability is 0.60.
+
+```{r}
+cv <- qbinom(0.90, 16, 0.60)
+cv
+```
+
+Let's check to make sure this is indeed the critical value.
+
+```{r}
+pbinom(cv-1, 16, 0.60, lower.tail = FALSE)
+```
+
+This tells me that the probability of 12 and above is greater than our 
+acceptable error rate. What happened? Remember the rule for quantiles. The 
+function will give us the smallest value of x on the distribution such that the 
+cumulative probability to, and including, x is at least the specified 
+probability. So in this case, the quantile function returned 12 because the 
+probability up to, and including, 12 is at least 90%. This tells us that the 
+probability of being above 12 is no more than 10%, which is great for our 
+rejection region. Putting this all together, when we find the upper-tail 
+critical value we need to add one more to the quantile that is returned in 
+order to keep the probability of our rejection region in the acceptable range. 
+So here's the calculation.
+
+```{r}
+cv <- qbinom(0.90, 16, 0.60) + 1
+cv
+```
+
+Here's the check that this works.
+
+```{r}
+pbinom(cv-1, 16, 0.60, lower.tail = FALSE)
+```
+
+Now that we have the critical value, we need to find the probability of 
+rejecting the null hypothesis if the simple alternative hypothesis is true. 
+Here it is.
+
+```{r}
+pbinom(cv-1, 16, 0.70, lower.tail = FALSE)
+```
+
+The probability of rejecting the null hypothesis, that is, of obtaining enough 
+successes so that we have at least as many as the critical value, when the 
+simple alternative hypothesis of $\pi$ = 0.70 is true is only 25%. That's the 
+power and that is way too small! Most researchers will say that you should have 
+at least 80% power. This happened because our sample size is small.
+
+We have several options.
+
+* Increase our tolerance for error.
+* Use a higher cure rate for our simple alternative hypothesis.
+* Increase the sample size.
+
+The first option means that we can make mistakes more often. We will have a 
+hard time establishing credibility in our discipline if we raise this too high. 
+The second option suggests we are not really interesting in detecting a cure 
+rate of 70%, yet have the rate increase by 10 percentage points would seem 
+quite substantial to most people, especially if you have contracted this 
+illness. That leaves us with the final option, which may be costly, but such 
+is the price of science. If we can't increase our sample size, we'll have to 
+live with one of the first two options recognizing that there are consequences 
+to conducting research with small samples.
+
+If we *can* increase the sample size, we should do so. But by how much? Power 
+analysis is useful for helping us determine this. This is a trial and error 
+process. We increase the sample size and then repeat the above steps to see if 
+we are there yet. Let's get wild and increase our sample size to 100.
+
+```{r}
+cv <- qbinom(0.90, 100, 0.60) + 1
+pbinom(cv-1, 100, 0.70, lower.tail = FALSE)
+```
+
+We're still not there, but almost! We can actually all of the above on one 
+line. Let's try 105.
+
+```{r}
+pbinom(qbinom(0.90, 105, 0.60), 105, 0.70, lower.tail = FALSE)
+```
+
+That's got it! What if we had tried 104.
+
+```{r}
+pbinom(qbinom(0.90, 104, 0.60), 104, 0.70, lower.tail = FALSE)
+```
+
+Nope, that doesn't do it. In fact, look closely and you'll see something quite 
+peculiar. The power for 104 is less than the power for 100! How can this be? 
+It is because we are working with discrete values, so only certain 
+Type I error rates are possible for our critical values. More on that in a 
+moment. For now, let's use a little nplearn function to graph out the power 
+as a function of sample size for a simple null and alternative hypothesis. We 
+need to provide the arguments for the *power_plot* function. These are the 
+null hypothesis, the alternative hypothesis, and the maximum Type I error rate. 
+
+```{r}
+power_plot(0.6, 0.7, 0.10)
+```
+
+You can see the strange behavior of power due to using discrete data in this 
+plot. If we want to guarantee ourselves 80% power, we should probably shoot for 
+finding the sample size in which all greater sample sizes will give us at least 
+80% power. To facilitate this, we can add an optional argument so as to provide 
+a line at our target power rate.
+
+```{r}
+power_plot(0.6, 0.7, 0.10, 0.80)
+```
+
+It appears that somewhere around a sample size of 120 should be good. Let's 
+check several sample sizes in that vicinity.
+
+```{r}
+x <- 110:125
+power <- pbinom(qbinom(0.90, x, 0.60), x, 0.70, lower.tail = FALSE)
+cbind(x, power)
+```
+
+We are good at 119 and beyond!
+
+Lower-tailed hypothesis testing and two-sided hypothesis testing follow the 
+same logic. The two-sided power calculation is a bit more complicated, but we 
+will stick with the upper-sided test for now.
+
+One final note about power. The calculation of power is for a single hypothesis 
+test, but we prefer confidence intervals. How can we relate the two? Keep in 
+mind the relationship: A confidence interval consists of all null hypotheses 
+that are retained given our observed data. For the above example, we 
+determined that if we have 119 participants in our study, there is an 80% or 
+better chance that we can reject the null hypothesis of a 60% cure rate if 
+the actual cure rate is 70%. This means there is an 80% or better chance that 
+if the actual cure rate is 70%, our confidence interval will not include 
+60%. This tells us something about the likely width of our interval.
+
+### Inference for discrete data
+
+While working the above examples, we came across some new (and sometimes 
+strange appearing) behaviors that are due to the discrete nature of data. 
+Keep in mind that all measurement is discrete, so these "strange" behaviors 
+reflect the actual state of affairs. If we want to get technical, the neat 
+and tidy outcomes provided by using continuous distributions to approximate 
+reality are really what is strange!
+
+One new discrete-related concept we observed is that the quantiles of our 
+distribution do not match in a one-to-one fashion with our maximum Type I error 
+rate. For one of the examples, we set the Type I error rate at 10%, but the 
+actual error rate for our hypothesis test was something less.
+
+```{r}
+cv <- qbinom(0.90, 16, 0.60) + 1
+pbinom(cv-1, 16, 0.60, lower.tail = FALSE)
+```
+
+For this configuration, setting the maximum rate at 10% resulted in an actual 
+Type I error rate of 6.5%. If we had used a large-sample approximation, we 
+could have used a critical value associated with 10% error, even though this 
+was not really possible for these data. We designate our maximum error rate,
+specified by the researcher, as $\alpha$. We designate our actual error rate, 
+dependent on the sample size and hypotheses we propose, as $\hat{\alpha}$.
+
+Should we report that we used an error rate that is equal to $\hat{\alpha}$. 
+No! This is a data-driven outcome and anytime you use data to arrive at a 
+probability statement, you are not using the probability that you set out to 
+use. Instead, we say that our maximum error rate is 10%. Conversely, for 
+confidence intervals, we say that we are at least 90% confident that our 
+interval has captured the actual parameter.
+
+The test statistic is the statistic we are observing to make decisions about 
+our hypotheses. For this vignette, we have been using the number of successes 
+as our test statistic. This is an integer with no allowance for fractional 
+components (you can't have 12.2 successes). The result of this is that we have 
+"jumps" in the probability values. These jumps in the test statistic are 
+responsible for the jumps in our potential error rates. This is what leads to 
+situations like power curves that step up and down, even though the overall 
+trend of the curve is for the power to move upward as we increase the sample 
+size.
+
+Finally, let's take another look at the two-sided confidence interval that 
+we obtained above. Here it is again.
+
+```{r}
+binom.test(17, 132)
+```
+
+The death rate for the sample was 0.1288. Look at the distance of the lower- 
+and upper-bound of the interval from this observed value.
+
+```{r}
+.1288 - 0.07685
+.1982 - .1288
+```
+
+We are used to confidence intervals for a parameter being symmetric about 
+observed value of the statistic. That is because we assume continuity and use 
+symmetrical distributions to form the interval. When we come down to real life, 
+where values are not continuous so that we have discrete jumps, the interval 
+is no longer symmetrical. In this example, the assymetry is not very 
+pronounced (0.52 is not that different from 0.69), but keep in mind that our 
+sample size was 132. The larger the sample size, the more our discrete 
+distributions approach continuous distributions. For smaller sample sizes,
+the assymetry can be very pronounced.
+
+The basic principles for exact inference that you are introduced to in this 
+vignette extend to other methods. The binomial distribution is probably the 
+easiest place to learn these principles.
