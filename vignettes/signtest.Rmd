@@ -1,0 +1,24 @@
+---
+title: "The Sign Test"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Sign Test}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The sign test is a special case of the binomial test. In this vignette you will 
+learn why it is an important special case. You will also learn various 
+situations in which this simple test can provide an opportunity for inference.
+
+```{r setup}
+library(nplearn)
+```
+
