@@ -15,10 +15,150 @@ knitr::opts_chunk$set(
 ```
 
 The sign test is a special case of the binomial test. In this vignette you will 
-learn why it is an important special case. You will also learn various 
+learn why it is an important special case. You will also learn about various 
 situations in which this simple test can provide an opportunity for inference.
+
+### Required packages
+
+The only package needed for this vignette is the nplearn package.
 
 ```{r setup}
 library(nplearn)
+```
+
+### The Matched Pairs Design
+
+We now consider a research design in which units are paired on the basis of 
+one or more extraneous variables so that when a response is measured for every 
+unit in the study, the measures obtained from one member of each pair are 
+correlated with those obtained from the other member of each pair. Units can 
+be paired naturally or via an experimental process. Examples of natural pairing 
+include twins, siblings, bushels of fruit collected from the same tree, 
+weather metrics recorded on the same day, and puppies from the same litter. 
+Pairing via an experimental process requires observation of an extraneous 
+variable known to be related to the response variable of interest. In this 
+case, the stronger the relationship of the extraneous and response variable, 
+the stronger the pair and, consequently, the more power the study will have for 
+detecting treatment effects. One example is the pairing of students on the 
+basis of achievement test results when the study will involve a method 
+designed to increase achievement. Another example is pairing patients on a 
+measure of disease progression when the study will be about a treatment 
+designed to eradicate the disease or alleviate the symptoms.
+
+The value of the matched pairs design is that it can substantially reduce the 
+variation in a response measure that is due to one or more extraneous 
+variables. This reduction of <i>noise</i> (i.e., variation in observations 
+that is not due to the independent, or explanatory, variable) can make it 
+substantially easier to detect the <i>signal</i> (i.e., the effect of an 
+indpendent or explanatory variable). A practical implication is that the design 
+is more efficient. That is, fewer units will be needed to detect the treatment 
+effect than would be needed using two independent samples to attempt to detect 
+the same size effect. The obvious disadvantage of the design is that it 
+requires either finding naturally matched units or creating such matches. To 
+create a match will necessitate the use of an existing measure of an 
+extraneous variable or making new measurements prior to the implementation of 
+the matched pairs design.
+
+In an observational study of natural pairs, the members of each pair are in 
+different categories of the explanatory variable. For example, a 1966 study 
+of 27 pairs of monozygotic twins looked at differences in scores on a test 
+of intelligence for each twin pair. These pairs were chosen because the twins 
+had been separated at birth, with one of the twins raised by the biological 
+parents and the other raised in a foster home. In this case, the explanatory 
+variable is the type of home in which the twin was raised, so it was 
+necessary to select twin pairs that reflected this difference.
+
+A more common approach is to experimentally create the explanatory variable, 
+making certain that one member of each pair is placed in one category of the 
+variable, such as a control condition, traditional intervention, or placebo 
+condition, and the other member of each pair is placed in the other cateogry, 
+such as a treatment condition. As I will discuss in more detail later, the 
+conclusions of such a study are strengthened if the choice of which pair 
+member is in which condition is based on random assignment.
+
+### The Sign Test
+
+Consider a study of two fertilizer options for fruit trees. Suppose that two 
+trees were planted on each of six plots of land. Plots might be defined not 
+only in terms of location, but soil characteristics (e.g., pH and granular 
+form), sun exposure, wind exposure, and so forth. Thus, the two trees on each 
+plot can be considered a pair due to their similarity on a variety of 
+extraneous variables that are related to the variable of interest: fruit 
+production. Further suppose that each tree received a treatment of fertilizer 
+at regular intervals, but the trees in each pair received different types of 
+fertilizer. (Although the trees are paired by their planting on the same plot, 
+they would need to be planted far enough apart to avoid any crossover effect 
+from the fertilizers.) To strengthen the validity of conclusions about the 
+different fertilizers, the researcher randomly selected the member of each pair 
+that would receive Fertilizer A, then applied Fertilizer B to the other member 
+of the pair.
+
+At some point, ripe fruit was picked off of all trees. Shown below are the 
+results of this hypothetical study when entered into R. The observations are 
+the number of pieces of ripe fruit.
+
+```{r}
+fruit <- data.frame(A = c(82, 91, 74, 90, 66, 81),
+                    B = c(85, 89, 81, 96, 65, 93))
+
+cbind(fruit$A, fruit$B)
+```
+
+The relative effectiveness of fertilizers can be measured by looking at the 
+difference in fruit production within each tree pair. We will subtract the 
+fruit quantity produced with the help of one type of fertilizer from the 
+quantity produced with the help of the other type. It does not matter which 
+way we subtract, but it does matter that we keep track of which way we subtract 
+so as to make legitimate statements about fertilizer effectiveness.
+
+```{r}
+A.minus.B <- fruit$A - fruit$B
+A.minus.B
+```
+
+Notice that for each pair of trees we can derive two pieces of information: 
+which fertilizer produced the highest yield and how much difference there is in 
+yield. The first piece of information is provided by the sign of the number and 
+the second by the quantity of the number. The <i>sign test</i> focuses, as you 
+might guess, on the sign of the number. That is, the focus is on which 
+fertilizer produced the highest yield in each tree pair. Given that our order 
+of subtraction is A minus B, a positive number suggests a win for A.
+
+```{r}
+A.minus.B > 0
+```
+
+There are two plus signs and four minus signs in these data. The trees with 
+Fertilizer B outperformed the trees with Fertilizer A most of the time (a two 
+to one win). Given that one tree was likely to outperform the other, can we 
+attribute this outcome to the superior performance of Fertilizer B? Perhaps, 
+yet it is possible that there are other extraneous variables at work. Maybe 
+the seeds themselves made the difference. Maybe more trees with Fertilizer B 
+received more water than trees with Fertilizer A. There are likely many 
+extraneous variables that we have not even considered. This is why it was so 
+important to randomly assign Fertilizers to one member of each tree pair. If 
+that was done in this study, and if the type of fertilizer is really not 
+responsible for the difference in yield, then the numbers of positive and 
+negative signs in our data are simply the result of chance. Under the 
+hypothesis of no difference in fertilizer effectiveness, the number of A trees 
+that outperformed B trees (and vice versa) is simply due to chance assignment.
+
+If chance assignment is the reason for differences in the numbers of signs, 
+we can calculate the probability that Fertilizer A trees will result in just 
+two positive signs. This is a binomial problem with six Bernoulli events and 
+the probability of a Fertilizer A tree receiving a positive sign is 0.5. 
+This is the same as the probability of obtaining "heads up" with the flip of 
+a fair coin, and indeed that may be exactly how the researcher decided
+which tree would receive which fertilizer!
+
+Here are the parameters of the binomial distribution.
+
+$n = 6$
+$\pi = 0.5$
+
+Here's the picture of the probability distribution.
+
+```{r}
+binom_plot(6, 0.5)
 ```
 
