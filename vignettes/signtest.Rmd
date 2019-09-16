@@ -162,3 +162,81 @@ Here's the picture of the probability distribution.
 binom_plot(6, 0.5)
 ```
 
+With a little thought, you may recognize that the picture we are looking at 
+here is under some sort of null hypothesis stating that neither fertilizer is 
+more effective than the other. The picture shows the probability of every 
+possible number of positive signs for our difference scores when the sign 
+of the difference is due to chance assignment of fertilizers to trees, but 
+nothing else. It is basically the same distribution we would get if we didn't 
+use fertilizer at all! In this case, a positive sign would be due to other 
+non-fertilizer-related characteristics of the trees and placement of the 
+trees. We could right a null hypothesis that looks something like this.
+
+$H_0: Fertilizer doesn't make a difference$
+
+That's a fine research null hypothesis, but how can we make it a statistical 
+null hypothesis? The key is to think again about our difference scores. Is 
+there any value of any statistic (and associated parameter) that will reflect 
+an equal number of positive and negative difference scores? You probably 
+have guessed that the answer is "yes." Consider this null hypothesis.
+
+$H_0: \theta = 0$
+
+We use $\theta$ to represent the population median. If the chance of a 
+difference score being positive is the same as the chance of a difference 
+score being negative (that is, the probability of each if 50%), then the 
+median of the difference scores is 0. For our fertilizer research, we can write 
+the null and alternative hypotheses like this.
+
+$H_0: \theta = 0$
+$H_1: \theta \ne 0$
+
+I am using a two-sided alternative here because we went into this study with 
+no information that one fertilizer should be better than the other. The 
+situation would have been different if, for example, we were told that 
+Fertilizer B was developed based on new understanding of the properties of 
+fertilizers so that the research is to confirm that Fertilizer B results in 
+higher production than Fertilizer A.
+
+Let's set $\alpha$, our maximum allowable Type I error rate, at 10%. Under the 
+null hypothesis, here is the probability of obtaining only two plus signs for 
+Fertilizer A.
+
+```{r}
+pbinom(2, 6, 0.5)
+```
+
+For a two-sided test, we need to also include upper tail values that are 
+equally incompatible with the null hypothesis. That is, we need to include 
+the probability of four or more plus signs among our difference scores. (Notice 
+that four plus signs would be the same as two negative signs for Fertilizer B.) 
+
+```{r}
+pbinom(2, 6, 0.5) + pbinom(4-1, 6, 0.5, lower.tail = FALSE)
+```
+
+A *p* value of 0.6875 will certainly not persuade us to view this as an 
+unlikely outcome if the null hypothesis is true, so we must retain a median of 
+0 as a reasonable possibility for the value of the parameter. Yet we remember 
+that the number of trees with Fertilizer B that outperformed their matched 
+pair tree (not to be confused with a pear tree, which is reserved for 
+partridges) was four out of the six, or 0.67. What gives?
+
+We didn't have much power for this test because we only used six matched pairs. 
+Let's see what would happen if we kept the 2 to 1 ratio the same, but used 
+30 matched pairs. (This would require us to plant 60 trees.) Here's the picture 
+under the null hypothesis.
+
+```{r}
+binom_plot(30, .5)
+```
+
+The 2 to 1 ratio would mean that we have 10 plus signs for Fertilizer A and 20 
+negative signs. Here's the *p* value for the two-sided test.
+
+```{r}
+pbinom(10, 30, 0.5) + pbinom(20 - 1, 30, 0.5, lower.tail = FALSE)
+```
+
+This is better! We have some convincing evidence that Fertilizer B outperforms 
+Fertilizer A.
