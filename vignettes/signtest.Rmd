@@ -136,7 +136,7 @@ yet it is possible that there are other extraneous variables at work. Maybe
 the seeds themselves made the difference. Maybe more trees with Fertilizer B 
 received more water than trees with Fertilizer A. There are likely many 
 extraneous variables that we have not even considered. This is why it was so 
-important to randomly assign Fertilizers to one member of each tree pair. If 
+important to randomly assign fertilizers to one member of each tree pair. If 
 that was done in this study, and if the type of fertilizer is really not 
 responsible for the difference in yield, then the numbers of positive and 
 negative signs in our data are simply the result of chance. Under the 
@@ -154,6 +154,7 @@ which tree would receive which fertilizer!
 Here are the parameters of the binomial distribution.
 
 $n = 6$
+
 $\pi = 0.5$
 
 Here's the picture of the probability distribution.
@@ -172,7 +173,7 @@ use fertilizer at all! In this case, a positive sign would be due to other
 non-fertilizer-related characteristics of the trees and placement of the 
 trees. We could right a null hypothesis that looks something like this.
 
-$H_0: Fertilizer doesn't make a difference$
+$H_0:$ Fertilizer doesn't make a difference
 
 That's a fine research null hypothesis, but how can we make it a statistical 
 null hypothesis? The key is to think again about our difference scores. Is 
@@ -189,6 +190,7 @@ median of the difference scores is 0. For our fertilizer research, we can write
 the null and alternative hypotheses like this.
 
 $H_0: \theta = 0$
+
 $H_1: \theta \ne 0$
 
 I am using a two-sided alternative here because we went into this study with 
@@ -316,7 +318,7 @@ probably guessed where this is all going. Let's review the steps, adding this
 new rule that we just discussed.
 
 1. Determine our confidence level. This will correspond to our tolerance for 
-errors in that our confidence level will be $(1 - \alpha)*100\%$, where 
+errors in that our confidence level will be $(1 - \alpha)100\%$, where 
 $\alpha$ is the maximum Type I error rate that we can tolerate.
 
 2. Hypothesize a median, $\theta$.
@@ -332,18 +334,19 @@ make it more difficult to reject the null hypothesis.
 5. Test all possible hypotheses. Symbolically, we can state it like this.
 
 $H_0: \theta = \theta_0$
+
 $H_1: \theta \ne \theta_0$
 
 $-\infty < \theta_0 < +\infty$
 
-6. The confidence set consists of all values of $theta_0$ that are retained.
+6. The confidence set consists of all values of $\theta_0$ that are retained.
 
 If we are interested in whether a median is only above or only below 0 (as we 
 would have been if Fertilizer B was developed to be an improvement on 
-Fertilizer A), then we would test one-sided hypotheses. Aside from this, the 
+Fertilizer A), then we would test a one-sided hypotheses. Aside from this, the 
 construction of a lower-bounded or upper-bounded interval is the same.
 
-In practice, we will not test every possible $theta_0$ because we have other 
+In practice, we will not test every possible $\theta_0$ because we have other 
 more interesting activities to pursue in life. Instead, we will search for the 
 boundary between rejection and retention. For the above data, let's test a 
 median of 10. That gives us 1 plus sign and 5 minus signs.
@@ -355,6 +358,7 @@ pbinom(1, 6, .5) + pbinom(5-1, 6, .5, lower.tail = FALSE)
 Let's try these hypotheses.
 
 $H_0: \theta = 3$
+
 $H_1: \theta \ne 3$
 
 We now have 0 plus signs and 6 negative signs.
@@ -366,8 +370,9 @@ pbinom(0, 6, .5) + pbinom(6-1, 6, .5, lower.tail = FALSE)
 We finally have a rejected null hypothesis. We will obtain similar results 
 if we use these hypotheses.
 
-$H_0: \theta = $-13$
-$H_1: \theta \ne $-13$
+$H_0: \theta = -13$
+
+$H_1: \theta \ne -13$
 
 Now we have 6 plus signs and 0 negative signs.
 
@@ -428,5 +433,94 @@ Here's the *p* value.
 pbinom(15, 60, .5) + pbinom(45-1, 60, .5, lower.tail = FALSE)
 ```
 
-I'm quite confident that the fertilizers are **not** equally effective!
+I'm quite confident that the fertilizers are not equally effective. Using what 
+we have learned about confidence interval construction, let's determine an 
+interval for the population median. The previous time we did this, we used a 
+trial and error method to find the number of plus signs that would result in 
+rejection of the null hypothesis. That could be time consuming for larger 
+data sets, such as this one, so let us be a bit more systematic in our 
+approach. This time we will use a 5% error rate so that we can develop a 95% 
+confidence interval. We are using a symmetrical binomial distribution (remember 
+that $\pi_0 = .5$ for all of our tests), so we can split the error rate into 
+two equal parts and put a proportion of .025 in each tail of the distribution. 
+With this knowledge in hand, we can find the number of plus signs needed to 
+reject the null hypothesis.
 
+```{r}
+cv <- qbinom(0.975, 60, 0.5) + 1
+cv
+```
+
+We can reject the null hypothesis in the upper tail of the distribution if we 
+have 39 or more plus signs. Similarly, we can reject the null hypothesis in 
+the lower tail of the distribution if we have 39 or more negative signs, which 
+would equate to 60 - 39 = 21 or fewer plus signs. Here's a check of our work.
+
+```{r}
+pbinom(21, 60, 0.5) + pbinom(39-1, 60, 0.5, lower.tail = FALSE)
+```
+
+Notice what we get if we add one more sign to the rejection region in each 
+tail.
+
+```{r}
+pbinom(22, 60, 0.5) + pbinom(38-1, 60, 0.5, lower.tail = FALSE)
+```
+
+This slightly exceeds our tolerance for Type I errors. Thus, we will use 21 and 
+39 as our critical values, noting in the process that $\hat{\alpha} = 0.027$.
+
+The trick now is to find the differences that will result in 21 or fewer plus 
+signs or 39 or more plus signs. Let's sort our differences. (Not to be confused 
+with "let's sort out our differences," though if you are explaining all of this 
+to someone opposed to nonparametric statistical methods, both phrases may 
+apply.)
+
+```{r}
+A.minus.B <- sort(A.minus.B)
+A.minus.B
+```
+
+Now it is easy to find the difference values that sit on our critical values. 
+(Note that if we count from 40 to 60, including 40, there are 21 values, 
+which is why we are taking the 40th value rather than the 39th value.)
+
+```{r}
+A.minus.B[21]
+A.minus.B[40]
+```
+
+We will reject any difference that is greater than or equal to 9 because there 
+are 21 numbers (plus signs) that are 9 or above. Let's check that.
+
+```{r}
+sum(A.minus.B >= 9)
+```
+
+Similarly we will reject any difference that is less than or equal to 1 because 
+there are 39 numbers (plus signs) above 1. Let's check that, as well.
+
+```{r}
+sum(A.minus.B > 1)
+```
+
+Another way to think of this is that we have 21 numbers greater than or equal 
+to 9 (plus signs) and 21 numbers less than or equal to 1 (minus signs).
+
+```{r}
+sum(A.minus.B >= 9)
+sum(A.minus.B <= 1)
+```
+
+Either way you prefer to think about it, the point is that we will reject the 
+null hypotheses about the median being 9 or above 9, as well as null hypotheses 
+about the median being 1 or below 1. Further, these values sit right on the 
+edge of the rejection region. Thus, we know what hypothesized values we will 
+retain: any value between 1 and 9.
+
+$1 < \theta < 9$
+
+We have now created a 95% confidence interval for the median. In practical 
+terms, this tells us that switching from Fertilizer A to Fertilizer B will 
+result in a median yield increase of 1 to 9 pieces of fruit. (If Fertilizer B 
+is more costly, switching may not be worth it.)
