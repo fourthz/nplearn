@@ -406,21 +406,25 @@ more than how many times Fertilizer B beat Fertilizer A. We need to know the
 extent of this beating by comparing fruit yields.
 
 Here is a (hypothetical) construction of yield differences where again I 
-subtracted the yield for B from the yield of the matched pair tree.
+subtracted the yield for A from the yield of the B matched pair tree. Note 
+that I switched the order of subtraction so as to have more positive signs. 
+My only reason for doing this is that I think it makes it easier to teach 
+about an improvement (such as what we are seeing in these data when using 
+Fertilizer B) when the scores are positive.
 
 ```{r}
-A.minus.B <- c(-1, 0, -1, 0, 4, 5, 25, 15, 5, 125, 61, 2, 7, -2, 2, 1, 7, 12,
+B.minus.A <- c(-1, 0, -1, 0, 4, 5, 25, 15, 5, 125, 61, 2, 7, -2, 2, 1, 7, 12,
                23, 1, 86, 17, 6, 12, -1, 1, -1, -2, 58, 3, 2, 18, 1, 40, -1,
                2, 12, 0, 3, 6, -2, 1, 56, 5, -2, 8, -2, -1, 30, 1, 2, 52,
                3, -1, 52, 7, 18, 9, 145, 17)
 
-length(A.minus.B)
+length(B.minus.A)
 ```
 
 Let's determine how many plus signs are in these data.
 
 ```{r}
-sum(A.minus.B > 0)
+sum(B.minus.A > 0)
 ```
 
 That means there must be 15 values that are either minus signs or 0. (I'm going 
@@ -477,8 +481,8 @@ to someone opposed to nonparametric statistical methods, both phrases may
 apply.)
 
 ```{r}
-A.minus.B <- sort(A.minus.B)
-A.minus.B
+B.minus.A <- sort(B.minus.A)
+B.minus.A
 ```
 
 Now it is easy to find the difference values that sit on our critical values. 
@@ -486,41 +490,126 @@ Now it is easy to find the difference values that sit on our critical values.
 which is why we are taking the 40th value rather than the 39th value.)
 
 ```{r}
-A.minus.B[21]
-A.minus.B[40]
+B.minus.A[21]
+B.minus.A[40]
 ```
 
 We will reject any difference that is greater than or equal to 9 because there 
 are 21 numbers (plus signs) that are 9 or above. Let's check that.
 
 ```{r}
-sum(A.minus.B >= 9)
+sum(B.minus.A >= 9)
 ```
 
 Similarly we will reject any difference that is less than or equal to 1 because 
 there are 39 numbers (plus signs) above 1. Let's check that, as well.
 
 ```{r}
-sum(A.minus.B > 1)
+sum(B.minus.A > 1)
 ```
 
 Another way to think of this is that we have 21 numbers greater than or equal 
 to 9 (plus signs) and 21 numbers less than or equal to 1 (minus signs).
 
 ```{r}
-sum(A.minus.B >= 9)
-sum(A.minus.B <= 1)
+sum(B.minus.A >= 9)
+sum(B.minus.A <= 1)
 ```
 
 Either way you prefer to think about it, the point is that we will reject the 
 null hypotheses about the median being 9 or above 9, as well as null hypotheses 
 about the median being 1 or below 1. Further, these values sit right on the 
-edge of the rejection region. Thus, we know what hypothesized values we will 
-retain: any value between 1 and 9.
+edge of the rejection region. The next values in our data set after these, the 
+first ones in our retention region, are 2 and 8. We would retain hypotheses 
+about 2 and 8, as well as any value in between.
 
-$1 < \theta < 9$
+$2 \le \theta \le 8$
 
 We have now created a 95% confidence interval for the median. In practical 
 terms, this tells us that switching from Fertilizer A to Fertilizer B will 
 result in a median yield increase of 1 to 9 pieces of fruit. (If Fertilizer B 
 is more costly, switching may not be worth it.)
+
+Let's use these data one more time to construct a one-sided confidence interval 
+for the median difference. This is what we would do if one fertilizer was 
+purposefully developed to be an improvement over the other. The choice 
+of a one-sided interval is not a decision based on the data, but one based 
+on theoretical understanding. Here are the hypotheses.
+
+$H_0: \theta = 0$
+
+$H_A: \theta > 0$
+
+If the population median is 0, as reflected by the null hypothesis, we would 
+expect the same number of plus and minus signs in our data. If the population 
+median is above 0, as reflected in the alternative hypothesis, we would expect 
+more plus signs than minus signs in our data. Thus, we want to reject the null 
+hypothesis in favor of the alternative hypothesis when there are more plus 
+signs than would be expected by mere chance assignment of our fruit trees. 
+Let's calculate how many that would be if we want 95% confidence.
+
+```{r}
+cv <- qbinom(0.95, 60, 0.5) + 1
+cv
+```
+
+We will reject the null hypothesis if we have at least 37 plus signs. We saw 
+earlier that we have 45 plus signs, so we know, with 95% confidence, that the 
+median is above 0. (This is no surprise because our two-sided interval was 
+completely above 0.) Next, let's use these hypotheses.
+
+$H_0: \theta = 1$
+
+$H_A: \theta > 1$
+
+Notice that this will reduce the number of plus signs by 6, because there are 
+6 values of 1 in our data.
+
+```{r}
+sum(B.minus.A > 1)
+```
+
+We can reject this null hypothesis as well because the observed test statistic, 
+the number of plus signs, is above our critical value of 37 plus signs. Let's 
+do this one more time with these hypotheses.
+
+$H_0: \theta = 2$
+
+$H_A: \theta > 2$
+
+```{r}
+sum(B.minus.A > 2)
+```
+
+We clearly cannot reject this null hypothesis. Notice that the observed value 
+of the test statistic jumped from 39 to 34. That is because we have 5 values of 
+2 in the data. If we had observed 1 or 2 values of 2, we could have rejected 
+the null hypothesis. As it is, it would be foolhardy to reject the hypothesis 
+based on some of the values of 2 but retain it for others. We must retain the 
+null hypothesis. The consequence of all these values of 2 is that our  
+$\hat{\alpha}$ has moved away from $\alpha$. This will yield a slightly less 
+informative interval than we would have had if every fruit yield difference had 
+been unique. In fact, our lower bound is no more informative in this one-sided 
+interval, where we put our entire tolerance for error (5%) in one tail of the 
+distribution, than it was for the two-sided interval. Such is the nature of the 
+real world. Ignoring the effects of worms in the apples, fruit yield will be in 
+discrete and whole units, so probabilities are not continuous. As a result, 
+life as a nonparametric statistican can look strange. Keep in mind that the 
+strangeness really resides in the tradition we've become used to: Treating 
+discrete numbers as though they are plucked from a continuous distribution. Now 
+**that** is strange!
+
+Here is our interval.
+
+$\theta \ge 2$
+
+You are probably hoping that I'm going to surprise you with a function that 
+will do all of this for us. Surprise! The function is not part of Base R, but 
+it is available in a package written by Andri Signorell. Here it is being 
+used for our two-sided test and interval.
+
+```{r}
+SignTest(B.minus.A)
+```
+
+If you go back and retrieve the *p* value 
