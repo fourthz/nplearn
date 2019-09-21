@@ -385,15 +385,16 @@ but with the addends swapped. We have determined that every hypothesized value
 that yields between 1 and 5 plus (or minus) signs will result in retention. 
 Thus, we are able to define our 90% confidence interval.
 
-$-13 < \theta < 3$
+$-12 \le \theta \le 2$
 
 There are a few elements of this interval construction that are noteworthy. 
 First, we would have obtained the same rejection results if we had hypothesized 
 -14 instead of -13 and 4 instead of 3. Yet we desire the narrowest interval we 
-can obtain, so because -13 and 3 are also rejected, those are the values we 
-will use for our endpoints.
+can obtain, so because -13 and 3 are also rejected, we use -12 and 2 as the 
+first values in our retention region. These become the inclusive boundaries of 
+the confidence interval.
 
-The other comment is a bit more disconcerting. Our testing has wandered outside 
+My other comment is a bit more disconcerting. Our testing has wandered outside 
 of the range of our data in order to obtain a 90% confidence interval. That 
 feels a bit like extrapolating beyond the data, so I'm not totally comfortable. 
 That said, it is the best we can do with such a small sample size.
@@ -612,4 +613,47 @@ used for our two-sided test and interval.
 SignTest(B.minus.A)
 ```
 
-If you go back and retrieve the *p* value 
+If you go back and look at the *p* value we calculated for the sign test to 
+test the original number of signs, that is, using the hypothesis that 
+$\theta = 0$, you will see that it matches with the *p* value reported by this 
+function, so that's the meaning of the *p* value. The confidence interval also 
+matches our two-sided confidence interval. Notice that it is inclusive of the 
+reported boundaries. The function also reports the point estimate, which is the 
+median of differences for our sample and the best single guess of the 
+population median, though without confidence. Let's see how to obtain the 
+one-sided interval.
+
+```{r}
+SignTest(B.minus.A, alternative = "greater")
+```
+
+Here's one more little trick with this function. Remember that in our original 
+example we started by recording the amount of fruit picked from each tree, 
+putting matched pairs in the same order for each fertilizer type.
+
+```{r}
+fruit$A
+fruit$B
+```
+
+We can use the differences for an argument to the SignTest function, as we did 
+above, or we can provide the measures separately, but in the matched order.
+
+```{r}
+SignTest(fruit$A, fruit$B, conf.level = 0.90)
+```
+
+### Conditions for valid inference
+
+As always, calculating correct values is only part of the story when it comes 
+to valid inference. We also must ascertain that our inferential statments are 
+consistent with our research processes. In my experience I have observed that 
+it is quite common for researchers to either make statements about the 
+conditions for valid inference without actually matching each statement to the 
+research process or to ignore the conditions entirely. In either case, 
+statements of inference are misleading, at best, and potentially dishonest. We 
+must go beyond calculation to put careful thought into what we can and cannot 
+say. The good news is that even when conditions are not completely met, 
+usually our study can still inform practice, even though we may have to curb 
+our enthusiasm when reporting our outcomes.
+
