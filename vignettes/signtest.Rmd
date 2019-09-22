@@ -24,6 +24,7 @@ The only package needed for this vignette is the nplearn package.
 
 ```{r setup}
 library(nplearn)
+library(DescTools)
 ```
 
 ### The matched pairs design
@@ -651,9 +652,143 @@ consistent with our research processes. In my experience I have observed that
 it is quite common for researchers to either make statements about the 
 conditions for valid inference without actually matching each statement to the 
 research process or to ignore the conditions entirely. In either case, 
-statements of inference are misleading, at best, and potentially dishonest. We 
-must go beyond calculation to put careful thought into what we can and cannot 
-say. The good news is that even when conditions are not completely met, 
-usually our study can still inform practice, even though we may have to curb 
-our enthusiasm when reporting our outcomes.
+often statements of inference are misleading, at best, and potentially dishonest. We must go beyond calculation to put careful thought into what we 
+can and cannot say. The good news is that even when conditions are not completely met, usually our study can still inform practice, even though we may have to curb our enthusiasm about how we report our outcomes.
 
+The first condition for valid inference back to a larger population is that we 
+have randomly sampled from that population. As I've discussed before, in the 
+behavioral and social sciences we rarely are able to sample from the entire 
+population of interest, yet a more limited random sampling can still provide 
+use a rationale for inference. Even without random sampling, we can often 
+consider our sample as what we might obtain through random sampling from 
+some population of interest. In the current agriculture setting, it is doubtful 
+that the seeds for these trees were randomly selected from the population of 
+seeds for this particular type of fruit. Yet it is very likely that there is 
+nothing special or specific about these seeds so that they could represent 
+the larger population of seeds, much as if they had been randomly selected.
+
+The second condition for valid inference with the sign test is that the units 
+within each matched pair were randomly assigned (i.e., *randomized*) to one 
+of the two conditions. This condition is necessary to confirm that it is the 
+explanatory variable, rather than extraneous varibles, responsible for any 
+observed difference. In the present example, if we did not randomize the fruit 
+trees to the fertilizer conditions, then there might be some other condition, 
+such as sun exposure, that could be responsible for differences in production. 
+This could occur without researcher awareness, for levels of extraneous 
+variables can often be undetected in such a study. It could be the case that 
+even with randomization that sun exposure is greater for trees receiving one 
+type of fertilizer, but the randomization process assures us that this is not 
+a systematic bias. The incidence of non-systematic bias is accounted for in our 
+recognized potential for a Type I error, for which we are able to determine our 
+maximum tolerance.
+
+There is one type of study in which random sampling, but not randomization, is 
+key to inference, and that is when the study is not about a treatment effect, 
+but rather is about understanding the characteristics of a single population 
+of scores. In such a case there is no treatment-control comparison, so there 
+are no matched pairs. The sign test can still be used to construct a confidence 
+interval for the median, but in this situation the median of interest is the 
+median of a population of scores, rather than the median of differences.
+
+The third, and final, condition for valid inference is that matched pairs are 
+independent of one another. Measures within pairs are not independent of each 
+other. Indeed, they have been purposefully matched on various characteristics 
+related to the variable of interest. Yet each pair should be independent of 
+each other pair. In the present example, this was assured through using 
+separate planting areas for each pair of fruit trees.
+
+If you read about the sign test from other sources, you will freqently 
+encounter a fourth condition. Namely, that scores must be continous. The 
+purpose of this condition is to guarantee that a plus or minus sign will be 
+available for every difference. If values are truly continuous, they will never 
+be equal, so this will indeed ensure that every difference is associated with 
+a sign. In reality, however, we use discerete measurement. Thus, we may declare 
+a matched pair to be equivalent on our measure. If a "winner" can be declared, 
+we can avoid such ties. If not, the methods described above will yield tests 
+and intervals that control our Type I error rate. The consequence of ties will 
+be a more conservative test or interval.
+
+For those who are new to nonparametric inference, it may seem unusual to use 
+the median, rather than the mean, as the central tendency parameter. If this 
+seems strange, it is because the mean is almost ubiquitous in parametric 
+inference. Yet the median is a strong contendor as a measure of central 
+tendency in that it has desirable properties. Among these is an insensitivity 
+to outliers that can be overly influential on the mean. Further, when the 
+population is symetrical, the values of the mean and the median are the same. 
+This equivalency suggests that if we add a condition of symmetry, we can build a confidence interval for the mean, rather than the median. This is true, though 
+I recommend that we dispense with this additional condition and build intervals 
+for the population median. I see no advantage in creating a confidence interval 
+for the mean, other than to maintain friendships with those who choose to 
+invest all of their energies in parametric inference. Even in those cases, 
+we may be able to keep both our median-oriented confidence intervals and our 
+friendships if we consider additional procedures, such as paying for the drinks 
+or bringing in doughnuts.
+
+Let me end this discussion of conditions for valid inference by consider those 
+conditions we grew up with when we first learned about parametric inference. 
+With a matched-pair design, we were able to test the following hypotheses.
+
+$\mu = \mu_0$
+
+$\mu \ne \mu_0$
+
+Here, $\mu_0$ is a specific null hypothesis. By considering all values for this 
+hypothesis, we were able to build a confidence interval for the mean. The 
+conditions for valid inference in this setting are those listed above (random 
+sample, randomization, and indpendence of matched pairs), plus an additional 
+condition that the differences calculated for comparing our treatment-control 
+pairs is normally distributed. This last assumption is referred to as a 
+*strong* condition. The term *strong* does not mean it is a valuable condition, 
+but that it is a more strict condition than the others. With the sign test for 
+a median, we can dispense with strong conditions. If we desire a confidence 
+for the mean, rather than the median, then we must consider the strong 
+condition that differences scores are symmetrical. This is more difficult to 
+ascertain than the other conditions, but still not as strong as the condition 
+that the differences scores are normally distributed.
+
+### A test for trend
+
+In 1955, D. R. Cox and A. Stuart published an article in *Biometrika* in which 
+they suggested using the sign test for a test of trend. Their method is simple. 
+They compared the first half of the trend to the second half by taking each 
+measure in the first half and comparing it to the corresponding measure in the 
+second half. When the second half measure exceeded that of the first half, they 
+designated that as a plus sign. If not, they designated it as a minus sign.
+
+Here are the average global land-ocean temperatures for the years 1999 through 2018 (Source: NASA's Goddard Institute for Space Studies).
+
+```{r}
+year <- c(1999:2018)
+temp <- c(0.39, 0.40, 0.54, 0.63, 0.63, 0.54, 0.68, 0.64, 0.67, 0.55, 0.66,
+          0.73, 0.61, 0.65, 0.69, 0.75, 0.90, 1.02, 0.93, 0.85)
+cbind(year, temp)
+```
+
+To use the Cox-Stuart test for trend, we will compare first half temperatures 
+to those in the second half. We will compare 1999 to 2009, 2000 to 2010, 2001 
+to 2011, and so on. Whenever the second half temperature is greater than the 
+first half comparison, we will designate this as a plus sign. Otherwise, we 
+will designate it as a minus sign.
+
+```{r}
+first.half <- temp[1:10]
+second.half <- temp[11:20]
+plus.sign <- second.half > first.half
+sum(plus.sign)
+```
+
+With this first half-second half comparison, the null hypothesis of no trend is 
+that the probability of the second half value being greater than the first half 
+value is 0.5.
+
+$H_0: \pi_{2nd} = \pi_{1st}$
+
+$H_A: \pi_{2nd} > \pi_{1st}$
+
+Using the global temperature data, here is the test using $\alpha = .05$.
+
+```{r}
+binom.test(10, 10, 0.5, alternative = "greater", conf.level = 0.95)
+```
+
+There is strong evidence of a global warming trend.
