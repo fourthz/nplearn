@@ -18,7 +18,8 @@ RoxygenNote: 6.1.1
 Imports: 
     graphics,
     stats,
-    Rlab
+    Rlab,
+    DescTools
 Suggests:
     knitr,
     tidyverse,
