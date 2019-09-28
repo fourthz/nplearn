@@ -6,6 +6,7 @@ articles:
   binomdist: binomdist.html
   lsprop: lsprop.html
   OnePropExact: OnePropExact.html
+  randomization: randomization.html
   signtest: signtest.html
   Workflow-Sample: Workflow-Sample.html
 

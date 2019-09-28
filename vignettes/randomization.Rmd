@@ -1,0 +1,142 @@
+---
+title: "Randomization Tests"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Randomization Tests}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Randomization tests form the backbone of many nonparametric methods. With 
+traditional statistics instruction, the emphasis is often on estimating a 
+parameter by sampling from an unknown population. We use randomization tests 
+to estimate parameters that will inform us about causal relationships among 
+the explantory and response variables.
+
+### Required packages
+
+The only package required for this vignette is the nplearn package.
+
+```{r setup}
+library(nplearn)
+```
+
+### The sign test as a randomization test
+
+In the sign test vignette, I introduced the sign test as a special case of the 
+binomial test. This is an important special case because in a true experiment, 
+when members of a matched pair are randomly assigned to conditions, the null 
+hypothesis of no treatment effect will result in an expectation that in 50% of 
+the pairs we will observe an outcome that favors the control condition and in 
+50% of the pairs we will observe an outcome that favors the treatment condition.
+The expectation is a consequence of chance assignment. By contrast, if the 
+treatment has some positive effect, then we would expect a higher number of 
+positive treatment outcomes in the set of matched pairs.
+
+Let us consider again the fertilizer study that we used when learning about the sign test. In that study, we observed 12 trees matched into 6 pairs with each 
+pair of trees on a different plot of land from the other pairs. Fertilizers A 
+and B were randomly assigned to trees within a pair. (We say that the trees 
+were *randomized* to the fertilizer conditions.) Suppose that there is no 
+difference in the effectiveness of fertilizers. Would we expect each fruit tree 
+in a matched pair to yield the same amount of fruit? On average across all 
+fruit trees we would expect similar fruit yield, but for any given pair of 
+trees we could well observe different yields due to a variety of extraneous 
+variables, such as tree size, sun exposure, water absorption, and so forth. So 
+if fertilizer is not responsible for a difference, and if fertilizers are 
+randomly assigned to the members of each matched pair, what is responsible for 
+a fertilizer being associated with the tree that yields the most fruit? The 
+answer, of course, is random assignment. So, for example, if Fertilizer B 
+"outperforms" Fertilizer A within a particular pair, it really is not a matter 
+of better performance, but rather due to chance assignment. One tree produced 
+more fruit than the other, and Fertilizer B came along for the ride. Similarly 
+for all fruit tree pairs.
+
+Here again are the observed data, both in terms of fruit production and in 
+differences among matched pairs.
+
+```{r}
+fruit <- data.frame(A = c(82, 91, 74, 90, 66, 81),
+                    B = c(85, 89, 81, 96, 65, 93))
+
+cbind(fruit$A, fruit$B)
+A.minus.B <- fruit$A - fruit$B
+A.minus.B
+```
+
+With no difference in fertilizer effectiveness, whether a fertilizer was 
+assigned to the tree bound to be the highest or lowest producer in a pair is 
+a matter of chance. Thus, when looking at the differences, the sign is due to 
+chance assignment. If the "coin flip" had assigned the fertilizers in the 
+opposite manner, the quantities would remain the same, but the sign of each 
+difference would be reversed. All the plus signs would become minus signs, and 
+vice versa.
+
+Now let us consider all the possible ways this chance assignment could have 
+taken place. This is illustrated in Figure 1.
+
+![*Figure 1*](sign-test-patterns.jpg)
+
+Each row represents one possible arrangement of signs. There are 64 possible 
+arrangements. *T* is the number of plus signs, which is what we used as our 
+test statistic for the sign test. As discussed, if there is no difference in 
+the effectiveness of the fertilizers, then the sign for each tree-pair 
+difference is due to chance. Further, each of the patterns of plus and minus 
+signs are equally likely. The chance of observing a specifically chosen one of 
+the 64 patterns is calculated below.
+
+```{r}
+1/64
+```
+
+Here is another way to calculate it.
+
+```{r}
+1/2^6
+```
+
+Note, however, that some patterns contain the same number of plus signs as 
+other patterns. For example, there are six different ways to obtain five plus 
+signs. Thus, given that each pattern is equally likely, the probability of 
+obtaining five plus signs can be calculated like this.
+
+```{r}
+6*(1/2^6)
+```
+
+This is the same probability that we obtained for the sign test when using the 
+binomial distribution with parameters 6 and 0.5.
+
+```{r}
+dbinom(5, 6, 0.5)
+```
+
+It should come as no surprise that the binomial distribution can be used to 
+calculate the probability for any number of plus signs. The difference here is 
+that we are focusing on all possible patterns, with each pattern equally 
+likely. To make this explicit, here's a little table in which we list the 
+number of plus signs, the number of patterns resulting in that number of plus 
+signs, and the probability of obtaining that number of plus signs calculated 
+two ways: multiplying the number of patterns by the probability of one pattern 
+and using the binomial distribution.
+
+```{r}
+T <- 0:6
+num.patterns <- choose(6, T)
+prob.1 <- num.patterns*(1/2^6)
+prob.2 <- dbinom(T, 6, 0.5)
+cbind(T, num.patterns, prob.1, prob.2)
+```
+
+Notice that the number of patterns sums to what we would expect.
+
+```{r}
+sum(num.patterns)
+```
+
