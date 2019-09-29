@@ -22,10 +22,12 @@ the explantory and response variables.
 
 ### Required packages
 
-The only package required for this vignette is the nplearn package.
+The packages required for this vignette are the nplearn package and the gtools 
+package..
 
 ```{r setup}
 library(nplearn)
+library(gtools)
 ```
 
 ### The sign test as a randomization test
@@ -85,11 +87,9 @@ taken place. This is illustrated in Figure 1.
 
 Each row represents one possible arrangement of signs. There are 64 possible 
 arrangements. *T* is the number of plus signs, which is what we used as our 
-test statistic for the sign test. As discussed, if there is no difference in 
-the effectiveness of the fertilizers, then the sign for each tree-pair 
-difference is due to chance. Further, each of the patterns of plus and minus 
-signs are equally likely. The chance of observing a specifically chosen one of 
-the 64 patterns is calculated below.
+test statistic for the sign test. If there is no difference in the 
+effectiveness of the fertilizers, then the sign for each tree-pair difference 
+is due to chance. Further, each of the patterns of plus and minus signs are equally likely. The chance of observing a particular one of the 64 patterns is calculated below.
 
 ```{r}
 1/64
@@ -138,5 +138,48 @@ Notice that the number of patterns sums to what we would expect.
 
 ```{r}
 sum(num.patterns)
+```
+
+So what? We already know how to conduct a sign test for the fertilizer data, 
+so why review it again with an emphasis on these 64 patterns? I'm glad you 
+asked! By making the patterns of signs explicit, we can now associate each of 
+these signs with some indicator of the magnitude of the difference in 
+production for each fruit tree pair. For the sign test, we ignored this 
+magnitude, simply considering a difference as favoring one fertilizer or the 
+other. Now let's look at the same 64 patterns, but this time associate each 
+sign with the quantity of that difference. The picture is Figure 2.
+
+![*Figure 2*](fisher-test-patterns.jpg)
+
+The first row contains the magnitude of differences, in order, without a sign 
+attached. Let's think about that a moment, focusing on the score of "6". In our 
+data set, it was actually "-6". Given that we subtracted the yield of the tree 
+receiving Fertilizer B from the yield of the tree receiving Fertilizer A, our 
+"-6" means that the tree receiving Fertilizer B gave us 6 more units (e.g., 
+pieces of fruit or bushels of fruit or bushels per day of fruit) than we 
+obtained from the tree receiving Fertilizer A. Yet if there is no difference 
+in the effectiveness of fertilizers, this observed difference is due to other 
+factors. So what if, when we had randomized trees to fertilizer conditions, 
+these trees had been swapped? That is, what if the tree now receiving 
+Fertilizer B was, instead, given Fertilizer A? Would we still expect a 
+difference of 6 units? If the fertilizers are not causing the difference, yes 
+we would! If we had swapped, we would still observe a 6, but this time it would 
+be a positive 6. In short, if the fertilizers are no different in their ability 
+to increase fruit yield, the magnitude of the differences will stay the same 
+regardless of how we randomize. The only effect of randomization is to 
+determine the sign associated with that magnitude.
+
+The 64 patterns of plus and minus signs represent all the possibilities for 
+which of the quantities receive a "+" and which receive a "-". For the sign test, we defined the test statistic, *T*, to be the number of plus signs. Similarly, when we want to take into account the quantity of the differences, 
+we can define *T* to be the sum of the positive values. This is shown in the last column of Figure 2. When we have randomized trees to fertilizer conditions and when this is the only reason for the sign (i.e., the fertilizers are 
+equally effective), each of the 64 patterns are equally likely. This means that the probability of many of these values is the reciprocal of the number of patterns, in this case 1/64. Sometimes, however, multiple patterns can result 
+in the same sum of positive scores. In Figure 2, we notice that there are two 
+values of 28. Thus, the probability of obtaining 28 is 2*(1/64).
+
+I would like to look at the entire distribution of T. Here's a function that 
+I wrote to help me achieve this goal.
+
+```{r}
+rand_dist(A.minus.B)
 ```
 
