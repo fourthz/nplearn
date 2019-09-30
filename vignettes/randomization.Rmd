@@ -183,3 +183,107 @@ I wrote to help me achieve this goal.
 rand_dist(A.minus.B)
 ```
 
+This table provides the test statistic, the probability of obtaining that 
+value of the test statistic, and the cumulative probability, both from the 
+bottom and the top, of obtaining less than (or more than) that value of the 
+test statistic. Keep in mind that these probabilities are only valid if the 
+fertilizers do not differ in effectiveness, but that's OK, because that is our 
+null hypothesis. If the null hypothesis is true, the population median is 0. 
+Again, we know this because half of the differences will be negative and half 
+will be positive. So let's test the null hypothesis against an alterative 
+hypothesis.
+
+$H_0: \theta = 0$
+$H_0: \theta \ne 0$
+
+If most of the difference scores are negative, we expect a small value for 
+*T*, the sum of the positive difference scores. If most of them are positive, 
+we expect a larger value for *T*. Thus, the values of *T* on either end of the 
+above distribution will provide evidence that the null hypothesis is false. 
+We have a small sample size (*n* = 6), so let's set our maximum Type I error 
+rate at 0.10, or 10%. Taking the most extreme values at either end of the 
+distribution, the probability of observing 0, or 1, or 2, or 29, or 30, or 31 can be calculated by summing either the individual probabilities, or the cumulative up and down.
+
+```{r}
+.015625 + .015625 + .015625 + .015625 + .015625 + .015625
+0.046875 + .046875
+```
+
+What if we add one more value on either end (3 and 28)? Notice that we have 
+two ways to obtain 3 and two ways to obtain 28. We can't pick and choose. We 
+need to enter all values of 3 and all values of 28. Here is the probability 
+that *T* is 3 or less or 28 or more.
+
+```{r}
+0.078125 + 0.078125
+```
+
+Putting 3 or 28 in our rejection region would take us over our tolerance for 
+Type I errors, so we will use 2 and 27 as our critical values. This means that 
+$\hat{\alpha} = .09375$. Here again are our difference scores.
+
+```{r}
+A.minus.B
+```
+
+The observed value of the test statistic is the sum of the positive 
+differences.
+
+```{r}
+sum((A.minus.B > 0)*A.minus.B)
+```
+
+This is not in the rejection region, so we fail to reject the null hypothesis. 
+It would have been simpler to go straight to the *p* value, so let's do that 
+now. Remember that this is a two-sided test and the distribution of the test 
+statistic is symmetrical so that we can multiply a one-sided *p* value by 2.
+
+```{r}
+.078125 * 2
+```
+
+Our lives were complicated a bit by seeing duplicate values of the test 
+statistic. These are due to various combinations of signs that can result in 
+the same sum of positive numbers. We can simplify life by removing the 
+duplicates, so I incorporated that possibility in the function.
+
+```{r}
+rand_dist(A.minus.B, show.all = FALSE)
+```
+
+You will now notice varying probabilities for each specific value. These are 
+due to the varying number of permutations that result in this value of the 
+test statistic.
+
+The size of the distribution of *T* can grow quickly, so with larger sample 
+sizes we need to curb our enthusiasm. For example, in the sign test vingette we 
+looked at differences for 60 pairs of fruit trees. Let's see how many possible 
+joint events we have when considering the sign of the difference.
+
+```{r}
+2^60
+```
+
+If you are planning to create this distribution, you will be waiting awhile! 
+Assuming that R is fast enough to generate 10,000,000 of the possible 
+permutations each second (which would be quite impressive!), this is how long 
+we would have to wait, in years.
+
+```{r}
+2^60/10000000/60/60/24/365
+```
+
+Make sure you have an ample supply of food and water before locking yourself in a room to calculate this distribution. Most of us are unwilling to wait that 
+long, even if it means that we can calculate exact results. We have several 
+options available to us. Some of these I will discuss in future vignettes. One 
+option will be discussed below: using a large-sample approximation.
+
+### The need for symmetry
+
+We know that when the null hypothesis is true that we will expect half of our 
+differences to have positive signs and half to have negative signs. We also 
+know that the result of this is that the population median is 0, so that is the 
+null hypothesis we want to test. What do we expect for *T*, our test statistic, 
+if the median is 0? It turns out that without additional conditions, we don't know what to expect for *T*. The median might be 0 for a skewed distribution. 
+If there is positive skew, we expect *T* to be larger than if there is negative skew, even though in both cases our null hypothesis, that the median is 0, is true. Thus, if we allow for a skewed distribution, *T* is not going to be a valid test statistic. What do we do? We recognize that we must assume symmetry (i.e. no skew). With this additional condition, we can now expect that when 
+the median of differences scores is 0 

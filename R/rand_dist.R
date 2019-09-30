@@ -4,6 +4,7 @@
 #' randomization test.
 #'
 #' @param x double
+#' @param show.all boolean
 #'
 #' @return output
 #' @importFrom gtools permutations
@@ -12,7 +13,7 @@
 #' @examples
 #' scores <- (5, 3, -7)
 #' rand_dist(scores)
-rand_dist <- function(x) {
+rand_dist <- function(x, show.all = TRUE) {
 
   # Find all the possible sign permutations
 
@@ -44,8 +45,32 @@ rand_dist <- function(x) {
   cumul_up = 1:nrow(signs)/nrow(signs)
   cumul_down = nrow(signs):1/nrow(signs)
 
+  # If not showing all, then condense
+
+  if (!show.all) {
+    T.c <- unique(T)
+    prob.c <- 1:length(T.c)
+    cumul_up.c <- 1:length(T.c)
+    cumul_down.c <- 1:length(T.c)
+
+    for (i in 1:length(T.c)) {
+      prob.c[i] <- sum(prob[which(T %in% T.c[i])])
+      cumul_up.c[i] <- cumul_up[max(which(T %in% T.c[i]))]
+      cumul_down.c[i] <- cumul_down[min(which(T %in% T.c[i]))]
+    }
+
+  T <- T.c
+  prob <- prob.c
+  cumul_up <- cumul_up.c
+  cumul_down <- cumul_down.c
+  }
+
   # Bind and display the distribution
 
-  T_mat = cbind(T, prob, cumul_up, cumul_down)
+  T_mat = noquote(cbind(T,
+                        formatC(prob, digits = 7, format = "f"),
+                        formatC(cumul_up, digits = 7, format = "f"),
+                        formatC(cumul_down, digits = 7, format = "f")))
+
   T_mat
 }
