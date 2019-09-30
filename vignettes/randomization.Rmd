@@ -22,12 +22,12 @@ the explantory and response variables.
 
 ### Required packages
 
-The packages required for this vignette are the nplearn package and the gtools 
-package..
+The packages required for this vignette are nplearn, gtools, and coin.
 
 ```{r setup}
 library(nplearn)
 library(gtools)
+library(coin)
 ```
 
 ### The sign test as a randomization test
@@ -278,12 +278,115 @@ long, even if it means that we can calculate exact results. We have several
 options available to us. Some of these I will discuss in future vignettes. One 
 option will be discussed below: using a large-sample approximation.
 
+Again you are probably wondering if there are R functions that give us what we 
+need in order to make inferences without computing and examining the entire 
+distribution of the test statistic. Again, the answer is "yes." This is not in 
+the Base R system, but can be found in the *coin* package. (The term "coin" is 
+used as an acronym for *conditional inference procedures in a permutation 
+test framework*.) The package is powerful and extends well beyond what we have 
+been learning using a general framework. As such, the way you will need to use 
+functions seem a bit over-the-top for this seemingly simple task, yet that is 
+only because a single function can do so much. We will see this in later 
+discussions. For now, and without explanation, I'll show you how to get what 
+we need using the fertilizer data.
+
+```{r}
+
+# Our observations are in two variables that have been matched.
+
+fruit$A
+fruit$B
+
+dta <- data.frame(
+  y = c(fruit$A, fruit$B),
+  x = gl(2, length(fruit$A)),
+  block = factor(rep(seq_along(fruit$A), 2))
+)
+
+symmetry_test(y ~ x | block, data = dta,
+              distribution = "exact")
+```
+
+This function calculates a Z statistic based on our data, but then creates an 
+exact distribution of this statistic, so the *p* value we obtained is the 
+same as what we obtained earlier. Here's what we would have done if we were 
+confirming that Fertilizer B was more effective, based on theory-based 
+development of the fertilizer. The function is going to subtract Fertilizer B 
+outcomes from Fertilizer A outcomes, just like we did, so we need to test in 
+the lower tail.
+
+```{r}
+symmetry_test(y ~ x | block, data = dta,
+              distribution = "exact", alternative = "less")
+```
+
+If you have already created the difference scores, the code used is a bit 
+different, but the results are the same.
+
+```{r}
+y <- as.vector(rbind(abs(A.minus.B) * (A.minus.B >=0),
+                     abs(A.minus.B) * (A.minus.B < 0)))
+
+x <- factor(rep(0:1, length(A.minus.B)), labels = c("pos", "neg"))
+block <- gl(length(A.minus.B), 2)
+
+symmetry_test(y ~ x | block,
+              distribution = "exact", alternative = "less", paired = TRUE)
+```
+
+You can check these results with our complete distribution above. Let's try 
+one more trick. Here are the data from the larger example we used in the sign 
+test vignette.
+
+```{r}
+B.minus.A <- c(-1, 0, -1, 0, 4, 5, 25, 15, 5, 125, 61, 2, 7, -2, 2, 1, 7, 12,
+               23, 1, 86, 17, 6, 12, -1, 1, -1, -2, 58, 3, 2, 18, 1, 40, -1,
+               2, 12, 0, 3, 6, -2, 1, 56, 5, -2, 8, -2, -1, 30, 1, 2, 52,
+               3, -1, 52, 7, 18, 9, 145, 17)
+```
+
+We saw that an exact test would take many years, even with a fast computer, so 
+what does the symmetry_test function do with these data? I subtracted A from 
+B in this example, so I need to switch around to an upper-sided test.
+
+```{r}
+y <- as.vector(rbind(abs(B.minus.A) * (B.minus.A >=0),
+                     abs(B.minus.A) * (B.minus.A < 0)))
+
+x <- factor(rep(0:1, length(B.minus.A)), labels = c("pos", "neg"))
+block <- gl(length(B.minus.A), 2)
+
+symmetry_test(y ~ x | block,
+              distribution = "exact", alternative = "greater", paired = TRUE)
+```
+
+No surprise. It tells us to take a hike. Let's tweak this just a bit by taking 
+out the request for an exact test.
+
+```{r}
+symmetry_test(y ~ x | block,
+              distribution = "approximate",
+              alternative = "greater",
+              paired = TRUE)
+```
+
+Oh, that's nice! But what is it? You'll have to wait for me to provide the 
+details in another vignette. You should already have figured out that this 
+is providing an approximate *p* value. Approximations in the world of 
+nonparametric statistics are of a different type than those in traditional 
+parametric statistics, so we'll need to spend a bit of time on this; but not 
+now.
+
 ### The need for symmetry
 
 We know that when the null hypothesis is true that we will expect half of our 
 differences to have positive signs and half to have negative signs. We also 
 know that the result of this is that the population median is 0, so that is the 
-null hypothesis we want to test. What do we expect for *T*, our test statistic, 
-if the median is 0? It turns out that without additional conditions, we don't know what to expect for *T*. The median might be 0 for a skewed distribution. 
-If there is positive skew, we expect *T* to be larger than if there is negative skew, even though in both cases our null hypothesis, that the median is 0, is true. Thus, if we allow for a skewed distribution, *T* is not going to be a valid test statistic. What do we do? We recognize that we must assume symmetry (i.e. no skew). With this additional condition, we can now expect that when 
-the median of differences scores is 0 
+null hypothesis we want to test. What do we expect for *T*, our sum of positive 
+values, if the median is 0? It turns out that without additional conditions, we don't know what to expect for *T*. The median might be 0 for a skewed distribution. If there is positive skew, we expect *T* to be larger than if there is negative skew, even though in both cases our null hypothesis, that the median is 0, is true. Thus, if we allow for a skewed distribution, *T* is not going to be a valid test statistic.
+
+What do we do? We must assume symmetry (i.e. no skew). With this additional condition, we expect the mean of *T* to also be the median of *T*. This 
+provides a valid test of the null hypothesis and also tells us which values to put in our rejection region: Those that are furthest from the median (or mean) of *T*. As always, we will put these in the direction that favors the alternative hypothesis and will work back toward the median of the distribution until we have put in as many values as we can without exceeding our tolerance for error.
+
+If you are thinking that we have now wandered into the realm of strong conditions for valid inference, you are partly correct, but only partly. There is no reason for pessimism. When we randomize members of matched pairs to conditions and the null hypothesis is true, the difference scores for these 
+pairs will be symmetrical, even if the original scores are not.
