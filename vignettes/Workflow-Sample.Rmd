@@ -36,7 +36,7 @@ data_file <- system.file("extdata", "IQ_Study_Data.csv", package = "nplearn")
 This example uses packages that are part of the tidyverse. Installation of 
 the complete tidyverse package will facilitate running this script.
 
-```{r setup, message = FALSE}
+```{r setup, echo = TRUE, message = FALSE}
 library(nplearn)
 library(tidyverse)
 ```

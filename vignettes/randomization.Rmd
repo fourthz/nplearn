@@ -22,11 +22,10 @@ the explantory and response variables.
 
 ### Required packages
 
-The packages required for this vignette are nplearn, gtools, and coin.
+The packages required for this vignette are nplearn and coin.
 
-```{r setup}
+```{r setup, echo = TRUE, message = FALSE}
 library(nplearn)
-library(gtools)
 library(coin)
 ```
 
@@ -194,6 +193,7 @@ will be positive. So let's test the null hypothesis against an alterative
 hypothesis.
 
 $H_0: \theta = 0$
+
 $H_0: \theta \ne 0$
 
 If most of the difference scores are negative, we expect a small value for 
@@ -346,8 +346,8 @@ B.minus.A <- c(-1, 0, -1, 0, 4, 5, 25, 15, 5, 125, 61, 2, 7, -2, 2, 1, 7, 12,
 ```
 
 We saw that an exact test would take many years, even with a fast computer, so 
-what does the symmetry_test function do with these data? I subtracted A from 
-B in this example, so I need to switch around to an upper-sided test.
+what does the symmetry_test function do with these data? First, let's set it 
+up. Note that I subtracted A from B in this example, so you need to switch around to an upper-sided test.
 
 ```{r}
 y <- as.vector(rbind(abs(B.minus.A) * (B.minus.A >=0),
@@ -356,9 +356,12 @@ y <- as.vector(rbind(abs(B.minus.A) * (B.minus.A >=0),
 x <- factor(rep(0:1, length(B.minus.A)), labels = c("pos", "neg"))
 block <- gl(length(B.minus.A), 2)
 
-symmetry_test(y ~ x | block,
-              distribution = "exact", alternative = "greater", paired = TRUE)
 ```
+
+Now try running this function.
+
+> symmetry_test(y ~ x | block, 
+                distribution = "exact", alternative = "greater", paired = TRUE)
 
 No surprise. It tells us to take a hike. Let's tweak this just a bit by taking 
 out the request for an exact test.
@@ -388,5 +391,21 @@ values, if the median is 0? It turns out that without additional conditions, we 
 What do we do? We must assume symmetry (i.e. no skew). With this additional condition, we expect the mean of *T* to also be the median of *T*. This 
 provides a valid test of the null hypothesis and also tells us which values to put in our rejection region: Those that are furthest from the median (or mean) of *T*. As always, we will put these in the direction that favors the alternative hypothesis and will work back toward the median of the distribution until we have put in as many values as we can without exceeding our tolerance for error.
 
-If you are thinking that we have now wandered into the realm of strong conditions for valid inference, you are partly correct, but only partly. There is no reason for pessimism. When we randomize members of matched pairs to conditions and the null hypothesis is true, the difference scores for these 
-pairs will be symmetrical, even if the original scores are not.
+If you are thinking that we have now wandered into the realm of strong conditions for valid inference, you are partly correct, but only partly. The requirement that the distribution be symmetrical is indeed a strong condition, though not as strong as necessitating that it be normally distributed. Yet 
+there is no reason for pessimism. When we randomize members of matched pairs to conditions and the null hypothesis is true, the difference scores for these 
+pairs will be symmetrical, even if the original scores are not. This is because 
+we expect similar numbers of positive and negative signs attached to the 
+quantities that represent those differences. These quantities should be the 
+same in the negative direction as they are in the positive direction. This 
+means that the symmetry requirement is addressed through randomization. In 
+practical terms, we can choose to view randomization, rather than symmetry, as 
+a condition for valid inference.
+
+Unfortunately, if we want to use these methods for either an observational 
+study (i.e., there has not been randomization) or to examine the properties of 
+a single sample of scores, rather than matched-pairs differences, we are 
+required to add symmetry as a condition for valid inference. This seriously 
+limits the practical usefulness of the methods in non-experimental settings. 
+In this case, we have two reasonable choices. (I don't consider expecting 
+symmetry to be a reasonable choice.) One is to ignore the quantities by switching to the sign test. Recall that the conditions for valid inference with the sign test are very easy to jusitify in most research settings. The second choice is to obtain a large sample and use a large-sample approximation. You should feel quite comfortable with large-sample approximate calculations, as 
+you will discover when you read the next section.

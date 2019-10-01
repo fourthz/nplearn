@@ -4,10 +4,12 @@
 \alias{rand_dist}
 \title{Randomization Test Distribution}
 \usage{
-rand_dist(x)
+rand_dist(x, show.all = TRUE)
 }
 \arguments{
 \item{x}{double}
+
+\item{show.all}{boolean}
 }
 \value{
 output
