@@ -22,7 +22,7 @@ situations in which this simple test can provide an opportunity for inference.
 
 The packages needed for this vignette are the nplearn and DescTools packages.
 
-```{r setup}
+```{r setup, echo = TRUE, message = FALSE}
 library(nplearn)
 library(DescTools)
 ```
