@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9009</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9010</span>
       </span>
     </div>
 
@@ -66,6 +66,9 @@
     </li>
     <li>
       <a href="../articles/randomization.html">Randomization Tests</a>
+    </li>
+    <li>
+      <a href="../articles/ReplaceScores.html">Replacement Scores</a>
     </li>
     <li>
       <a href="../articles/signtest.html">The Sign Test</a>
@@ -195,10 +198,10 @@
 <a href="#random-variates" class="anchor"></a>Random variates</h3>
 <p>R also has (r) functions for many distributions (e.g., rnorm and rbern). These provide us a specified number of randomly seleted values from the corresponding distribution. These are known as “random variates”. This will be very handy when we study concepts such as Monte Carlo methods.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1] -2.1103707  0.4698937 -0.5272579 -0.1221517  0.0620785  0.7662863</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [7] -0.1004652  1.5829366  0.1003272  0.4926329</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1] -0.5031643 -1.5830600 -0.1707990  0.6788699  0.9706553  1.8555747</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [7] -1.7579509  2.4064340 -0.6019249 -0.7880243</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="kw">rbern</span>(<span class="dv">10</span>, <span class="fl">0.7</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 0 1 1 1 0 1 0 1</span></span></code></pre></div>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 1 0 1 1 0 1 0 0</span></span></code></pre></div>
 </div>
   </div>
 
