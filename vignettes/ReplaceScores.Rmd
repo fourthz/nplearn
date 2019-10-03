@@ -1,0 +1,209 @@
+---
+title: "Replacement Scores"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Replacement Scores}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+We can conduct a matched-pair randomization test using only the sign of the 
+differences, or we can also consider the magnitude of the difference. We can 
+also replace the magnitude of the difference with another score that is 
+related to this magnitude such that the order or sign of the differences are 
+not changed. In this vignette we will discuss two possible replacement scores 
+and examine some reasons why we might want to replace our original measures of 
+the magnitude of a difference.
+
+### Required packages
+
+The only package required for this vignette is nplearn.
+
+```{r setup}
+library(nplearn)
+```
+
+### The Wilcoxon signed ranks test
+
+A disadvantage of the Fisher-Pitman permutation test is that with even 
+moderately-sized samples the number of possible permutations can grow large so 
+that calculations are prohibitive. Let's look at a little table showing the 
+number of differences and the number of possible permutations associated with 
+that number of differences.
+
+```{r}
+differences <- 2:50
+num.perms <- 2^differences
+noquote(cbind(differences, format(num.perms, scientific = FALSE)))
+```
+
+Even with 50 difference scores we are into territory where calculation time 
+might become a factor. I'm going to make the assumption that we can do the 
+calculations for 10,000,000 permutations per second.
+
+```{r}
+2^50/10000000/60/60/24/365
+```
+
+Although 3.6 years might seem worth it for a study of high scientific value, we 
+wouldn't want to do this too often. If we repeat the study with a different set 
+of numbers, we have to do the calculations all over again. (Can you imagine 
+being about two years into your wait for the calculations to be done when you 
+suddenly discover a typo in your data set?!)
+
+One solution to the problem is to replace our original scores with ranks. Just 
+as with the Fisher-Pitman permutation test, we order the scores (now we will 
+use ranks instead of scores) without regard to the observed sign. Once we have 
+done this, we can then look at all possible permutations of signs. We again use the sum of the positive scores (i.e., ranks) as our test statistic. As it is 
+when we use scores, and using the same hypotheses, if the null hypothesis is true, we expect the sum of positive ranks to equal the sum of negative ranks, 
+but with opposite signs. If the null hypothesis is not true, we would expect 
+the sum of positive ranks to become either larger or smaller than we would 
+expect.
+
+Here are the data from the fertilizer study.
+
+```{r}
+fruit <- data.frame(A = c(82, 91, 74, 90, 66, 81),
+                    B = c(85, 89, 81, 96, 65, 93))
+
+cbind(fruit$A, fruit$B)
+A.minus.B <- fruit$A - fruit$B
+A.minus.B
+```
+
+Here are the ranks for these data, without regard to sign.
+
+```{r}
+abs.fruit.rank <- rank(abs(A.minus.B))
+abs.fruit.rank
+```
+
+Now let's attach signs to them.
+
+```{r}
+fruit.rank <- sign(A.minus.B)*abs.fruit.rank
+fruit.rank
+```
+
+Our test statistic is the sum of positive ranks.
+
+```{r}
+test.statistic <- sum(fruit.rank[fruit.rank > 0])
+test.statistic
+```
+
+Let's look at the distrbution of the test statistic when the null hypothesis 
+is true. Notice that we are doing just what we did for the Fisher-Pitman test, 
+but this time we are using ranks instead of the original scores.
+
+```{r}
+rand_dist(fruit.rank)
+```
+
+Let's clean up the table a bit by combining redundant values.
+
+```{r}
+rand_dist(fruit.rank, show.all = FALSE)
+```
+
+As we would expect, the highest probability under the null hypothesis is smack 
+in the middle of the distribution: 10 and 11. We observed a value of 3. If we 
+use a maximum Type I error rate of 0.10 (a confidence level of 90%), we are unable to reject this null hypothesis in favor of this alternative hypothesis.
+
+$H_0: \theta_d = 0$
+
+$H_a: \theta_d \ne 0$
+
+If we had been conducting a confirmatory test that Fertilizer B included 
+improvements that we expected would make it more effective, we would use these 
+hypotheses.
+
+$H_0: \theta_d = 0$
+
+$H_a: \theta_d < 0$
+
+In this case, with a maximum Type I error rate of 0.10, we would be able to 
+reject the null hypothesis in favor of the alternative hypothesis. Note that 
+the direction of the alternative hypothesis is determined by the direction of 
+subtraction in order to obtain our difference scores.
+
+So what advantage have we gained by using ranks instead of the observed differences? There are several, but we will discuss one of these right now and hold off on the others for later discussion. Recall our 3.6 year wait for 
+obtaining the distribution when we have 50 paired differences? Using the Wilcoxon signed rank test, we only have to do that once. Why? Because everytime we have 50 paired differences, the ranks will be the same. So one 3.6 year wait is all that we need to compute the distribution of the test statistic that can then be used for all time. We might envision running a bunch of computers for several years, using different sample sizes, and then publishing these distributions. In fact, that's been done! You and I don't have to wait.
+
+We have a function in R that can do the Wilcoxon test for us, so let's use it. Note that we don't have to convert to ranks first because it will do that for us.
+
+```{r}
+wilcox.test(A.minus.B)
+```
+
+The *p* value is what we obtained above. Yay!
+
+We can also provide the observations from the separate fruit trees, but be careful. There is also a Wilcoxon test for two independent samples and that's not what we want here. We need to specify that we want a paired test. When you 
+enter two sets of observations, the default is a two-sample test calculation.
+
+```{r}
+wilcox.test(fruit$A, fruit$B, paired = TRUE)
+```
+
+We can, of course, use this for a one-sided test.
+
+```{r}
+wilcox.test(fruit$A, fruit$B, paired = TRUE, alternative = "less")
+```
+
+What about if we use very large sample sizes? In that case, the function will 
+switch to an approximation. (We will discuss large-sample approximations 
+later.) It uses 50 as the cut-off. Up to 50, it will use an exact test. For 50 and over, it will use an approximation. We can force an exact test in these 
+larger sample settings, but will it work? Let's try it.
+
+```{r}
+# Obtain 60 observations from trees with Fertilizer A. I'm going to assume that 
+# these observations are normally distributed.
+
+large.A <- rnorm(60, mean = 80, sd = 10)
+
+# Do it again for Fertilizer B. I'm going to assume that we obtain an average 
+# of 3 more bushels of fruit from this tree.
+
+large.B <- rnorm(60, mean = 83, sd = 10)
+
+# Let's suppose we are doing confirmatory research, so we'll do a one-sided 
+# test. Now we hold our breath and hope that we aren't holding it for 400 
+# years.
+
+wilcox.test(large.A, large.B, paired = TRUE, alternative = "less", exact = TRUE)
+
+```
+
+Wow! It did it, and fast! Let's see how this compares to if we had just let the 
+function do the large-sample approximation.
+
+```{r}
+wilcox.test(large.A, large.B, paired = TRUE, alternative = "less")
+```
+
+This is quite good, which is why the function switches to the large-sample 
+approximation at 50. We know that the Fisher-Pitman permutation test with
+original scores would take way too long for us to do in our lifetime. (Maybe 
+grandchildren could get our results off the printer and help establish our 
+lebacy!) Yet we also know that the *t* test is a large-sample approxiamation 
+for the Fisher-Pitman permutation test, so let's see how those results compare. 
+
+```{r}
+t.test(large.A, large.B, paired = TRUE, alternative = "less")
+```
+
+Remember that we simulated this study using random numbers, so your results 
+will be different than mine, and my results will be different every time I go 
+through this vignette. What we do know is that *most of the time* we should 
+obtain a smaller *p* value with the *t* test. Why? Because we have exactly met the conditions for valid inference with the *t* test by simulating our data 
+using a normal distribution. I will venture, however, that most of the time 
+when you try this that your results will not differ too drastically from what 
+you are obtaining with the Wilcoxon test.
