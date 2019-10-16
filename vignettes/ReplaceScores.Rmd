@@ -383,3 +383,14 @@ SignTest(A.minus.B, conf.level = 0.90)
 
 This is wider than the interval we obtained with the Wilcoxon method, which is to be expected when the data are symmetrical. If the data were normal, we could obtain an even narrower interval with the *t* test, but we shouldn't go there unless we know we have normally distributed data.
 
+### The normal scores test
+
+Although ranks are among the most common replacement scores that we can use to test a hypothesis of interest, there are other possible replacement scores, including those that have a primary advantage of ranks; namely, that the scores are the same for every sample of the same sample size. The reason we should entertain the possibility of alternative replacement scores is that such scores may provide us more power for some distributions of the original scores. I will discuss that in more detail later. For now, let's look at another type of replacement scores: normal scores.
+
+In the early 1950s, the Dutch mathematician Bartel Leender van der Waerden proposed replacing scores with quantiles of the normal distribution and developed some statistical tests using these replacement scores. In honor of this insight, we refer to these as van der Waerden normal scores.
+
+For the one-sample test, we first compute 2n + 1 normal scores, where n is our sample size. This will give us n positive normal scores, and it is these scores that we use as our replacement values.
+
+
+
+Here is some code to calculate normal scores for our 
