@@ -387,10 +387,151 @@ This is wider than the interval we obtained with the Wilcoxon method, which is t
 
 Although ranks are among the most common replacement scores that we can use to test a hypothesis of interest, there are other possible replacement scores, including those that have a primary advantage of ranks; namely, that the scores are the same for every sample of the same sample size. The reason we should entertain the possibility of alternative replacement scores is that such scores may provide us more power for some distributions of the original scores. I will discuss that in more detail later. For now, let's look at another type of replacement scores: normal scores.
 
-In the early 1950s, the Dutch mathematician Bartel Leender van der Waerden proposed replacing scores with quantiles of the normal distribution and developed some statistical tests using these replacement scores. In honor of this insight, we refer to these as van der Waerden normal scores.
+In the early 1950s, the Dutch mathematician Bartel Leender van der Waerden proposed replacing scores with quantiles of the normal distribution and developed some statistical tests using these replacement scores. In honor of this insight, we refer to these as van der Waerden normal scores. Here is a picture to illustrate how we obtain normal scores. In this example, we obtain nine scores by partitioning the normal distribution into 10 equal areas. Each area is bounded by one or two quantiles. These quantiles are the normal scores.
 
-For the one-sample test, we first compute 2n + 1 normal scores, where n is our sample size. This will give us n positive normal scores, and it is these scores that we use as our replacement values.
+![*Figure 2*](normal scores.jpg)
 
+For the one-sample test, we first compute 2n + 1 normal scores, where n is our sample size. This will give us n positive normal scores, and it is these positive scores that we use as our replacement values. Here is some code to calculate normal scores for our small set of fertilizer differences.
 
+```{r}
+i <- 1:(2*6 + 1)
+n.scores <- qnorm(i/(2*6 + 2))
+n.scores
+```
 
-Here is some code to calculate normal scores for our 
+Notice that the area between any two of these scores is the same.
+
+```{r}
+pnorm(0.3661064) - pnorm(0.1800124)
+pnorm(1.0675705) - pnorm(0.7916386)
+```
+
+We have divided the normal distribution into 14 sections, each with the same area.
+
+```{r}
+14 * 0.07142858
+```
+
+We only want the positive scores for our replacement scores.
+
+```{r}
+n.scores <- n.scores[8:13]
+n.scores
+```
+
+We now order our fertilizer difference scores based on the absolute values of these differences.
+
+```{r}
+A.minus.B <- A.minus.B[order(abs(A.minus.B))]
+A.minus.B
+```
+
+Now that we have the order, we can attach the signs to our normal scores.
+
+```{r}
+n.scores <- n.scores*sign(A.minus.B)
+n.scores
+```
+
+Our test statistic is the sum of the positive difference scores.
+
+```{r}
+T <- sum(n.scores[n.scores > 0])
+T
+```
+
+Let's look at the distribution.
+
+```{r}
+rand_dist(n.scores)
+```
+
+We can calculate the *p* value.
+
+```{r}
+2 * 0.0625
+```
+
+The nplearn package contains a function for generating normal scores.
+
+```{r}
+norm_scores(A.minus.B)
+```
+
+Let's again draw larger random samples. This time I'll simulate normally distributed difference scores.
+
+```{r}
+# Obtain 60 normally distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.
+
+diff.scores <- rnorm(60, mean = 2, sd = 8)
+
+many.n.scores <- norm_scores(diff.scores)
+many.n.scores
+```
+
+Now we are in the same predicament that we were when we had original scores and wanted to do the Fisher-Pitman test with a large sample. We need to turn to a large-sample approximation.
+
+```{r}
+# Here is our observed value of the test statistic.
+
+TS <- sum(many.n.scores[many.n.scores > 0])
+
+# Here is the mean of T under the null hypothesis.
+
+mu.TS <- 0.5*sum(many.n.scores[many.n.scores > 0])
+
+# Here is the standard deviation of T.
+
+sd.TS <- sqrt(0.25*sum(many.n.scores[many.n.scores > 0]^2))
+
+# This is the Z score.
+
+z <- (TS - mu.TS)/sd.TS
+
+# This is the p value for a one-sided test.
+
+pnorm(z, lower.tail = FALSE)
+```
+
+Note that the "jumps" are all different sizes, so we can't incorporate a correction for continuity, though we did take into account the discrete nature of the data. 
+
+Under the null hypothesis, the normal scores are normally distributed. This means that we could use the t.test as a large-sample approximation. The difference is that we are assuming continuous, rather than discrete, data.
+
+```{r}
+t.test(diff.scores, alternative = "greater")
+```
+
+What if we had done this with normal scores? Given that we have a normal distribution, we should obtain approximately the same result.
+
+```{r}
+t.test(many.n.scores, alternative = "greater")
+```
+
+I am pleased with these last two results, but using the formula for a large-sample approximation with Z scores gives a result that startles me! I obtained this from a reputable textbook, but now I'm questioning whether it is right. I am going to investigate. In the meantime, I suggest that you use the *t* test for the large-sample approximation.
+
+What if the difference scores had *not* come from a normal distribution? In the next example, I'm going to draw them from a uniform distribution.
+
+```{r}
+# Obtain 60 uniformly distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.
+
+a <- (4-sqrt(768))/2
+b <- 4 - a
+
+diff.scores <- runif(60, a, b)
+
+many.n.scores <- norm_scores(diff.scores)
+```
+
+Now let's look at the results of the *t* test with original scores. Notice that the distribution is not normal, but it is symmetrical and we have enough scores to exceed the rule of thumb of 30 and the rule of thumb of 50.
+
+```{r}
+t.test(diff.scores)
+```
+
+Let's now use the normal scores.
+
+```{r}
+t.test(many.n.scores)
+```
+
+Should I be concerned that these *p* values are so different? No! We know that using the *t* test with the original scores should control our Type I error rate because the distribution is symmetrical and we have a large sample size. What we discover, however, is that by using the large-sample approximation to the nonparametric normal scores test, we obtain substantially more power. Take **that** all you bloggers who nonchalantly say that you get less power with nonparametric statistics! We'll explore this issue some more in our next section on relative efficiency.
