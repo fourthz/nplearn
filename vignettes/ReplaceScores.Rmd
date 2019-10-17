@@ -24,10 +24,12 @@ the magnitude of a difference.
 
 ### Required packages
 
-The only package required for this vignette is nplearn.
+The packages required for this vignette are nplearn, coin, and DescTools.
 
 ```{r setup}
 library(nplearn)
+library(coin)
+library(DescTools)
 ```
 
 ### The Wilcoxon signed ranks test
@@ -205,5 +207,331 @@ will be different than mine, and my results will be different every time I go
 through this vignette. What we do know is that *most of the time* we should 
 obtain a smaller *p* value with the *t* test. Why? Because we have exactly met the conditions for valid inference with the *t* test by simulating our data 
 using a normal distribution. I will venture, however, that most of the time 
-when you try this that your results will not differ too drastically from what 
-you are obtaining with the Wilcoxon test.
+when you try this with normally distributed data that your results will not differ too drastically from what you are obtaining with the Wilcoxon test. This 
+is surprising given that the *t* test is valid, and most powerful, when the sample comes from a normal distribution. We will discuss this further when we compare the power of competing methods.
+
+### Conditions for valid inference
+
+When we used original scores, rather than ranks, the permutation test was the 
+Fisher-Pitman permutation test. Here are the conditions for valid inference we 
+needed with the Fisher-Pitman test.
+
+1. The sample is randomly drawn from the population of interest.
+2. Pairs must be independent of one another.
+3. The scale of measurement is interval.
+4. The differences obtained within pairs are symmetrically distributed across pairs. This last condition can be achieved with randomization of pair members to the treatment and control conditions.
+
+The conditions for valid inference with the Wilcoxon signed ranks test are the same as those for the Fisher-Pitman permutation test. This leads to an 
+obvious question: Which should we use? Above we saw that we can use the Wilcoxon method for sample sizes that are too large for the Fisher-Pitman permutation method, at least in our lifetimes. Later we will answer the question for 
+situations in which both methods are possible.
+
+### The "problem" of ties
+
+I am going back to our original fertilizer example, but I'm going to alter the 
+scores a bit so that you can see how it creates a "problem."
+
+```{r}
+fruit$A2 <- c(82, 91, 74, 90, 66, 81)
+fruit$B2 <- c(85, 89, 80, 96, 65, 93)
+A2.minus.B2 <- fruit$A2 - fruit$B2
+cbind(fruit$A2, fruit$B2, A2.minus.B2)
+```
+
+Only one value changed slightly, yet this one change means that we have a tie 
+among our difference scores. Why is this important? If we are going to rank 
+the absolute value of the differences, as is required for the Wilcoxon method, 
+how do we rank the two values of -6? (Note that we would have also had a tie 
+if one of these was -6 and one was 6, because we rank the absolute values of 
+the scores.)
+
+At least three methods have been proposed for dealing with ties. These are:
+
+*Eliminate the tied values
+*Randomly assign the two ranks to the tied values
+*Use midranks
+
+The first of these options runs counter to a major pillar of science: Gather as much information as you can to better understand variable relationships. Throwing out data is rather distasteful. From a statistical point of view, we are not going to be happy about taking an already small sample of six pairs and throwing out one-third of the data to leave us with four pairs.
+
+Although the second method retains the data, it also means that two researchers with the exact same scores can arrive at two different results because they some of their results are due to chance outcomes. Although randomness is a powerful tool for both sampling and experimentation, we do not want to randomly select our findings, yet that is  what we are doing if we randomly assign ranks and then use a statistical method based on ranking.
+
+The third option addresses all of the concerns of the first two methods. All the data are retained and rankings are not left to chance. A midrank is simply the average of the ranks that would have been assigned to the scores if they were slightly different from each other. For example, look at the ranks that we assigned with our original fruit data.
+
+```{r}
+cbind(A.minus.B, abs.fruit.rank)
+```
+
+The values of -6 and -7 received the ranks of 4 and 5, respectively. Now that 
+the value of -7 has changed to -6, we still want to use the ranks of 4 and 5 because those are the correct ranks in the context of the other scores. Yet rather than throwing out or randomly assigning these ranks, we average them and 
+assign this average to both values. The ranking function in R accomplishes this task for us.
+
+```{r}
+fruit2.rank <- rank(abs(A2.minus.B2))
+fruit2.rank
+```
+
+We can look at the distribution of sums of all possible positive ranks, just as we did when we did not have ties.
+
+```{r}
+rand_dist(fruit2.rank, show.all = FALSE)
+```
+
+Here is the sum of positive ranks with our new fruit data.
+
+```{r}
+sum((A2.minus.B2 > 0)*A2.minus.B2)
+```
+
+Looking at 3 in the distribution, we can calculate our *p* value.
+
+```{r}
+.078125 * 2
+```
+
+The use of midranks makes so much sense and is the recommended method by many prominent nonparametric statisticians. So why are the other two methods even considered? Let's see what happens when we use the Wilcoxon test function with these data.
+
+```{r}
+wilcox.test(A2.minus.B2, exact = TRUE, conf.level = 0.90)
+```
+
+The function doesn't work! It provides a *p* value, but this is a large-sample approximation, and obviously we don't have a large sample. (Though, admittedly, that *p* value is not very far off.) The algorithm for the exact test that is programmed into many major statistical software packages assumes that there are no ties. Indeed, you can find textbooks that add a condition of either no ties or continuous data (so that you can't have ties) as a condition for valid inference. Yet we have just seen with our distribution that this condition is not necessary. Fortunately, we are using R and can access many additional functions that are not programmed into base R. Let's see what the coin package 
+does if we provide it these tied values. The coin package has a function for the Wilcoxon signed ranks test.
+
+```{r}
+wilcoxsign_test(fruit$A2 ~ fruit$B2, distribution = "exact")
+```
+
+That's the same *p* value we obtained. Yes! Notice this is now called the Wilcoxon-Pratt test. That's because Wilcoxon assumed no ties, but back in 1959, Pratt realized that you could use a distribution that includes midranks, just like we did, so that is implemented into the coin algorithm.
+
+Let's see if this can handle a larger problem, such as the one we looked at above. This time I'm going to round the numbers so that we have a good chance of getting tied ranks.
+
+```{r}
+# Obtain 60 observations from trees with Fertilizer A. I'm going to assume that 
+# these observations are normally distributed.
+
+large.A <- round(rnorm(60, mean = 80, sd = 10))
+
+# Do it again for Fertilizer B. I'm going to assume that we obtain an average 
+# of 3 more bushels of fruit from this tree.
+
+large.B <- round(rnorm(60, mean = 83, sd = 10))
+
+# Let's see if we have any ties.
+
+rank(abs(large.B - large.A))
+```
+
+Now let's see if the function works for us. Remember we did a one-sided test for this example.
+
+```{r}
+wilcoxsign_test(large.B ~ large.A,
+                distribution = "exact",
+                alternative = "greater")
+```
+
+Let's see how this *p* value compares to that of the *t* test.
+
+```{r}
+t.test(large.B - large.A, alternative = "greater")
+```
+
+Pretty close!
+
+### A confidence interval for the median
+
+We have already seen how to construct a confidence interval for the median using the sign test. If we have symmetry, as we do when we use matched pairs and randomize to conditions, we can obtain a narrower interval by constructing a confidence interval using the Wilcoxon test.
+
+#### Walsh averages
+
+The first step in confidence interval construction is to construct Walsh averages. A Walsh average is the average of a pair of scores. We will need to construct all Walsh averages for all pairs of difference scores. Let's use our 
+small fertilizer data set as an example. Here is a matrix of Walsh averages.
+
+![*Figure 1*](Walsh Averages.jpg)
+
+#### The Hodges-Lehmann median estimate
+
+Hodges and Lehmann showed that the median of Walsh averages is an estimate of the median of scores with strong statistical properties. Thus, in this example, here is the estimate of the median.
+
+```{r}
+median(c(-2, -1.5, -1, 0.5, 1, 3, 2, 2.5, 4.5, 6, 2.5, 3, 5, 6.5, 7,
+         5, 5.5, 7.5, 9, 9.5, 12))
+```
+
+This is a point estimate, which is useful information, but we seek an interval estimate that has an associated level of confidence. Look again at the distribution of the possible sum of positive ranks.
+
+```{r}
+rand_dist(c(1, 2, 3, 4, 5, 6), show.all = FALSE)
+```
+
+There's something interesting to note. The maximum possible sum of ranks is 21, which also happens to be the number of Walsh averages. Coincidence? No! This is always the case, and this knowledge leads to a simple method of confidence interval construction. Note in our distribution that we will reject (at the 90% confidence level) for values less than, or equal to, 2. We can translate this onto our chart of Walsh averages by rejecting the 2 lowest values and the 2 highest values in our table, then putting all other values in the confidence interval. This provides the following interval.
+
+$-1 \le \theta \le 9$
+
+Here is the calculation using the wilcox.test function.
+
+```{r}
+wilcox.test(A.minus.B,
+            alternative = "two.sided",
+            conf.int = TRUE,
+            conf.level = 0.90)
+```
+
+The subtraction was in the opposite direction of ours, but this is no matter as long as we interpret based on direction. Let's compare it to the interval using the sign test.
+
+```{r}
+SignTest(A.minus.B, conf.level = 0.90)
+```
+
+This is wider than the interval we obtained with the Wilcoxon method, which is to be expected when the data are symmetrical. If the data were normal, we could obtain an even narrower interval with the *t* test, but we shouldn't go there unless we know we have normally distributed data.
+
+### The normal scores test
+
+Although ranks are among the most common replacement scores that we can use to test a hypothesis of interest, there are other possible replacement scores, including those that have a primary advantage of ranks; namely, that the scores are the same for every sample of the same sample size. The reason we should entertain the possibility of alternative replacement scores is that such scores may provide us more power for some distributions of the original scores. I will discuss that in more detail later. For now, let's look at another type of replacement scores: normal scores.
+
+In the early 1950s, the Dutch mathematician Bartel Leender van der Waerden proposed replacing scores with quantiles of the normal distribution and developed some statistical tests using these replacement scores. In honor of this insight, we refer to these as van der Waerden normal scores. Here is a picture to illustrate how we obtain normal scores. In this example, we obtain nine scores by partitioning the normal distribution into 10 equal areas. Each area is bounded by one or two quantiles. These quantiles are the normal scores.
+
+![*Figure 2*](normal scores.jpg)
+
+For the one-sample test, we first compute 2n + 1 normal scores, where n is our sample size. This will give us n positive normal scores, and it is these positive scores that we use as our replacement values. Here is some code to calculate normal scores for our small set of fertilizer differences.
+
+```{r}
+i <- 1:(2*6 + 1)
+n.scores <- qnorm(i/(2*6 + 2))
+n.scores
+```
+
+Notice that the area between any two of these scores is the same.
+
+```{r}
+pnorm(0.3661064) - pnorm(0.1800124)
+pnorm(1.0675705) - pnorm(0.7916386)
+```
+
+We have divided the normal distribution into 14 sections, each with the same area.
+
+```{r}
+14 * 0.07142858
+```
+
+We only want the positive scores for our replacement scores.
+
+```{r}
+n.scores <- n.scores[8:13]
+n.scores
+```
+
+We now order our fertilizer difference scores based on the absolute values of these differences.
+
+```{r}
+A.minus.B <- A.minus.B[order(abs(A.minus.B))]
+A.minus.B
+```
+
+Now that we have the order, we can attach the signs to our normal scores.
+
+```{r}
+n.scores <- n.scores*sign(A.minus.B)
+n.scores
+```
+
+Our test statistic is the sum of the positive difference scores.
+
+```{r}
+T <- sum(n.scores[n.scores > 0])
+T
+```
+
+Let's look at the distribution.
+
+```{r}
+rand_dist(n.scores)
+```
+
+We can calculate the *p* value.
+
+```{r}
+2 * 0.0625
+```
+
+The nplearn package contains a function for generating normal scores.
+
+```{r}
+norm_scores(A.minus.B)
+```
+
+Let's again draw larger random samples. This time I'll simulate normally distributed difference scores.
+
+```{r}
+# Obtain 60 normally distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.
+
+diff.scores <- rnorm(60, mean = 2, sd = 8)
+
+many.n.scores <- norm_scores(diff.scores)
+many.n.scores
+```
+
+Now we are in the same predicament that we were when we had original scores and wanted to do the Fisher-Pitman test with a large sample. We need to turn to a large-sample approximation.
+
+```{r}
+# Here is our observed value of the test statistic.
+
+TS <- sum(many.n.scores[many.n.scores > 0])
+
+# Here is the mean of T under the null hypothesis.
+
+mu.TS <- 0.5*sum(many.n.scores[many.n.scores > 0])
+
+# Here is the standard deviation of T.
+
+sd.TS <- sqrt(0.25*sum(many.n.scores[many.n.scores > 0]^2))
+
+# This is the Z score.
+
+z <- (TS - mu.TS)/sd.TS
+
+# This is the p value for a one-sided test.
+
+pnorm(z, lower.tail = FALSE)
+```
+
+Note that the "jumps" are all different sizes, so we can't incorporate a correction for continuity, though we did take into account the discrete nature of the data. 
+
+Under the null hypothesis, the normal scores are normally distributed. This means that we could use the t.test as a large-sample approximation. The difference is that we are assuming continuous, rather than discrete, data.
+
+```{r}
+t.test(diff.scores, alternative = "greater")
+```
+
+What if we had done this with normal scores? Given that we have a normal distribution, we should obtain approximately the same result.
+
+```{r}
+t.test(many.n.scores, alternative = "greater")
+```
+
+I am pleased with these last two results, but using the formula for a large-sample approximation with Z scores gives a result that startles me! I obtained this from a reputable textbook, but now I'm questioning whether it is right. I am going to investigate. In the meantime, I suggest that you use the *t* test for the large-sample approximation.
+
+What if the difference scores had *not* come from a normal distribution? In the next example, I'm going to draw them from a uniform distribution.
+
+```{r}
+# Obtain 60 uniformly distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.
+
+a <- (4-sqrt(768))/2
+b <- 4 - a
+
+diff.scores <- runif(60, a, b)
+
+many.n.scores <- norm_scores(diff.scores)
+```
+
+Now let's look at the results of the *t* test with original scores. Notice that the distribution is not normal, but it is symmetrical and we have enough scores to exceed the rule of thumb of 30 and the rule of thumb of 50.
+
+```{r}
+t.test(diff.scores)
+```
+
+Let's now use the normal scores.
+
+```{r}
+t.test(many.n.scores)
+```
+
+Should I be concerned that these *p* values are so different? No! We know that using the *t* test with the original scores should control our Type I error rate because the distribution is symmetrical and we have a large sample size. What we discover, however, is that by using the large-sample approximation to the nonparametric normal scores test, we obtain substantially more power. Take **that** all you bloggers who nonchalantly say that you get less power with nonparametric statistics! We'll explore this issue some more in our next section on relative efficiency.
