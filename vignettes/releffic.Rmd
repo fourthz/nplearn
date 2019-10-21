@@ -14,7 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-An obvious question we will have when there are multiple methods for analyzing the same set of data is, "Which method is best?" We answer that question by looking at the relative efficiency of one method compared to another method when either method could be used to obtain our desired statistics, such as a *p* value or a confidence interval. In this vignette we will learn about two types of efficiencies and how they can be used to select the "best" method for conducting our analysis.
+An obvious question we will have when there are multiple methods for analyzing 
+the same set of data is, "Which method is best?" We answer that question by 
+looking at the relative efficiency of one method compared to another method 
+when either method could be used to obtain our desired statistics, such as a 
+*p* value or a confidence interval. In this vignette we will learn about two 
+types of efficiencies and how they can be used to select the "best" method for 
+conducting our analysis.
 
 ### Required packages
 
@@ -28,20 +34,80 @@ library(coin)
 
 ### Relative efficiency
 
+We know that the power of a procedure to be able to reject a statistical null 
+hypothesis about **no** treatment effect on the response variable, when indeed 
+the treatment **does** have an effect on the response variable, is based on 
+three variables: the size of the effect, the researcher's chosen maximum Type I 
+error rate, and the sample size. If there are at least two possible procedures 
+for testing the same null hypothesis, then the procedure that will offer the 
+most power after setting an effect size, a Type I error rate, and a sample 
+size, keeping all three of these the same for both procedures, is considered 
+the more efficient of the two procedures. We call this *relative efficiency* 
+because we are referring to the efficiency of one procedure relative to another 
+procedure.
 
+Power is related to the Type II error rate as follows.
 
+$Power = 1 - P(Type\ II\ error | H_1)$
 
-In the sign test vignette, I introduced the sign test as a special case of the 
-binomial test. This is an important special case because in a true experiment, 
-when members of a matched pair are randomly assigned to conditions, the null 
-hypothesis of no treatment effect will result in an expectation that in 50% of 
-the pairs we will observe an outcome that favors the control condition and in 
-50% of the pairs we will observe an outcome that favors the treatment condition.
-The expectation is a consequence of chance assignment. By contrast, if the 
-treatment has some positive effect, then we would expect a higher number of 
-positive treatment outcomes in the set of matched pairs.
+For a specific simple alternative hypothesis, power is inversly related to our 
+chosen Type II error rate. We also know, all else held constant, that as the 
+allowable Type I error rate is increased, the Type II error rate decreases, so 
+that an increase in the Type I error rate also increases power. Ideally, a 
+researcher wants to declare both the Type I and Type II error rates. The 
+treatment effect is unknown, but a researcher can hypothesize a specific 
+effect. In this case, the only unknown is the sample size. This is a desirable 
+state of affairs because sample size is the cost of doing business in social 
+and behavioral research based on the scientific method. A researcher is able to 
+declare a tolerance for both types of errors, provide the size of a treatment 
+effect that might be of interest, and the calculate what sample size will be 
+needed to achieve these goals.
+
+In this methodological framework, it makes sense to think of efficiency as the 
+relative sample size needed to achieve the stated goals. If two researchers 
+declare the same tolerance for Type I and Type II errors and state that same 
+treatment effect size of interest, then if one researcher is able to achieve 
+these goals with a smaller sample size, this researcher is conducting a more 
+efficient study. Rather than comparing two researchers, let's compare two 
+methods for testing the same null hypothesis against the same alternative 
+hypothesis. There is no reason to alter the Type I and Type II error rates 
+just because we are comparing methods, so these will be the same regardless of 
+method. The method that can maintain the error rates with the hypothesized 
+effect size and do so with the fewest number of units of analysis is the most 
+efficent method of the two methods. That is, it has higher relative efficiency 
+when compared to the second stated method.
+
+Efficiency is one of several considerations when choosing among methods. Most 
+obviously, if the two methods require two different sets of conditons for valid 
+inference, and if the researcher can ascertain that only one set of conditions 
+has been met, this should weigh heavily in the decision about methods. 
+Selecting a "more efficient" method that leads to inferential statements that 
+cannot be trusted is a bit like using "what tastes better" as a criterion for 
+nutrition. If nutrition is a concern, we should probably rely on factors more 
+directly associated with nutrition than personal taste preference, though we 
+are pleased when these align nicely. Similarly, if we select methods based on 
+our belief that we have met the conditions for valid inference, we are grateful 
+if those happen to be the ones that are more efficient.
+
+Unfortunately and all-too-often, the expertise of our colleagues and audience 
+may become a concern. We may discover that a more efficient method is also a 
+lesser-known method so that we have to explain our results, or perhaps even 
+justify our use of the method. When the relative efficiency of the lesser-known 
+method is associated with a very small increase in power for a similar sample 
+size, the researcher may consider it more prudent to stay with better-known 
+methods. Of course, I wouldn't advise this if the conditions for valid 
+inference are suspect for the better-known method. I also would not advise 
+ignoring that some lesser-known methods may more closely align with the 
+realities of our research conditions and can even provide power gains. It is 
+common to hear that "nonparametric procedures are less powerful," but saying it 
+does not make it true. This misconception may lead us to reference studies of 
+relative efficiency, but that is a small price to pay in order to match the 
+conditions of our study with those necessary for valid inference and to 
+potentially increase the power of our study.
 
 ### Local relative efficiency
+
+
 
 ### Asymptotic relative efficiency
 
