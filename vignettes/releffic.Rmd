@@ -1,0 +1,47 @@
+---
+title: "Relative Efficiency"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Relative Efficiency}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+An obvious question we will have when there are multiple methods for analyzing the same set of data is, "Which method is best?" We answer that question by looking at the relative efficiency of one method compared to another method when either method could be used to obtain our desired statistics, such as a *p* value or a confidence interval. In this vignette we will learn about two types of efficiencies and how they can be used to select the "best" method for conducting our analysis.
+
+### Required packages
+
+The packages required for this vignette are nplearn, DescTools, and coin.
+
+```{r setup, echo = TRUE, message = FALSE}
+library(nplearn)
+library(DescTools)
+library(coin)
+```
+
+### Relative efficiency
+
+
+
+
+In the sign test vignette, I introduced the sign test as a special case of the 
+binomial test. This is an important special case because in a true experiment, 
+when members of a matched pair are randomly assigned to conditions, the null 
+hypothesis of no treatment effect will result in an expectation that in 50% of 
+the pairs we will observe an outcome that favors the control condition and in 
+50% of the pairs we will observe an outcome that favors the treatment condition.
+The expectation is a consequence of chance assignment. By contrast, if the 
+treatment has some positive effect, then we would expect a higher number of 
+positive treatment outcomes in the set of matched pairs.
+
+### Local relative efficiency
+
+### Asymptotic relative efficiency
+
