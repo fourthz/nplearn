@@ -346,12 +346,6 @@ time with a smaller effect size.
 
 ```{r}
 
-# I'm going to initialize some arrays
-
-t.pvalue <- 1:10000
-w.pvalue <- 1:10000
-winner <- 1:10000
-
 for (i in 1:10000) {
   my.sample <- rnorm(70, mean = 0.2, sd = 1)
   t.result <- t.test(my.sample, alternative = "greater")
@@ -369,9 +363,9 @@ for (i in 1:10000) {
 sum(winner == "t")/10000
 ```
 
-
-
-
+Your results may vary, but I don't expect the *t* test to win as often in this 
+example as it did in the previous example. I'll explain why in the next 
+section.
 
 ### Asymptotic relative efficiency
 
