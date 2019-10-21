@@ -107,6 +107,270 @@ potentially increase the power of our study.
 
 ### Local relative efficiency
 
+When we speak of *local relative efficiency* (LRE), the term "local" is a 
+reference to the specific conditions of our study. Thus, parsing the terms in 
+this phrase, local relative efficiency is the description of the efficiency of 
+one  method when compared to another method for a specific set of circumstances.
+
+As an example, consider a matched-pair design with randomization where both 
+the original scores and the differences are from a normal distribution. (We 
+would expect the difference scores to also be normally distributed if the 
+effect of the treatment is uniformly applied across pairs so that the 
+distribution, as a whole, shifts one way or the other along the scale.) Now 
+let's assume that we are interested in a treatment effect of 0.3 standard 
+deviations. We believe this will be a positive affect that is reflected in a 
+positive distribution shift. To make life easier, we will say that the mean 
+difference (treatment minus control) is 0.3 and the standard deviation is 1. We 
+will use a Type I error rate of 0.05 and a Type II error rate of 0.20, which 
+translates to 80% power.
+
+Here is our null hypothesis.
+
+$H_0: \mu = 0$
+
+Here is our specific alternative hypothesis.
+
+$H_1: \mu = 0.3$
+
+We can use the mean or the median here because the distribution is symmetrical. 
+I'm going to use the mean to emphasize the alternatives that we have for 
+performing a hypothesis test in this very common setting.
+
+Base R has a function that we can use to determine the sample size for using 
+the *t* test, so let's use it and see what we get.
+
+```{r}
+power.t.test(delta = 0.3,
+             sd = 1,
+             sig.level = 0.05,
+             power = 0.8,
+             type = "paired",
+             alternative = "one.sided")
+```
+
+We need 70 pairs. Let's see how many pairs we would need for the sign test. 
+Unfortunately, this is not as easy as calling an R function. We can make life 
+easier by using large-sample approximations, so that's what we are going to do. 
+The fact that we need 70 pairs for the *t* test makes me feel good about 
+using a large-sample approximation. Keep in mind that we began with a normal 
+distribution, so we already know that the *t* test is the most powerful method 
+that we can use in this situation. Thus, we are going to need more than 70 
+matched pairs for any other test we consider, including the sign test.
+
+Here is how the power of the sign test looks for 70 matched pairs. (I'm also 
+ignoring the correction for continuity, again to make this easier to follow.) 
+We already know that we expect 50% of the signs to be plus signs when the null 
+hypothesis is true. What proportion of the scores do we expect to be plus signs 
+if we shift the mean (median) up 0.3? This leaves our null hypothesis 0.3 below 
+the true mean, so we can do this simple calculation.
+
+```{r}
+pnorm(-0.3, lower.tail = FALSE)
+```
+
+So I expect about 62% of the scores to be plus signs, rather than 50%. Let's 
+see if 62% is enough to give us 80% power to reject the null hypothesis of 50%. 
+(We already know what the answer will be!)
+
+```{r}
+# Here's our mean under H0
+h0.prop <- 0.5
+
+# Here's our mean under H1
+h1.prop <-pnorm(-0.3, lower.tail = FALSE)
+
+# Here's the se for pi_hat with n = 70
+h0.se <- sqrt(h0.prop * (1 - h0.prop) / 70)
+
+# Here's the critical value for rejecting H0 when n = 70
+cv <- qnorm(0.95, mean = h0.prop, sd = h0.se)
+
+# Here's the power for rejecting H0 when the mean increases by 3
+pnorm(cv, mean = h1.prop, sd = h0.se, lower.tail = FALSE)
+```
+
+We have about 63% power, so we have quite a ways to go. Let's do this all 
+again, but with sample sizes from 70 to 120. I'll keep track of power so that 
+we can look at the results.
+
+```{r}
+n <- 70:120
+
+# Here's the se for pi_hat
+h0.se <- sqrt(h0.prop * (1 - h0.prop) / n)
+
+# Here's the critical value for rejecting H0 when n = 70
+cv <- qnorm(0.95, mean = h0.prop, sd = h0.se)
+
+# Here's the power for rejecting H0 when the mean increases by 3
+pow <- pnorm(cv, mean = h1.prop, sd = h0.se, lower.tail = FALSE)
+
+# Let's put it together
+cbind(n, pow)
+```
+
+We hit it at 112. So now we can calculate the LRE.
+
+```{r}
+efficiency.s.t <- 70/112
+efficiency.s.t
+```
+
+So the LRE of the sign test to the *t* test in this particular situation is 
+0.625. This means that we need only about 63% the number of subjects if we are 
+doing the *t* test to get the same power as we would with the sign test. We 
+could have done it the other way around.
+
+```{r}
+efficiency.t.s <- 112/70
+efficiency.t.s
+```
+
+The relative efficiency of the *t* test to the sign test is 1.6. This means 
+that we would need 160% the number of subjects if we are doing the sign test to 
+get the same power as we would with the *t* test. This is no surprise because 
+the circumstances are ideal for the *t* test. The only surprise might be the 
+magnitude of the sample size difference.
+
+As you might have surmised, figuring local relative efficiency can take a bit 
+of work. The work load increases if we now move on to the Wilcoxon signed ranks 
+test, and increases further if we use exact distributions, which we should when 
+we can. Fortunately, there are two alternative approaches that we can take, 
+both of which involve simulation. Let's look at an easy method first, then 
+we will move to one that is a bit more sophisticated, but a bit more accurate, 
+and still simpler than actually calculating power for a variety of methods.
+
+The easy approach is to ignore the actual efficiency statistic, but instead 
+ask the question, "Which method is most powerful in this situation?" Let's take 
+this approach to compare the *t* test to the Wilcoxon signed ranks test in the 
+current setting. First, I'm going to draw a random sample of scores from a 
+normal distribution with the mean of 0.3 and a standard deviation of 1. Notice 
+that this is the distribution under the specific alternative hypothesis that 
+we posed above. I'm going to use the sample size of 70 that we calculated as 
+necessary for the *t* test to obtain 80% power, but we'll fiddle with this in 
+a moment.
+
+```{r}
+my.sample <- rnorm(70, mean = 0.3, sd = 1)
+```
+
+Now let's calculate both the *t* test and the Wilcoxon signed ranks test. For 
+this sample size, it doesn't much matter if we use the exact test for the 
+Wilcoxon or a large-sample approximation. I'm going to see if the exact test 
+works because I like using the exact test when it is available.
+
+```{r}
+t.test(my.sample, alternative = "greater")
+wilcox.test(my.sample, alternative = "greater", exact = TRUE, conf.int = TRUE)
+```
+
+Remember, results will vary. The first time I ran this, I obtained a smaller 
+*p* value and a narrower interval for the Wilcoxon test than I did for the *t* 
+test, yet I know that the *t* test has more power in this situation. What 
+happened? Remember that power is a probability calculation, so we are talking 
+about "in the long run." One random sample will not tell us what we need to 
+know. I'm going to do this again, but I'm going to repeat it 30 times. Each 
+time I'm going to track the p-value from each procedure.
+
+```{r}
+
+# I'm going to initialize some arrays
+
+t.pvalue <- 1:30
+w.pvalue <- 1:30
+winner <- 1:30
+
+for (i in 1:30) {
+  my.sample <- rnorm(70, mean = 0.3, sd = 1)
+  t.result <- t.test(my.sample, alternative = "greater")
+  w.result <- wilcox.test(my.sample, alternative = "greater", exact = TRUE)
+  t.pvalue[i] <- t.result$p.value
+  w.pvalue[i] <- w.result$p.value
+  
+  if (t.pvalue[i] < w.pvalue[i]) {
+    winner[i] = "t"
+  } else {
+    winner[i] = "w"
+  }
+}
+
+cbind(t.pvalue, w.pvalue, winner)
+```
+
+I kept track of which test resulted in the lowest *p* value each time. Let's 
+see how many time the *t* test was the winner. Again, remember that your 
+results will very likely be different.
+
+```{r}
+sum(winner == "t")
+```
+
+We are going to get various outcomes every time we try this. If you run it a 
+number of times, one thing should become clear: the Wilcoxon test is not a bad 
+option! It sure seems to be doing much better than what we had expected from 
+the sign test.
+
+Randomness and probability are still at work. Probability expectations are 
+based on the long run, so I'm going to simulate 10,000 samples. I don't want to 
+print those all out, so I'll just show the final result at the end.
+
+```{r}
+
+# I'm going to initialize some arrays
+
+t.pvalue <- 1:10000
+w.pvalue <- 1:10000
+winner <- 1:10000
+
+for (i in 1:10000) {
+  my.sample <- rnorm(70, mean = 0.3, sd = 1)
+  t.result <- t.test(my.sample, alternative = "greater")
+  w.result <- wilcox.test(my.sample, alternative = "greater", exact = TRUE)
+  t.pvalue[i] <- t.result$p.value
+  w.pvalue[i] <- w.result$p.value
+  
+  if (t.pvalue[i] < w.pvalue[i]) {
+    winner[i] = "t"
+  } else {
+    winner[i] = "w"
+  }
+}
+
+sum(winner == "t")/10000
+```
+
+The *t* test won more than half of the time, but again, the Wilcoxon doesn't 
+lose as much as we might have expected considering that we are replacing 
+observed quantities with the ranks of those quantities. Let's try this one more 
+time with a smaller effect size.
+
+```{r}
+
+# I'm going to initialize some arrays
+
+t.pvalue <- 1:10000
+w.pvalue <- 1:10000
+winner <- 1:10000
+
+for (i in 1:10000) {
+  my.sample <- rnorm(70, mean = 0.2, sd = 1)
+  t.result <- t.test(my.sample, alternative = "greater")
+  w.result <- wilcox.test(my.sample, alternative = "greater", exact = TRUE)
+  t.pvalue[i] <- t.result$p.value
+  w.pvalue[i] <- w.result$p.value
+  
+  if (t.pvalue[i] < w.pvalue[i]) {
+    winner[i] = "t"
+  } else {
+    winner[i] = "w"
+  }
+}
+
+sum(winner == "t")/10000
+```
+
+
+
 
 
 ### Asymptotic relative efficiency
