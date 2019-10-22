@@ -68,6 +68,9 @@
       <a href="../articles/randomization.html">Randomization Tests</a>
     </li>
     <li>
+      <a href="../articles/releffic.html">Relative Efficiency</a>
+    </li>
+    <li>
       <a href="../articles/ReplaceScores.html">Replacement Scores</a>
     </li>
     <li>
@@ -198,10 +201,10 @@
 <a href="#random-variates" class="anchor"></a>Random variates</h3>
 <p>R also has (r) functions for many distributions (e.g., rnorm and rbern). These provide us a specified number of randomly seleted values from the corresponding distribution. These are known as “random variates”. This will be very handy when we study concepts such as Monte Carlo methods.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.716757409  0.008110031  1.975344972 -1.617834506  1.543742334</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6] -0.239209395 -1.505894099 -0.466820384 -0.450224225 -0.170214710</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.006932532  0.427026515  0.126720260  0.471127135 -0.568306200</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6] -0.483780183  0.800939290 -0.149052686 -0.841404392  0.430587068</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="kw">rbern</span>(<span class="dv">10</span>, <span class="fl">0.7</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 0 0 1 1 0 0 1 0 1 1</span></span></code></pre></div>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 1 0 0 1 1 1 1 1 1</span></span></code></pre></div>
 </div>
   </div>
 
