@@ -2,6 +2,7 @@
 
 export(bern_plot)
 export(binom_plot)
+export(mult_dist)
 export(norm_scores)
 export(power_plot)
 export(rand_dist)
