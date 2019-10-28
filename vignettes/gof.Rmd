@@ -1,0 +1,180 @@
+---
+title: "Goodness of Fit"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Goodness of Fit}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+We use the binomial distribution when our measure consists of only two possible 
+outcomes, such as "pass" and "fail". Yet when we have a categorical response 
+variable, we might still have more than two potential outcomes. Examples of 
+this would be responses on a Likert scale, such as "Strongly Disagree", 
+"Disagree", "Agree", and "Strongly Agree", or the classification of a person's 
+political preference, such as "Democrat", "Republican", and "independent". This 
+vignette is about inference with a categorical response variable for which 
+there are at least two potential responses.
+
+### Required packages
+
+The packages required for this vignette are nplearn and EMT.
+
+```{r setup, echo = TRUE, message = FALSE}
+library(nplearn)
+library(EMT)
+```
+
+### The multinomial coefficient
+
+Consider a hypothetical scenario in which an instructor teaches five students 
+how to take notes about a lecture one of three ways: linear notes, outline 
+notes, or matrix notes. The students are provided opportunities to take and use 
+each of these note types, after which each student is asked to identify their 
+preferred notetaking type. The question of interest is whether one type of 
+notetaking is preferred over the other types.
+
+Consider *n* objects grouped into *k* mutually exclusive and exhaustive 
+subsets. The term *mutually exclusive* means that an object can be put in one 
+and only one subset. The term *exhaustive* means that we are considering all 
+subsets of interest so that the sum of the number of objects in all subsets is 
+equal to the total number of objects. The multinomial coefficient can be used 
+to calculate the number of unique permutations when subsets consist of like 
+objects. Here's the formula for the multinomial coefficient.
+
+$\binom{n}{x_1 \;x_2 \;... \;x_k}$
+
+In this equation, each *x* represents the number of objects in a particular 
+response category. For example, suppose we want to know how many permutations 
+of our seven student responses will involve 1 who prefers linear notes, 1 who 
+prefers outline notes, and 3 who prefer matrix notes. Here's the calculation.
+
+$\frac{5!}{1!1!3!}$
+
+```{r}
+factorial(5)/(factorial(1)*factorial(1)*factorial(3))
+```
+
+
+There are 20 different permutation of choices for these five students. You 
+likely noticed by now that the multinomial coefficient is simply an extension 
+of the binomial coefficient. Indeed, when we only have two possible response 
+categories, the formula becomes the formula for the binomial coefficient.
+
+$\binom{n}{x_1 \;x_2} = \frac{n!}{x!(n-x)!}$
+
+### The multinomial distribution
+
+Knowing that this is an extension of the binomial coefficient should lead you 
+to surmise that the multinomial distribution is an extension of the binomial 
+distribution, and indeed that is the case. A multinomial event is an event with 
+*k* possible outcomes that are mutually exclusive. The probability of one 
+ordering of multinomial events is the product of the individual event 
+probabilities. If there are *x* units in a category, then we can write the 
+formula for the probability of one ordering of multinomial events like this.
+
+$\left( \pi^{x_1}_1 \right)\left( \pi^{x_2}_2 \right)...\left( \pi^{x_k}_k \right)$
+
+Suppose in our notes example we hypothesize that each type of note is equally 
+liked in the population of notetakers. Then the probability of specific named 
+students responding such that one prefers linear, one prefers outline, and 
+three prefer matrix would be calculated like this.
+
+$\left( \frac{1}{3} \right)\left( \frac{1}{3} \right)\left( \frac{1}{3} \right)^3$
+
+```{r}
+(1/3)*(1/3)*(1/3)^3
+```
+
+
+Of course it doesn't matter to our study which particular student is in each of 
+the three conditions, as long as we know that the pattern is 1, 1, and 3. We 
+saw above that this pattern can occur 20 different ways with five students, so 
+our total probability of obtaining this pattern is the probability of one 
+particular ordering, multipled by 20.
+
+```{r}
+20*(1/3)*(1/3)*(1/3)^3
+```
+
+
+To construct the entire multinomial distribution, we have to consider all 
+possible outcomes. Thus, we have to vary the number in each group from 0 to 
+the total number of units, but do so in such a way that the total in all groups 
+is equal to the total number of units. For example, with our five students we 
+could have patterns like these.
+
+$5 \;0 \;0$
+$4 \;1 \;0$
+$2 \;2 \;1$
+
+But we could not have the following patterns, even though we are keeping the 
+number in each notetaking type no more than 5.
+
+$5 \;4 \;1$
+$3 \;3 \;3$
+
+These are not possible because the total number must sum to 5. Forunately, our 
+*nplearn* package has a function that will produce the entire multinomial 
+distribution. We have to send it our observation as well as our hypothesized 
+probability of preference for each note taking type.
+
+```{r}
+observed <- c(1, 1, 3)
+probs <- c(1/3, 1/3, 1/3)
+mult_dist(observed, probs)
+```
+
+If we sum these probabilities, we had better get unity!
+
+```{r}
+our.dist <- mult_dist(observed, probs)
+sum(our.dist$prob)
+```
+
+### The multinomial test
+
+A reasonable null hypothesis in our study of notetaking preference would be 
+this.
+
+$H_0: \pi_1 = \frac{1}{3} \;\pi_2 = \frac{1}{3} \;\pi_3 = \frac{1}{3}$
+
+That is, there is an equal probability of a particular notetaking type being 
+named as the preferred type. The alternative hypothesis here is that these 
+proportions are not all the same, because of course we are speculating that 
+one type may be preferred.
+
+If you look at the multinomial distribution, it is clear that with five 
+students we can't actually observe 1/3 preferring each type. The numbers just 
+don't work out for that possibility. We can get close, for example, 1, 1, and 
+2 would be close. We want to reject the null hypothesis when our observations 
+are most inconsistent with the null hypothesis. When is that? It's not obvious, 
+for example, whether an observation of 2, 3, 0 or an observation of 4, 1, 0 
+would be considered more inconsistent with the null hypothesis of preference 
+equality.
+
+To solve this dilemma, we can resurrect a statistic you likely learned about 
+in an earlier statistics course: $X^2$. Under the null hypothesis, we can 
+calculate the expected number of preferences for that notetaking type.
+
+$E(X_k) = n*P(X_k|H_0)$
+
+For example, if the null hypothesis is true, here's how many students we expect 
+to prefer outline notes.
+
+```{r}
+5 * (1/3)
+```
+
+There is no way to observe that many students preferring outline notes, but it 
+doesn't matter. What we are working on is obtaining an index of incompatibility 
+with the null hypothesis. Such an index does not need to be an integer, even 
+though students come in integer intervals.
+
