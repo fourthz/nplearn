@@ -35,6 +35,12 @@ mult_dist <- function(x, pd, chi2.sort = FALSE) {
     chi.sq <- apply(my.table, 1, my.fun.2)
     my.table <- cbind(my.table, prob, chi.sq)
     my.table <- my.table[order(my.table[,ncol(my.table)], decreasing = TRUE),]
+    cumul.prob <- cumsum(my.table[,ncol(my.table)-1])
+
+    my.table <- cbind(my.table[, 1:ncol(my.table)-1],
+                      cumul.prob,
+                      my.table[, ncol(my.table)])
+
   } else {
     my.table <- cbind(my.table, prob)
   }
