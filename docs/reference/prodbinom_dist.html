@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • nplearn</title>
+<title>Product Binomial Distribution — prodbinom_dist • nplearn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Product Binomial Distribution — prodbinom_dist" />
+
+<meta property="og:description" content="Product Binomial Distribution" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,27 +136,82 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Product Binomial Distribution</h1>
+    
+    <div class="hidden name"><code>prodbinom_dist.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="Bernoulli-Events.html">Bernoulli Events</a></li>
-        <li><a href="binomdist.html">The Binomial Distribution</a></li>
-        <li><a href="gof.html">Goodness of Fit</a></li>
-        <li><a href="lsprop.html">Large-Sample Proportion Inference</a></li>
-        <li><a href="OnePropExact.html">Exact Inference for a Single Proportion</a></li>
-        <li><a href="ProdBinom.html">The Product Binomial</a></li>
-        <li><a href="randomization.html">Randomization Tests</a></li>
-        <li><a href="releffic.html">Relative Efficiency</a></li>
-        <li><a href="ReplaceScores.html">Replacement Scores</a></li>
-        <li><a href="signtest.html">The Sign Test</a></li>
-        <li><a href="Workflow-Sample.html">Workflow Sample</a></li>
-      </ul>
+    <div class="ref-description">
+    
+    <p>Product Binomial Distribution</p>
+    
     </div>
+
+    <pre class="usage"><span class='fu'>prodbinom_dist</span>(<span class='no'>n1</span>, <span class='no'>n2</span>, <span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>two.sided</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>n1</th>
+      <td><p>integer</p></td>
+    </tr>
+    <tr>
+      <th>n2</th>
+      <td><p>integer</p></td>
+    </tr>
+    <tr>
+      <th>p1</th>
+      <td><p>double</p></td>
+    </tr>
+    <tr>
+      <th>p2</th>
+      <td><p>double</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>data frame of probability distribution</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>prodbinom_dist</span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>.5</span>, <span class='fl'>.4</span>, <span class='kw'>two.sided</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    pos1 pos2       delta  abs.delta    prob cumul.prob.up cumul.prob.down
+#&gt; 1     0    0  0.00000000 0.00000000 0.00675       0.00675         1.00000
+#&gt; 2     5    3  0.00000000 0.00000000 0.00200       0.00875         0.99325
+#&gt; 3     3    2 -0.06666667 0.06666667 0.09000       0.09875         0.99125
+#&gt; 4     2    1  0.06666667 0.06666667 0.13500       0.23375         0.90125
+#&gt; 5     1    1 -0.13333333 0.13333333 0.06750       0.30125         0.76625
+#&gt; 6     4    2  0.13333333 0.13333333 0.04500       0.34625         0.69875
+#&gt; 7     4    3 -0.20000000 0.20000000 0.01000       0.35625         0.65375
+#&gt; 8     1    0  0.20000000 0.20000000 0.03375       0.39000         0.64375
+#&gt; 9     2    2 -0.26666667 0.26666667 0.09000       0.48000         0.61000
+#&gt; 10    3    1  0.26666667 0.26666667 0.13500       0.61500         0.52000
+#&gt; 11    0    1 -0.33333333 0.33333333 0.01350       0.62850         0.38500
+#&gt; 12    5    2  0.33333333 0.33333333 0.00900       0.63750         0.37150
+#&gt; 13    2    0  0.40000000 0.40000000 0.06750       0.70500         0.36250
+#&gt; 14    3    3 -0.40000000 0.40000000 0.02000       0.72500         0.29500
+#&gt; 15    1    2 -0.46666667 0.46666667 0.04500       0.77000         0.27500
+#&gt; 16    4    1  0.46666667 0.46666667 0.06750       0.83750         0.23000
+#&gt; 17    2    3 -0.60000000 0.60000000 0.02000       0.85750         0.16250
+#&gt; 18    3    0  0.60000000 0.60000000 0.06750       0.92500         0.14250
+#&gt; 19    0    2 -0.66666667 0.66666667 0.00900       0.93400         0.07500
+#&gt; 20    5    1  0.66666667 0.66666667 0.01350       0.94750         0.06600
+#&gt; 21    1    3 -0.80000000 0.80000000 0.01000       0.95750         0.05250
+#&gt; 22    4    0  0.80000000 0.80000000 0.03375       0.99125         0.04250
+#&gt; 23    0    3 -1.00000000 1.00000000 0.00200       0.99325         0.00875
+#&gt; 24    5    0  1.00000000 1.00000000 0.00675       1.00000         0.00675</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
   </div>
 </div>
 
