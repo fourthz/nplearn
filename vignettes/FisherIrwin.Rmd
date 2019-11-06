@@ -1,0 +1,126 @@
+---
+title: "The Fisher-Irwin Test"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Fisher-Irwin Test}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+When we have two independent samples and a dichotomous response variable, our 
+interest is in the probability of a joint event in which there are some number 
+of successes in one sample and some number of successes in the other sample. 
+Other than the sample size, there is no restriction on how many successes can 
+occur in each sample. In some situations, however, the total number of 
+successes is known in advance. In that case,  the number of successes in our 
+two conditions are dependent on one another. Knowing the number of successes in 
+one condition will tell us the number in the other condition. In this vignette, 
+we turn our attention to analyzing data when the number of successes is known 
+prior to the start of the study.
+
+### Required packages
+
+The packages required for this vignette are nplearn and MASS. Make certain that 
+you have installed these packages before attempting to load the libraries.
+
+```{r setup}
+library(nplearn)
+library(MASS)
+```
+
+### The hypergeometric distribution
+
+In the *product binomial* vignette, we analyzed data obtained from two samples 
+created by randomizing 20 band students to morning and afternoon tryouts for 
+the all-state band. Let's again consider this scenario, but this time suppose 
+that these students all come from one school. The all-state band committee has 
+indicated how many students can be accepted from each school, based on school 
+size. For this school, only five slots can be filled by band members from the 
+school.
+
+Here are the (hypothetical) data.
+
+![*Figure 1*](FisherIrwin Band Results.jpg)
+
+As in the previous example, 20 students were randomly assigned to morning and 
+afternoon tryout conditions. The difference this time is that we know before 
+the tryouts even begin that there will be 5 successes. Notice that with this 
+knowledge we can fill in every margin in our table before we ever collect the 
+data. This is clearly not a product binomial problem because the number of 
+possible successes do not vary from 0 to 10 for each condition. The highest 
+number of successes that can occur in a condition is 5. Further, the number 
+of successes that can occur in the other condition is directly related to how 
+many there are in the first condition so that the numbers of successes must sum 
+to 5.
+
+We can conceive of the possibilities by focusing on just one cell in this four 
+cell crossbreak table. Let's focus on the upper left cell (morning successes). 
+This can range from 0 to 5 successes. Notice that whatever value we set this 
+cell to be in that range, the entire table can be completed. We already know 
+that we cannot calculate the probability of this table with the product 
+binomial formula, so what do we do?
+
+The answer is that under the null hypothesis of equal proportions of successes 
+in both morning and afternoon conditions, the probability of a particular value 
+of $\hat{\delta}$ is given by the hypergeometric formula. We can use a function 
+in R to make this calculation. For example, for our oberved data in Figure 1, 
+here is the probability calculation.
+
+```{r}
+dhyper(4, 10, 10, 5)
+```
+
+The entry of values is for obtaining the probability of randomly selecting 4 
+morning students out of 10 morning students when we also have 10 afternoon 
+students and there will be 5 slots to fill.
+
+Realizing that number of morning successes can only range from 0 to 5, and 
+also knowing that the remainder of the success will be in the afternoon, we 
+can create the entire probability distribution.
+
+```{r}
+morning.success <- 0:5
+afternoon.success <- 5 - morning.success
+delta.hat <- morning.success/10 - afternoon.success/10
+prob <- dhyper(morning.success, 10, 10, 5)
+cbind(morning.success, afternoon.success, delta.hat, prob)
+```
+
+Here's a check that these probabilities sum to 1.
+
+```{r}
+sum(prob)
+```
+
+Suppose we are looking for judging bias in either direction (i.e. favoring 
+either the morning or afternoon). Then we need to obtain our *p* value we need 
+to add up all the probabilities for absolute values of $\hat{\delta}$ that are 
+at least as great as our observed value of 0.3.
+
+```{r}
+sum(prob[abs(delta.hat) >= 0.3])
+```
+
+Clearly this is insufficient evidence to make claims of judging bias. If we had 
+set out to study whether there is bias in favor of morning sessions, we would 
+have just looked at one side of the distribution.
+
+```{r}
+sum(prob[delta.hat >= 0.3])
+```
+
+This still is probably not enough evidence for us to make bias accusations, 
+even though we did find that 40% of the morning students and only 10% of the 
+afternoon students were selected. The sample size is simply not large enough 
+for us to claim bias, even with this estimate of time-of-day effect.
+
+### A test for median equality
+
+Just as the sign test can be used 
