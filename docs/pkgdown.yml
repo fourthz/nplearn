@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   Bernoulli-Events: Bernoulli-Events.html
   binomdist: binomdist.html
+  FisherIrwin: FisherIrwin.html
   gof: gof.html
   lsprop: lsprop.html
   OnePropExact: OnePropExact.html
