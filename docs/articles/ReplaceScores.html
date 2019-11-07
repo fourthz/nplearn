@@ -59,6 +59,9 @@
       <a href="../articles/binomdist.html">The Binomial Distribution</a>
     </li>
     <li>
+      <a href="../articles/FisherIrwin.html">The Fisher-Irwin Test</a>
+    </li>
+    <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
     </li>
     <li>
@@ -354,7 +357,7 @@
 <span id="cb13-17"><a href="#cb13-17"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
 <span id="cb13-18"><a href="#cb13-18"></a><span class="co">#&gt; </span></span>
 <span id="cb13-19"><a href="#cb13-19"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#&gt; V = 802, p-value = 0.2051</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#&gt; V = 723, p-value = 0.07984</span></span>
 <span id="cb13-21"><a href="#cb13-21"></a><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></span></code></pre></div>
 <p>Wow! It did it, and fast! Let’s see how this compares to if we had just let the function do the large-sample approximation.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
@@ -362,7 +365,7 @@
 <span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; </span></span>
 <span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; V = 802, p-value = 0.2038</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; V = 723, p-value = 0.07931</span></span>
 <span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></span></code></pre></div>
 <p>This is quite good, which is why the function switches to the large-sample approximation at 50. We know that the Fisher-Pitman permutation test with original scores would take way too long for us to do in our lifetime. (Maybe grandchildren could get our results off the printer and help establish our lebacy!) Yet we also know that the <em>t</em> test is a large-sample approxiamation for the Fisher-Pitman permutation test, so let’s see how those results compare.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
@@ -370,13 +373,13 @@
 <span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  Paired t-test</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt; </span></span>
 <span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; t = -0.75936, df = 59, p-value = 0.2253</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; t = -1.6195, df = 59, p-value = 0.05533</span></span>
 <span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; alternative hypothesis: true difference in means is less than 0</span></span>
 <span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;      -Inf 1.649576</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;        -Inf 0.09385799</span></span>
 <span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; mean of the differences </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;                -1.37389</span></span></code></pre></div>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;               -2.948824</span></span></code></pre></div>
 <p>Remember that we simulated this study using random numbers, so your results will be different than mine, and my results will be different every time I go through this vignette. What we do know is that <em>most of the time</em> we should obtain a smaller <em>p</em> value with the <em>t</em> test. Why? Because we have exactly met the conditions for valid inference with the <em>t</em> test by simulating our data using a normal distribution. I will venture, however, that most of the time when you try this with normally distributed data that your results will not differ too drastically from what you are obtaining with the Wilcoxon test. This is surprising given that the <em>t</em> test is valid, and most powerful, when the sample comes from a normal distribution. We will discuss this further when we compare the power of competing methods.</p>
 </div>
 <div id="conditions-for-valid-inference" class="section level3">
@@ -502,11 +505,11 @@
 <span id="cb24-11"><a href="#cb24-11"></a><span class="co"># Let's see if we have any ties.</span></span>
 <span id="cb24-12"><a href="#cb24-12"></a></span>
 <span id="cb24-13"><a href="#cb24-13"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rank">rank</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A))</span>
-<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt;  [1] 25.0 53.5  3.0 48.5 20.0 34.0 34.0 52.0 55.5 20.0 17.0 34.0 39.5 25.0</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a><span class="co">#&gt; [15] 60.0  6.0 22.5 43.5 13.5  9.5 50.5 13.5 53.5 31.0 39.5 43.5 13.5 34.0</span></span>
-<span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt; [29] 48.5  6.0  1.0 58.0 29.0 34.0 43.5 29.0  3.0  9.5 37.5 17.0 20.0 59.0</span></span>
-<span id="cb24-17"><a href="#cb24-17"></a><span class="co">#&gt; [43] 27.0  6.0 55.5 17.0  3.0 43.5 29.0 46.5 13.5 57.0  9.5 25.0 50.5 37.5</span></span>
-<span id="cb24-18"><a href="#cb24-18"></a><span class="co">#&gt; [57] 22.5 46.5  9.5 41.0</span></span></code></pre></div>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt;  [1]  1.5 23.5 37.5 42.0 55.0 52.0 37.5  6.5 42.0 59.0 37.5 26.0 44.0 29.5</span></span>
+<span id="cb24-15"><a href="#cb24-15"></a><span class="co">#&gt; [15]  6.5 37.5 23.5 19.5 57.5  6.5  6.5 34.0 26.0 52.0 57.5 48.5 19.5 33.0</span></span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt; [29] 45.5 22.0 14.5 55.0 60.0 42.0 37.5 19.5 19.5 52.0 50.0 47.0 14.5  3.5</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="co">#&gt; [43] 37.5 14.5 31.5 14.5 26.0  1.5 28.0 45.5 55.0 48.5 10.0 14.5 29.5 10.0</span></span>
+<span id="cb24-18"><a href="#cb24-18"></a><span class="co">#&gt; [57] 10.0  3.5 14.5 31.5</span></span></code></pre></div>
 <p>Now let’s see if the function works for us. Remember we did a one-sided test for this example.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">wilcoxsign_test</span>(large.B <span class="op">~</span><span class="st"> </span>large.A,</span>
 <span id="cb25-2"><a href="#cb25-2"></a>                <span class="dt">distribution =</span> <span class="st">"exact"</span>,</span>
@@ -516,7 +519,7 @@
 <span id="cb25-6"><a href="#cb25-6"></a><span class="co">#&gt; </span></span>
 <span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt; data:  y by x (pos, neg) </span></span>
 <span id="cb25-8"><a href="#cb25-8"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt; Z = 2.0839, p-value = 0.01834</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt; Z = 3.0196, p-value = 0.001078</span></span>
 <span id="cb25-10"><a href="#cb25-10"></a><span class="co">#&gt; alternative hypothesis: true mu is greater than 0</span></span></code></pre></div>
 <p>Let’s see how this <em>p</em> value compares to that of the <em>t</em> test.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
@@ -524,13 +527,13 @@
 <span id="cb26-3"><a href="#cb26-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb26-4"><a href="#cb26-4"></a><span class="co">#&gt; </span></span>
 <span id="cb26-5"><a href="#cb26-5"></a><span class="co">#&gt; data:  large.B - large.A</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="co">#&gt; t = 2.4747, df = 59, p-value = 0.008114</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="co">#&gt; t = 3.0893, df = 59, p-value = 0.001529</span></span>
 <span id="cb26-7"><a href="#cb26-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
 <span id="cb26-8"><a href="#cb26-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a><span class="co">#&gt;  1.677782      Inf</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="co">#&gt;  2.708567      Inf</span></span>
 <span id="cb26-10"><a href="#cb26-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb26-11"><a href="#cb26-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb26-12"><a href="#cb26-12"></a><span class="co">#&gt;  5.166667</span></span></code></pre></div>
+<span id="cb26-12"><a href="#cb26-12"></a><span class="co">#&gt;       5.9</span></span></code></pre></div>
 <p>Pretty close!</p>
 </div>
 <div id="a-confidence-interval-for-the-median" class="section level3">
@@ -730,18 +733,18 @@
 <span id="cb41-4"><a href="#cb41-4"></a></span>
 <span id="cb41-5"><a href="#cb41-5"></a>many.n.scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(diff.scores)</span>
 <span id="cb41-6"><a href="#cb41-6"></a>many.n.scores</span>
-<span id="cb41-7"><a href="#cb41-7"></a><span class="co">#&gt;  [1]  0.02054758  0.04110384 -0.06167748 -0.08227727  0.10291203</span></span>
-<span id="cb41-8"><a href="#cb41-8"></a><span class="co">#&gt;  [6] -0.12359072 -0.14432239  0.16511628  0.18598182  0.20692866</span></span>
-<span id="cb41-9"><a href="#cb41-9"></a><span class="co">#&gt; [11]  0.22796670 -0.24910613 -0.27035748 -0.29173166 -0.31323996</span></span>
-<span id="cb41-10"><a href="#cb41-10"></a><span class="co">#&gt; [16] -0.33489417 -0.35670658  0.37869006 -0.40085811 -0.42322495</span></span>
+<span id="cb41-7"><a href="#cb41-7"></a><span class="co">#&gt;  [1]  0.02054758  0.04110384  0.06167748  0.08227727 -0.10291203</span></span>
+<span id="cb41-8"><a href="#cb41-8"></a><span class="co">#&gt;  [6]  0.12359072 -0.14432239 -0.16511628  0.18598182 -0.20692866</span></span>
+<span id="cb41-9"><a href="#cb41-9"></a><span class="co">#&gt; [11]  0.22796670  0.24910613  0.27035748 -0.29173166 -0.31323996</span></span>
+<span id="cb41-10"><a href="#cb41-10"></a><span class="co">#&gt; [16] -0.33489417  0.35670658 -0.37869006 -0.40085811  0.42322495</span></span>
 <span id="cb41-11"><a href="#cb41-11"></a><span class="co">#&gt; [21] -0.44580556  0.46861583  0.49167259  0.51499376 -0.53859848</span></span>
-<span id="cb41-12"><a href="#cb41-12"></a><span class="co">#&gt; [26] -0.56250721 -0.58674192  0.61132626 -0.63628579  0.66164818</span></span>
-<span id="cb41-13"><a href="#cb41-13"></a><span class="co">#&gt; [31]  0.68744352 -0.71370464  0.74046747  0.76777150  0.79566030</span></span>
-<span id="cb41-14"><a href="#cb41-14"></a><span class="co">#&gt; [36] -0.82418215  0.85339080 -0.88334633  0.91411630 -0.94577709</span></span>
-<span id="cb41-15"><a href="#cb41-15"></a><span class="co">#&gt; [41]  0.97841553 -1.01213103  1.04703818  1.08327016  1.12098304</span></span>
-<span id="cb41-16"><a href="#cb41-16"></a><span class="co">#&gt; [46]  1.16036154 -1.20162669 -1.24504624 -1.29094915 -1.33974621</span></span>
-<span id="cb41-17"><a href="#cb41-17"></a><span class="co">#&gt; [51]  1.39196028  1.44827204  1.50959209  1.57718007 -1.65285363</span></span>
-<span id="cb41-18"><a href="#cb41-18"></a><span class="co">#&gt; [56]  1.73938416 -1.84132620  1.96702501 -2.13468333  2.40003638</span></span></code></pre></div>
+<span id="cb41-12"><a href="#cb41-12"></a><span class="co">#&gt; [26]  0.56250721 -0.58674192 -0.61132626 -0.63628579  0.66164818</span></span>
+<span id="cb41-13"><a href="#cb41-13"></a><span class="co">#&gt; [31]  0.68744352  0.71370464 -0.74046747 -0.76777150  0.79566030</span></span>
+<span id="cb41-14"><a href="#cb41-14"></a><span class="co">#&gt; [36] -0.82418215 -0.85339080  0.88334633  0.91411630  0.94577709</span></span>
+<span id="cb41-15"><a href="#cb41-15"></a><span class="co">#&gt; [41] -0.97841553  1.01213103  1.04703818  1.08327016 -1.12098304</span></span>
+<span id="cb41-16"><a href="#cb41-16"></a><span class="co">#&gt; [46]  1.16036154  1.20162669 -1.24504624  1.29094915  1.33974621</span></span>
+<span id="cb41-17"><a href="#cb41-17"></a><span class="co">#&gt; [51]  1.39196028 -1.44827204 -1.50959209 -1.57718007  1.65285363</span></span>
+<span id="cb41-18"><a href="#cb41-18"></a><span class="co">#&gt; [56]  1.73938416  1.84132620  1.96702501 -2.13468333 -2.40003638</span></span></code></pre></div>
 <p>Now we are in the same predicament that we were when we had original scores and wanted to do the Fisher-Pitman test with a large sample. We need to turn to a large-sample approximation.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># Here is our observed value of the test statistic.</span></span>
 <span id="cb42-2"><a href="#cb42-2"></a></span>
@@ -762,7 +765,7 @@
 <span id="cb42-17"><a href="#cb42-17"></a><span class="co"># This is the p value for a one-sided test.</span></span>
 <span id="cb42-18"><a href="#cb42-18"></a></span>
 <span id="cb42-19"><a href="#cb42-19"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(z, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb42-20"><a href="#cb42-20"></a><span class="co">#&gt; [1] 2.379853e-06</span></span></code></pre></div>
+<span id="cb42-20"><a href="#cb42-20"></a><span class="co">#&gt; [1] 9.24191e-07</span></span></code></pre></div>
 <p>Note that the “jumps” are all different sizes, so we can’t incorporate a correction for continuity, though we did take into account the discrete nature of the data.</p>
 <p>Under the null hypothesis, the normal scores are normally distributed. This means that we could use the t.test as a large-sample approximation. The difference is that we are assuming continuous, rather than discrete, data.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(diff.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
@@ -770,26 +773,26 @@
 <span id="cb43-3"><a href="#cb43-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb43-4"><a href="#cb43-4"></a><span class="co">#&gt; </span></span>
 <span id="cb43-5"><a href="#cb43-5"></a><span class="co">#&gt; data:  diff.scores</span></span>
-<span id="cb43-6"><a href="#cb43-6"></a><span class="co">#&gt; t = 0.85912, df = 59, p-value = 0.1969</span></span>
+<span id="cb43-6"><a href="#cb43-6"></a><span class="co">#&gt; t = 0.73278, df = 59, p-value = 0.2333</span></span>
 <span id="cb43-7"><a href="#cb43-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
 <span id="cb43-8"><a href="#cb43-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb43-9"><a href="#cb43-9"></a><span class="co">#&gt;  -0.8181773        Inf</span></span>
+<span id="cb43-9"><a href="#cb43-9"></a><span class="co">#&gt;  -1.022303       Inf</span></span>
 <span id="cb43-10"><a href="#cb43-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb43-11"><a href="#cb43-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb43-12"><a href="#cb43-12"></a><span class="co">#&gt; 0.8656877</span></span></code></pre></div>
+<span id="cb43-12"><a href="#cb43-12"></a><span class="co">#&gt; 0.7983663</span></span></code></pre></div>
 <p>What if we had done this with normal scores? Given that we have a normal distribution, we should obtain approximately the same result.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(many.n.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
 <span id="cb44-2"><a href="#cb44-2"></a><span class="co">#&gt; </span></span>
 <span id="cb44-3"><a href="#cb44-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb44-4"><a href="#cb44-4"></a><span class="co">#&gt; </span></span>
 <span id="cb44-5"><a href="#cb44-5"></a><span class="co">#&gt; data:  many.n.scores</span></span>
-<span id="cb44-6"><a href="#cb44-6"></a><span class="co">#&gt; t = 0.70936, df = 59, p-value = 0.2404</span></span>
+<span id="cb44-6"><a href="#cb44-6"></a><span class="co">#&gt; t = 0.74944, df = 59, p-value = 0.2283</span></span>
 <span id="cb44-7"><a href="#cb44-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
 <span id="cb44-8"><a href="#cb44-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb44-9"><a href="#cb44-9"></a><span class="co">#&gt;  -0.1209491        Inf</span></span>
+<span id="cb44-9"><a href="#cb44-9"></a><span class="co">#&gt;  -0.1158517        Inf</span></span>
 <span id="cb44-10"><a href="#cb44-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb44-11"><a href="#cb44-11"></a><span class="co">#&gt;  mean of x </span></span>
-<span id="cb44-12"><a href="#cb44-12"></a><span class="co">#&gt; 0.08920956</span></span></code></pre></div>
+<span id="cb44-12"><a href="#cb44-12"></a><span class="co">#&gt; 0.09420378</span></span></code></pre></div>
 <p>I am pleased with these last two results, but using the formula for a large-sample approximation with Z scores gives a result that startles me! I obtained this from a reputable textbook, but now I’m questioning whether it is right. I am going to investigate. In the meantime, I suggest that you use the <em>t</em> test for the large-sample approximation.</p>
 <p>What if the difference scores had <em>not</em> come from a normal distribution? In the next example, I’m going to draw them from a uniform distribution.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Obtain 60 uniformly distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.</span></span>
@@ -806,26 +809,26 @@
 <span id="cb46-3"><a href="#cb46-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb46-4"><a href="#cb46-4"></a><span class="co">#&gt; </span></span>
 <span id="cb46-5"><a href="#cb46-5"></a><span class="co">#&gt; data:  diff.scores</span></span>
-<span id="cb46-6"><a href="#cb46-6"></a><span class="co">#&gt; t = 1.1616, df = 59, p-value = 0.2501</span></span>
+<span id="cb46-6"><a href="#cb46-6"></a><span class="co">#&gt; t = 2.4284, df = 59, p-value = 0.01823</span></span>
 <span id="cb46-7"><a href="#cb46-7"></a><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></span>
 <span id="cb46-8"><a href="#cb46-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb46-9"><a href="#cb46-9"></a><span class="co">#&gt;  -0.9420227  3.5495069</span></span>
+<span id="cb46-9"><a href="#cb46-9"></a><span class="co">#&gt;  0.4425482 4.5866827</span></span>
 <span id="cb46-10"><a href="#cb46-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb46-11"><a href="#cb46-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb46-12"><a href="#cb46-12"></a><span class="co">#&gt;  1.303742</span></span></code></pre></div>
+<span id="cb46-12"><a href="#cb46-12"></a><span class="co">#&gt;  2.514615</span></span></code></pre></div>
 <p>Let’s now use the normal scores.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(many.n.scores)</span>
 <span id="cb47-2"><a href="#cb47-2"></a><span class="co">#&gt; </span></span>
 <span id="cb47-3"><a href="#cb47-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb47-4"><a href="#cb47-4"></a><span class="co">#&gt; </span></span>
 <span id="cb47-5"><a href="#cb47-5"></a><span class="co">#&gt; data:  many.n.scores</span></span>
-<span id="cb47-6"><a href="#cb47-6"></a><span class="co">#&gt; t = 1.5319, df = 59, p-value = 0.1309</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a><span class="co">#&gt; t = 2.4264, df = 59, p-value = 0.01832</span></span>
 <span id="cb47-7"><a href="#cb47-7"></a><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></span>
 <span id="cb47-8"><a href="#cb47-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb47-9"><a href="#cb47-9"></a><span class="co">#&gt;  -0.05809654  0.43757827</span></span>
+<span id="cb47-9"><a href="#cb47-9"></a><span class="co">#&gt;  0.05123491 0.53319625</span></span>
 <span id="cb47-10"><a href="#cb47-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb47-11"><a href="#cb47-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb47-12"><a href="#cb47-12"></a><span class="co">#&gt; 0.1897409</span></span></code></pre></div>
+<span id="cb47-12"><a href="#cb47-12"></a><span class="co">#&gt; 0.2922156</span></span></code></pre></div>
 <p>Should I be concerned that these <em>p</em> values are so different? No! We know that using the <em>t</em> test with the original scores should control our Type I error rate because the distribution is symmetrical and we have a large sample size. What we discover, however, is that by using the large-sample approximation to the nonparametric normal scores test, we obtain substantially more power. Take <strong>that</strong> all you bloggers who nonchalantly say that you get less power with nonparametric statistics! We’ll explore this issue some more in our next section on relative efficiency.</p>
 </div>
   </div>

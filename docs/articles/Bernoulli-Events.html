@@ -59,6 +59,9 @@
       <a href="../articles/binomdist.html">The Binomial Distribution</a>
     </li>
     <li>
+      <a href="../articles/FisherIrwin.html">The Fisher-Irwin Test</a>
+    </li>
+    <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
     </li>
     <li>
@@ -207,10 +210,10 @@
 <a href="#random-variates" class="anchor"></a>Random variates</h3>
 <p>R also has (r) functions for many distributions (e.g., rnorm and rbern). These provide us a specified number of randomly seleted values from the corresponding distribution. These are known as “random variates”. This will be very handy when we study concepts such as Monte Carlo methods.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.67641046  0.65462009  1.20573715 -0.84452800 -0.05414026</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [6] -0.65755233 -0.49771309 -0.49731764 -1.02192990  1.95445185</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;  [1]  0.3883553 -0.1684386  0.3445030  0.1466162 -0.5501090  0.5191815</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [7]  0.2517160  0.9178946 -0.0961248 -0.4494754</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="kw">rbern</span>(<span class="dv">10</span>, <span class="fl">0.7</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 0 1 1 1 1 0 0 1 1 1</span></span></code></pre></div>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [1] 1 0 1 1 0 1 0 0 1 1</span></span></code></pre></div>
 </div>
   </div>
 

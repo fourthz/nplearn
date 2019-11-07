@@ -123,4 +123,172 @@ for us to claim bias, even with this estimate of time-of-day effect.
 
 ### A test for median equality
 
-Just as the sign test can be used 
+When the response variable for a single sample yields quantitative data, we can 
+use the sign test as a test of a hypothesis about the median. Similarly, the 
+Fisher-Irwin test can be used as a test of a hypothesis about the equality of 
+two medians.
+
+To exemplify this method, consider an example in which an independent 
+evaluation firm interviews employees at 12 companies and then, based on the 
+results of the interview, gives each company an "employee satisfaction score." 
+Some of these companies have put an employee feedback system (EFS) in place as 
+a means for employees to communicate concerns to management. The primary 
+question is whether companies with such systems have higher satisfaction scores 
+than those without such systems. We can view these companies as representing 
+a larger population of companies, some of which have EFS and some which do not. 
+Our interest is in whether the median satisfaction score is greater for 
+companies with feedback systems than for companies that have not implemented 
+such a system. Let's input the scores for this hypothetical example.
+
+```{r}
+efs <- c(8, 5, 8, 10, 9, 10, 11)
+no.efs <- c(4, 7, 7, 4, 5)
+```
+
+Here are the null and alternative hypotheses.
+
+$H_0: \theta_{efs} = \theta_{no \: efs}$
+
+$H_a: \theta_{efs} > \theta_{no \: efs}$
+
+If the null hypothesis is true, the two types of companies share the same 
+median, so to estimate this common median we can combine all scores.
+
+```{r}
+all.companies <- c(efs, no.efs)
+median(all.companies)
+```
+
+Let us now look at how many companies are above the median in each of the two 
+conditions.
+
+```{r}
+sum(efs > 7.5)
+sum(no.efs > 7.5)
+```
+
+With this information in hand, we can construct the following table.
+
+![*Figure 2*](efs example.jpg)
+
+As with the previous Fisher-Irwin example, all margin totals are known before 
+the interviews are conducted and the companies are scored. We know which of the 
+the companies have EFS in place, so the two sample sizes are known. The fact 
+that we have hypothesized a common median tells us that half of the companies 
+will be above the median and half will be below the median, so this margin is 
+known as well. We can think of being above the median as a "success" and being 
+below as a "failure," so this is the same type of situation as we had in the 
+Fisher-Irwin example, so we can use the hypergeometric distribution.
+
+```{r}
+efs.above <- 1:6
+no.efs.above <- 6 - efs.above
+delta.hat <- efs.above/7 - no.efs.above/5
+prob <- dhyper(efs.above, 7, 5, 6)
+cbind(efs.above, no.efs.above, delta.hat, prob)
+```
+
+This is a one-sided test, so we can see that for the observed difference in 
+proportions of 0.86, the *p* value is 0.0076. We can declare that EFS makes a 
+difference in employee satisfaction, though there is a caveat: the data are 
+from an observational study, rather than from an experiment. Extraneous 
+variables may be responsible for the satisfaction differences. For example, 
+suppose that the same companies that care enough about employee opinion to 
+solicit feedback are also the companies that care enough to implement other 
+employee-focused initiatives, such as break facility improvements or bonus 
+incentives. These may be responsible for the difference, rather than the EFS.
+
+Instead of looking at the full distribution, we can use a function that is 
+available in R.
+
+```{r}
+efs.table <- matrix(c(6, 0, 1, 5),
+                    nrow = 2,
+                    byrow = TRUE)
+
+fisher.test(efs.table, alternative = "greater")
+```
+
+We observe that the *p* value matches what we calculated earlier. We also 
+notice a confidence interval for the "odds ratio," so now would be a good time 
+to learn about this statistic.
+
+### The odds ratio
+
+In the previous example, the estimated proportion of EFS companies that are 
+above the median company satisfaction score is 6/7, or 0.86. For the non-EFS 
+companies it is 0/5, or 0. The odds of a specified outcome is the ratio of 
+the expected frequency of that outcome to that of another outcome. In the 
+current example, this would be the expected frequency of a company being above 
+the median to that of being below the median. Obviously we don't know this 
+expected frequency. It is a population value. What we do know, however are the 
+observed frequencies, so we can use these to estimate the population values.
+
+The odds of an EFS company being above the median are estimated to be 6 to 1, 
+because 6 companies are above the median and 1 is below. If we consider this 
+as a ratio, this is 6/1, or 6. This means that there is a six times greater 
+chance for an EFS company being above the median than below the median.
+
+Estimating the odds for a non-EFS company gives us a peculiar result: It is 0 
+to 5, or 0/5, or 0. Stating that there is a "0 times greater chance" of being 
+above the median than below the median is likely due to the small sample size. 
+We would assume that with a larger number of companies, we would find some of 
+them above the median satisfaction score, even if they had not implemented a 
+feedback system.
+
+The ratio of the odds, better known as the *odds ratio* is quite simply a ratio 
+of these two odds. In the current example, we have (6/1)/(0/5). Again, we get a 
+peculiar result due to the small sample size: 6/0. Dividing a number by 0 gives 
+us an infinite result, which is why the odds ratio reported by the function 
+above is listed as "inf". Even with this peculiar result, the confidence 
+interval for the odds ratio was calculated as 2.4 to infinity. This means we 
+are 95% confident that for the population of companies, implementation of an 
+EFS makes it between 2.4 times to "infinite times" more likely to result in 
+a satisfaction score that is above the median satisfaction score of all 
+companies.
+
+Let's do this again with the band data so that we can see an example without 
+the peculiarity of having "infinite" in our results. Remember that this was a 
+two-sided test because we were looking for judging bias in either direction.
+
+```{r}
+morning.odds <- 4/6
+afternoon.odds <- 1/9
+odds.ratio <- morning.odds/afternoon.odds
+odds.ratio
+```
+
+This tells us that based on our observed data, we estimate that the chance of 
+being selected for the all-state band is 6 times greater if you are judged in 
+the morning than if you are judged in the afternoon. This is substantial, but 
+remember that with the small sample size, this was not enough evidence to 
+conclude that this is judging bias. Let's look at it with the R function.
+
+```{r}
+band.table <- matrix(c(4, 1, 6, 9),
+                     nrow = 2,
+                     byrow = TRUE)
+
+fisher.test(band.table)
+```
+
+You may notice that the estimate of the odds ratio, about 5.5, is different 
+than the odds ratio that we obtained of 6. Why? The sample odds ratio (our 
+simple calculation above) can be calculated regardless of the number of 
+marginal values that are fixed. That is, it does not "know" that we specified 
+that there are only 5 slots available for the all-state band. If the judges 
+changed it to be 6 slots, we would still get the same estimate (6) of the odds 
+ratio. Yet how can this be? If there are fewer slots, the odds should change! 
+The way to deal with this is to calculate an odds ratio that is conditioned on 
+our fixed margins. Showing how to do this "by hand" is beyond what were we are 
+going to go, but that's OK because the R function is doing exactly that for us. 
+The estimate it reports is actually a better estimate than the simple one we 
+calculated above, so we just need to focus on interpretation. The chance of 
+success in a morning slot is about 5.5 times the chance of success in an 
+afternoon slot.
+
+Look at the confidence interval. It ranges from saying that the chance of 
+success in the morning is less than half the chance of success in the afternoon 
+all the way to the chance in the morning being 327 times the chance of success 
+in the afternoon! This huge interval is consistent with our large *p* value. 
+Clearly we could benefit from a larger sample.
