@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Product Binomial Distribution — prodbinom_dist • nplearn</title>
+<title>Two-Sample Exact Test Distribution — exact_twosamp_dist • nplearn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Product Binomial Distribution — prodbinom_dist" />
+<meta property="og:title" content="Two-Sample Exact Test Distribution — exact_twosamp_dist" />
 
-<meta property="og:description" content="Product Binomial Distribution" />
+<meta property="og:description" content="Two-Sample Exact Test Distribution" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -139,71 +139,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Product Binomial Distribution</h1>
+    <h1>Two-Sample Exact Test Distribution</h1>
     
-    <div class="hidden name"><code>prodbinom_dist.Rd</code></div>
+    <div class="hidden name"><code>exact_twosamp_dist.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Product Binomial Distribution</p>
+    <p>Two-Sample Exact Test Distribution</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>prodbinom_dist</span>(<span class='no'>n1</span>, <span class='no'>n2</span>, <span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>two.sided</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>exact_twosamp_dist</span>(<span class='no'>y</span>, <span class='no'>n</span>, <span class='kw'>duplicate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n1</th>
-      <td><p>integer</p></td>
+      <th>y</th>
+      <td><p>vector of scores</p></td>
     </tr>
     <tr>
-      <th>n2</th>
-      <td><p>integer</p></td>
+      <th>n</th>
+      <td><p>sample size of first sample</p></td>
     </tr>
     <tr>
-      <th>p1</th>
-      <td><p>double</p></td>
-    </tr>
-    <tr>
-      <th>p2</th>
-      <td><p>double</p></td>
+      <th>duplicate</th>
+      <td><p>Boolean to indicate inclusion of duplicates of statistic</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data frame of probability distribution</p>
+    <p>outputs exact distribution</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prodbinom_dist</span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>.5</span>, <span class='fl'>.4</span>, <span class='kw'>two.sided</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    pos1 pos2       delta  abs.delta    prob cumul.prob.up cumul.prob.down
-#&gt; 1     0    0  0.00000000 0.00000000 0.00675       0.00675         1.00000
-#&gt; 2     5    3  0.00000000 0.00000000 0.00200       0.00875         0.99325
-#&gt; 3     3    2 -0.06666667 0.06666667 0.09000       0.09875         0.99125
-#&gt; 4     2    1  0.06666667 0.06666667 0.13500       0.23375         0.90125
-#&gt; 5     1    1 -0.13333333 0.13333333 0.06750       0.30125         0.76625
-#&gt; 6     4    2  0.13333333 0.13333333 0.04500       0.34625         0.69875
-#&gt; 7     4    3 -0.20000000 0.20000000 0.01000       0.35625         0.65375
-#&gt; 8     1    0  0.20000000 0.20000000 0.03375       0.39000         0.64375
-#&gt; 9     2    2 -0.26666667 0.26666667 0.09000       0.48000         0.61000
-#&gt; 10    3    1  0.26666667 0.26666667 0.13500       0.61500         0.52000
-#&gt; 11    0    1 -0.33333333 0.33333333 0.01350       0.62850         0.38500
-#&gt; 12    5    2  0.33333333 0.33333333 0.00900       0.63750         0.37150
-#&gt; 13    2    0  0.40000000 0.40000000 0.06750       0.70500         0.36250
-#&gt; 14    3    3 -0.40000000 0.40000000 0.02000       0.72500         0.29500
-#&gt; 15    1    2 -0.46666667 0.46666667 0.04500       0.77000         0.27500
-#&gt; 16    4    1  0.46666667 0.46666667 0.06750       0.83750         0.23000
-#&gt; 17    2    3 -0.60000000 0.60000000 0.02000       0.85750         0.16250
-#&gt; 18    3    0  0.60000000 0.60000000 0.06750       0.92500         0.14250
-#&gt; 19    0    2 -0.66666667 0.66666667 0.00900       0.93400         0.07500
-#&gt; 20    5    1  0.66666667 0.66666667 0.01350       0.94750         0.06600
-#&gt; 21    1    3 -0.80000000 0.80000000 0.01000       0.95750         0.05250
-#&gt; 22    4    0  0.80000000 0.80000000 0.03375       0.99125         0.04250
-#&gt; 23    0    3 -1.00000000 1.00000000 0.00200       0.99325         0.00875
-#&gt; 24    5    0  1.00000000 1.00000000 0.00675       1.00000         0.00675</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>scores</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>9</span>, <span class='fl'>10</span>, <span class='fl'>12</span>, <span class='fl'>6</span>)
+<span class='fu'>exact_twosamp_dist</span>(<span class='no'>scores</span>, <span class='fl'>3</span>, <span class='kw'>duplicate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;       T.unique       prob    prob.up  prob.down
+#&gt;  [1,]       13 0.01785714 0.01785714 1.00000000
+#&gt;  [2,]       14 0.01785714 0.03571429 0.98214286
+#&gt;  [3,]       15 0.05357143 0.08928571 0.96428571
+#&gt;  [4,]       16 0.03571429 0.12500000 0.91071429
+#&gt;  [5,]       17 0.05357143 0.17857143 0.87500000
+#&gt;  [6,]       18 0.07142857 0.25000000 0.82142857
+#&gt;  [7,]       19 0.07142857 0.32142857 0.75000000
+#&gt;  [8,]       20 0.10714286 0.42857143 0.67857143
+#&gt;  [9,]       21 0.10714286 0.53571429 0.57142857
+#&gt; [10,]       22 0.07142857 0.60714286 0.46428571
+#&gt; [11,]       23 0.10714286 0.71428571 0.39285714
+#&gt; [12,]       24 0.03571429 0.75000000 0.28571429
+#&gt; [13,]       25 0.07142857 0.82142857 0.25000000
+#&gt; [14,]       26 0.07142857 0.89285714 0.17857143
+#&gt; [15,]       27 0.03571429 0.92857143 0.10714286
+#&gt; [16,]       28 0.03571429 0.96428571 0.07142857
+#&gt; [17,]       29 0.01785714 0.98214286 0.03571429
+#&gt; [18,]       31 0.01785714 1.00000000 0.01785714</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

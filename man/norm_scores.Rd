@@ -4,13 +4,15 @@
 \alias{norm_scores}
 \title{Normal Scores Generation}
 \usage{
-norm_scores(x)
+norm_scores(x, two.sample = FALSE)
 }
 \arguments{
-\item{x}{double}
+\item{x}{double with scores}
+
+\item{two.sample}{Boolean indicating one or two samples}
 }
 \value{
-double
+double with normal scores
 }
 \description{
 Calculate normal scores for a single sample.
