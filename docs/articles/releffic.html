@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9017</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
       </span>
     </div>
 
@@ -268,25 +268,25 @@
 <span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; </span></span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; data:  my.sample</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; t = 4.2821, df = 69, p-value = 2.932e-05</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; t = 2.8482, df = 69, p-value = 0.002895</span></span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
 <span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt;  0.2985466       Inf</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt;  0.1471843       Inf</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; 0.4888973</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; 0.3549777</span></span>
 <span id="cb9-13"><a href="#cb9-13"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; </span></span>
 <span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
 <span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; </span></span>
 <span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; data:  my.sample</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; V = 1899, p-value = 3.934e-05</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; V = 1692, p-value = 0.004015</span></span>
 <span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></span>
 <span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;  0.2808722       Inf</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;  0.1357387       Inf</span></span>
 <span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; (pseudo)median </span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt;      0.4745271</span></span></code></pre></div>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt;       0.341252</span></span></code></pre></div>
 <p>Remember, results will vary. The first time I ran this, I obtained a smaller <em>p</em> value and a narrower interval for the Wilcoxon test than I did for the <em>t</em> test, yet I know that the <em>t</em> test has more power in this situation. What happened? Remember that power is a probability calculation, so we are talking about “in the long run.” That is where our second approach to this problem comes into play. One random sample is a good “first guess” that will give us the right answer the majority of the time, but we would like a bit more confidence that we are choosing the best method. One trial will not tell us what we need to know. I’m going to do this again, but I’m going to repeat it 30 times. Each time I’m going to track the p-value from each procedure.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co"># I'm going to initialize some arrays</span></span>
@@ -311,39 +311,39 @@
 <span id="cb10-21"><a href="#cb10-21"></a></span>
 <span id="cb10-22"><a href="#cb10-22"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(t.pvalue, w.pvalue, winner)</span>
 <span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt;       t.pvalue               w.pvalue               winner</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt;  [1,] "0.0754837429319649"   "0.118222843383198"    "t"   </span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;  [2,] "0.0296866832690168"   "0.0689180624999345"   "t"   </span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt;  [3,] "0.44321867046039"     "0.550897090382937"    "t"   </span></span>
-<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt;  [4,] "0.000575739901672561" "0.000735795828440589" "t"   </span></span>
-<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt;  [5,] "0.00024786194517349"  "0.000370249486931519" "t"   </span></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt;  [6,] "3.29788117090469e-05" "3.25065831119535e-05" "w"   </span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt;  [7,] "0.0121669064325625"   "0.0116192606254906"   "w"   </span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt;  [8,] "0.0810683830791084"   "0.085038573768994"    "t"   </span></span>
-<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt;  [9,] "0.00114230636328794"  "0.00134819117380796"  "t"   </span></span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; [10,] "0.00968086790193005"  "0.0165264297540481"   "t"   </span></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; [11,] "0.0117418889853748"   "0.0121784766983408"   "t"   </span></span>
-<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; [12,] "0.00173045665284651"  "0.00168104503288045"  "w"   </span></span>
-<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; [13,] "4.59247849310688e-06" "1.13772301924586e-06" "w"   </span></span>
-<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; [14,] "0.0431849579308203"   "0.0572423832474495"   "t"   </span></span>
-<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt; [15,] "0.0152984512080951"   "0.0172800613389125"   "t"   </span></span>
-<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; [16,] "0.00332354044701654"  "0.00192955823915397"  "w"   </span></span>
-<span id="cb10-40"><a href="#cb10-40"></a><span class="co">#&gt; [17,] "0.0640319745801512"   "0.0788027953107409"   "t"   </span></span>
-<span id="cb10-41"><a href="#cb10-41"></a><span class="co">#&gt; [18,] "0.000834963498774605" "0.000801565714365454" "w"   </span></span>
-<span id="cb10-42"><a href="#cb10-42"></a><span class="co">#&gt; [19,] "0.0190627890918309"   "0.0375627249913713"   "t"   </span></span>
-<span id="cb10-43"><a href="#cb10-43"></a><span class="co">#&gt; [20,] "0.00810040545748463"  "0.0110821840622076"   "t"   </span></span>
-<span id="cb10-44"><a href="#cb10-44"></a><span class="co">#&gt; [21,] "0.0104101031040225"   "0.0258138236383988"   "t"   </span></span>
-<span id="cb10-45"><a href="#cb10-45"></a><span class="co">#&gt; [22,] "8.53447552170815e-06" "2.14111533970712e-05" "t"   </span></span>
-<span id="cb10-46"><a href="#cb10-46"></a><span class="co">#&gt; [23,] "0.00160439059713568"  "0.00340842410515218"  "t"   </span></span>
-<span id="cb10-47"><a href="#cb10-47"></a><span class="co">#&gt; [24,] "3.87568024561134e-05" "8.23669332620324e-05" "t"   </span></span>
-<span id="cb10-48"><a href="#cb10-48"></a><span class="co">#&gt; [25,] "0.00222031372252958"  "0.00581576056339025"  "t"   </span></span>
-<span id="cb10-49"><a href="#cb10-49"></a><span class="co">#&gt; [26,] "0.0207578009979697"   "0.0513857730045555"   "t"   </span></span>
-<span id="cb10-50"><a href="#cb10-50"></a><span class="co">#&gt; [27,] "0.00311653312979434"  "0.00447123502562157"  "t"   </span></span>
-<span id="cb10-51"><a href="#cb10-51"></a><span class="co">#&gt; [28,] "0.000259715687417374" "0.000443813069050921" "t"   </span></span>
-<span id="cb10-52"><a href="#cb10-52"></a><span class="co">#&gt; [29,] "0.000564842523633"    "0.000632382519287654" "t"   </span></span>
-<span id="cb10-53"><a href="#cb10-53"></a><span class="co">#&gt; [30,] "0.706698872885822"    "0.653774846394265"    "w"</span></span></code></pre></div>
+<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt;  [1,] "0.000138822266094206" "0.000232447256790864" "t"   </span></span>
+<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;  [2,] "0.125063366608448"    "0.118222843383198"    "w"   </span></span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt;  [3,] "0.00144148868747711"  "0.00225346814448058"  "t"   </span></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt;  [4,] "0.0344178085965792"   "0.0471644859804495"   "t"   </span></span>
+<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt;  [5,] "0.0080277380449345"   "0.00366734338069509"  "w"   </span></span>
+<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt;  [6,] "0.0678118286571474"   "0.0621459062700678"   "w"   </span></span>
+<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt;  [7,] "3.89490330282524e-05" "9.36039618655065e-05" "t"   </span></span>
+<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt;  [8,] "0.059835108842731"    "0.0333901134920598"   "w"   </span></span>
+<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt;  [9,] "0.0010156357545054"   "0.000518884171845978" "w"   </span></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; [10,] "0.0417756411228206"   "0.0593057672229359"   "t"   </span></span>
+<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; [11,] "0.0269458946094055"   "0.0338342727170564"   "t"   </span></span>
+<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; [12,] "0.00278772064562933"  "0.00380321325781241"  "t"   </span></span>
+<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; [13,] "0.000210859228526598" "0.000414790289089773" "t"   </span></span>
+<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; [14,] "4.9156482767885e-06"  "5.18786602070307e-06" "t"   </span></span>
+<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt; [15,] "0.00252378093325931"  "0.00463301229317054"  "t"   </span></span>
+<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; [16,] "1.08671146766033e-05" "3.56648846112464e-06" "w"   </span></span>
+<span id="cb10-40"><a href="#cb10-40"></a><span class="co">#&gt; [17,] "0.00107410963003673"  "0.0035357857763132"   "t"   </span></span>
+<span id="cb10-41"><a href="#cb10-41"></a><span class="co">#&gt; [18,] "0.0216656790914035"   "0.0205904693267618"   "w"   </span></span>
+<span id="cb10-42"><a href="#cb10-42"></a><span class="co">#&gt; [19,] "0.0129886142814244"   "0.0188744237418072"   "t"   </span></span>
+<span id="cb10-43"><a href="#cb10-43"></a><span class="co">#&gt; [20,] "0.00689019967080486"  "0.00713397823955176"  "t"   </span></span>
+<span id="cb10-44"><a href="#cb10-44"></a><span class="co">#&gt; [21,] "0.0472954111610125"   "0.04161536005319"     "w"   </span></span>
+<span id="cb10-45"><a href="#cb10-45"></a><span class="co">#&gt; [22,] "0.275718306729471"    "0.27252265949079"     "w"   </span></span>
+<span id="cb10-46"><a href="#cb10-46"></a><span class="co">#&gt; [23,] "0.185739582527946"    "0.259137716946601"    "t"   </span></span>
+<span id="cb10-47"><a href="#cb10-47"></a><span class="co">#&gt; [24,] "0.0222651784657916"   "0.0188744237418072"   "w"   </span></span>
+<span id="cb10-48"><a href="#cb10-48"></a><span class="co">#&gt; [25,] "0.0411237039581855"   "0.0437688796601612"   "t"   </span></span>
+<span id="cb10-49"><a href="#cb10-49"></a><span class="co">#&gt; [26,] "0.000456137886501697" "0.000474679796088364" "t"   </span></span>
+<span id="cb10-50"><a href="#cb10-50"></a><span class="co">#&gt; [27,] "0.000754582207637273" "0.00126836940958496"  "t"   </span></span>
+<span id="cb10-51"><a href="#cb10-51"></a><span class="co">#&gt; [28,] "0.00311105229284793"  "0.00168104503288045"  "w"   </span></span>
+<span id="cb10-52"><a href="#cb10-52"></a><span class="co">#&gt; [29,] "0.00249352299110433"  "0.00299407793739524"  "t"   </span></span>
+<span id="cb10-53"><a href="#cb10-53"></a><span class="co">#&gt; [30,] "0.00405843755236271"  "0.00552157850718268"  "t"</span></span></code></pre></div>
 <p>I kept track of which test resulted in the lowest <em>p</em> value each time. Let’s see how many time the <em>t</em> test was the winner. Again, remember that your results will very likely be different.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 23</span></span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 19</span></span></code></pre></div>
 <p>We are going to get various outcomes every time we try this. If you run it a number of times, one thing should become clear: the Wilcoxon test is not a bad option! It sure seems to be doing much better than what we had expected from the sign test.</p>
 <p>Randomness and probability are still at work. Probability expectations are based on the long run, so I’m going to simulate 10,000 samples. I don’t want to print those all out, so I’ll just show the final result at the end.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a></span>
@@ -368,7 +368,7 @@
 <span id="cb12-20"><a href="#cb12-20"></a>}</span>
 <span id="cb12-21"><a href="#cb12-21"></a></span>
 <span id="cb12-22"><a href="#cb12-22"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb12-23"><a href="#cb12-23"></a><span class="co">#&gt; [1] 0.6357</span></span></code></pre></div>
+<span id="cb12-23"><a href="#cb12-23"></a><span class="co">#&gt; [1] 0.6361</span></span></code></pre></div>
 <p>The <em>t</em> test won more than half of the time, but again, the Wilcoxon doesn’t lose as much as we might have expected considering that we are replacing observed quantities with the ranks of those quantities. Let’s try this one more time with a smaller effect size.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a></span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
@@ -386,7 +386,7 @@
 <span id="cb13-14"><a href="#cb13-14"></a>}</span>
 <span id="cb13-15"><a href="#cb13-15"></a></span>
 <span id="cb13-16"><a href="#cb13-16"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="co">#&gt; [1] 0.5896</span></span></code></pre></div>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="co">#&gt; [1] 0.5925</span></span></code></pre></div>
 <p>Your results may vary, but I don’t expect the <em>t</em> test to win as often in this example as it did in the previous example. I’ll explain why in the next section.</p>
 </div>
 <div id="asymptotic-relative-efficiency" class="section level3">
@@ -430,7 +430,7 @@ high proportion of responses are clustered in the middle, yet we still have a nu
 <span id="cb15-14"><a href="#cb15-14"></a>}</span>
 <span id="cb15-15"><a href="#cb15-15"></a></span>
 <span id="cb15-16"><a href="#cb15-16"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt; [1] 0.4558</span></span></code></pre></div>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt; [1] 0.4516</span></span></code></pre></div>
 <p>We have a winner! Unless you obtained a peculiar outcome, which is possible, but not probable, it isn’t the <em>t</em> test. If this was my research study, I would analyze the data with the Wilcoxon. The confidence interval for the median is my preferred statistic here, but I know that with these kind of data, most of the time my interval will be narrower if I use the Wilcoxon test rather than the <em>t</em> test.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>lower.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">25</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>upper.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">35</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
@@ -443,10 +443,10 @@ high proportion of responses are clustered in the middle, yet we still have a nu
 <span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; V = 1830, p-value = 8.357e-12</span></span>
 <span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></span>
 <span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt;  3.959008      Inf</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt;  3.693186      Inf</span></span>
 <span id="cb16-13"><a href="#cb16-13"></a><span class="co">#&gt; sample estimates:</span></span>
 <span id="cb16-14"><a href="#cb16-14"></a><span class="co">#&gt; (pseudo)median </span></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt;        4.31778</span></span></code></pre></div>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt;       3.974818</span></span></code></pre></div>
 <p>The <em>p</em> value is meaningless here because it is for a test of a median of 0, which is ridiculous since that’s the edge of our scale. We could shift the distribution if we really want a <em>p</em> value, but I don’t need to. I want the confidence interval.</p>
 <p>One final word about ARE. Mathematicians have also calculated the lower limit of ARE for one procedure when compared to another. This tells us that no matter what the distribution, this is the lowest possible ARE. For example, the ARE for the Wilcoxon test when compared to the <em>t</em> test has a lower limit of 0.86. This means that if you can find the worst-case scenario for the Wilcoxon, the sample size for the <em>t</em> test can be 86% the sample size for the Wilcoxon to achieve the same power. That may seem like a big difference, but remember, this is the <em>worst-case scenario</em>. Also remember that you can only count on the <em>t</em> test to maintain the Type I error rate when the distribution is normal. For the Wilcoxon test, it only needs to be symmetrical (and even that restriction can be relaxed if you change the hypothesis to one of a stochastic increase, or decrease).</p>
 <p>Here’s a startling fact: the ARE for the Wilcoxon to the <em>t</em> test when the data are normally distributed is 0.96. That means, if you have a sample size of 50 and use the Wilcoxon for inference, you “only” need a sample size of 48 with the <em>t</em> test. That’s not much difference, and yet we we are assuming a normal distribution where the <em>t</em> test has home-field advantage! By contrast, if the distribution is a Laplace distribution (very high peak and heavier than normal tails), the ARE for the Wilcoxon is 1.5. That means if the sample size of the Wilcoxon is 50, you need 75 units with the <em>t</em> test to achieve the same power. Wow! Ranks rule! And don’t get me started on talking about how often our measures are such that we can be more confident in ranking than in creating a one-to-one correspondence of interval data with the scale of an underlying construct.</p>
