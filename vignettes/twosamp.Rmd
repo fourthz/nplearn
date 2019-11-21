@@ -141,9 +141,9 @@ the parametric *t* test for testing a hypothesis about the mean of two
 population distributions. As such, it has similar, but weaker, conditions for 
 valid inference.
 
-*Observations within each sample are independent of one another
-*The two samples are independent of one another
-*Population distributions have the same shape
+* Observations within each sample are independent of one another
+* The two samples are independent of one another
+* Population distributions have the same shape
 
 The first two of these are identical to the conditions necessary for valid 
 inference about population means when using the *t* test. The third condition 

@@ -66,16 +66,16 @@ means.
 The normal approach to analyzing such data is with one-factor analysis of 
 variance (ANOVA). The conditions for such inference to be valid are these.
 
-*Observations within conditions are independent of each other
-*The *K* conditions are independent of each other
-*The population of scores represented by participants in each condition have a 
+* Observations within conditions are independent of each other
+* The *K* conditions are independent of each other
+* The population of scores represented by participants in each condition have a 
 normal distribution
 
 The strongest of these conditions is that scores follow a normal distribution. 
 For inference using the Fisher-Pitman randomization test, we can replace this 
 with a weaker condition.
 
-*Population distributions have the same shape
+* Population distributions have the same shape
 
 This condition is going to be valid if the effect of any treatment is to 
 "shift" the distribution one way or the other. This will occur if the treatment 
@@ -381,5 +381,4 @@ an exact test for $\alpha$ of .10, .05, or .01. Once the sample size exceeds
 what is available in the tables, you can feel safer about using a mathematical 
 distribution (the chi-square distribution) for a large-sample approximation.
 
-### Multiple comparisons
 

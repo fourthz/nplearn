@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relative Efficiency • nplearn</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Relative Efficiency">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
+    </li>
+    <li>
+      <a href="../articles/ksamp.html">K-Sample Methods for Quantitative Data</a>
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
@@ -103,6 +107,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -121,9 +126,9 @@
 <h3 class="hasAnchor">
 <a href="#required-packages" class="anchor"></a>Required packages</h3>
 <p>The packages required for this vignette are nplearn, DescTools, and coin.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nplearn)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(DescTools)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(coin)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nplearn)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(DescTools)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(coin)</a></code></pre></div>
 </div>
 <div id="relative-efficiency" class="section level3">
 <h3 class="hasAnchor">
@@ -147,246 +152,246 @@
 <p><span class="math inline">\(H_1: \mu = 0.3\)</span></p>
 <p>We can use the mean or the median here because the distribution is symmetrical. I’m going to use the mean to emphasize the alternatives that we have for performing a hypothesis test in this very common setting.</p>
 <p>Base R has a function that we can use to determine the sample size for using the <em>t</em> test, so let’s use it and see what we get.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/power.t.test">power.t.test</a></span>(<span class="dt">delta =</span> <span class="fl">0.3</span>,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>             <span class="dt">sd =</span> <span class="dv">1</span>,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>             <span class="dt">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>             <span class="dt">power =</span> <span class="fl">0.8</span>,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>             <span class="dt">type =</span> <span class="st">"paired"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>             <span class="dt">alternative =</span> <span class="st">"one.sided"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; </span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;      Paired t test power calculation </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; </span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;               n = 70.06793</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;           delta = 0.3</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;              sd = 1</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;       sig.level = 0.05</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;           power = 0.8</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;     alternative = one.sided</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; </span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; </span><span class="al">NOTE</span><span class="co">: n is number of *pairs*, sd is std.dev. of *differences* within pairs</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/power.t.test.html">power.t.test</a></span>(<span class="dt">delta =</span> <span class="fl">0.3</span>,</a>
+<a class="sourceLine" id="cb2-2" title="2">             <span class="dt">sd =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb2-3" title="3">             <span class="dt">sig.level =</span> <span class="fl">0.05</span>,</a>
+<a class="sourceLine" id="cb2-4" title="4">             <span class="dt">power =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb2-5" title="5">             <span class="dt">type =</span> <span class="st">"paired"</span>,</a>
+<a class="sourceLine" id="cb2-6" title="6">             <span class="dt">alternative =</span> <span class="st">"one.sided"</span>)</a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;      Paired t test power calculation </span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;               n = 70.06793</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;           delta = 0.3</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;              sd = 1</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;       sig.level = 0.05</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;           power = 0.8</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;     alternative = one.sided</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; </span><span class="al">NOTE</span><span class="co">: n is number of *pairs*, sd is std.dev. of *differences* within pairs</span></a></code></pre></div>
 <p>We need 70 pairs. Let’s see how many pairs we would need for the sign test. Unfortunately, this is not as easy as calling an R function. We can make life easier by using large-sample approximations, so that’s what we are going to do. The fact that we need 70 pairs for the <em>t</em> test makes me feel good about using a large-sample approximation. Keep in mind that we began with a normal distribution, so we already know that the <em>t</em> test is the most powerful method that we can use in this situation. Thus, we are going to need more than 70 matched pairs for any other test we consider, including the sign test.</p>
 <p>Here is how the power of the sign test looks for 70 matched pairs. (I’m also ignoring the correction for continuity, again to make this easier to follow.) We already know that we expect 50% of the signs to be plus signs when the null hypothesis is true. What proportion of the scores do we expect to be plus signs if we shift the mean (median) up 0.3? This leaves our null hypothesis 0.3 below the true mean, so we can do this simple calculation.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="op">-</span><span class="fl">0.3</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.6179114</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="op">-</span><span class="fl">0.3</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] 0.6179114</span></a></code></pre></div>
 <p>So I expect about 62% of the scores to be plus signs, rather than 50%. Let’s see if 62% is enough to give us 80% power to reject the null hypothesis of 50%. (We already know what the answer will be!)</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Here's our mean under H0</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>h0.prop &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># Here's our mean under H1</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>h1.prop &lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="op">-</span><span class="fl">0.3</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co"># Here's the se for pi_hat with n = 70</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>h0.se &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(h0.prop <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>h0.prop) <span class="op">/</span><span class="st"> </span><span class="dv">70</span>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># Here's the critical value for rejecting H0 when n = 70</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(<span class="fl">0.95</span>, <span class="dt">mean =</span> h0.prop, <span class="dt">sd =</span> h0.se)</span>
-<span id="cb4-12"><a href="#cb4-12"></a></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co"># Here's the power for rejecting H0 when the mean increases by 3</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(cv, <span class="dt">mean =</span> h1.prop, <span class="dt">sd =</span> h0.se, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; [1] 0.6286129</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Here's our mean under H0</span></a>
+<a class="sourceLine" id="cb4-2" title="2">h0.prop &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb4-3" title="3"></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co"># Here's our mean under H1</span></a>
+<a class="sourceLine" id="cb4-5" title="5">h1.prop &lt;-<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="op">-</span><span class="fl">0.3</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co"># Here's the se for pi_hat with n = 70</span></a>
+<a class="sourceLine" id="cb4-8" title="8">h0.se &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(h0.prop <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>h0.prop) <span class="op">/</span><span class="st"> </span><span class="dv">70</span>)</a>
+<a class="sourceLine" id="cb4-9" title="9"></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co"># Here's the critical value for rejecting H0 when n = 70</span></a>
+<a class="sourceLine" id="cb4-11" title="11">cv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span>(<span class="fl">0.95</span>, <span class="dt">mean =</span> h0.prop, <span class="dt">sd =</span> h0.se)</a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co"># Here's the power for rejecting H0 when the mean increases by 3</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(cv, <span class="dt">mean =</span> h1.prop, <span class="dt">sd =</span> h0.se, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; [1] 0.6286129</span></a></code></pre></div>
 <p>We have about 63% power, so we have quite a ways to go. Let’s do this all again, but with sample sizes from 70 to 120. I’ll keep track of power so that we can look at the results.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>n &lt;-<span class="st"> </span><span class="dv">70</span><span class="op">:</span><span class="dv">120</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># Here's the se for pi_hat</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>h0.se &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(h0.prop <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>h0.prop) <span class="op">/</span><span class="st"> </span>n)</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># Here's the critical value for rejecting H0 when n = 70</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(<span class="fl">0.95</span>, <span class="dt">mean =</span> h0.prop, <span class="dt">sd =</span> h0.se)</span>
-<span id="cb5-8"><a href="#cb5-8"></a></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co"># Here's the power for rejecting H0 when the mean increases by 3</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>pow &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(cv, <span class="dt">mean =</span> h1.prop, <span class="dt">sd =</span> h0.se, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co"># Let's put it together</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(n, pow)</span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt;         n       pow</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt;  [1,]  70 0.6286129</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt;  [2,]  71 0.6339092</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt;  [3,]  72 0.6391432</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt;  [4,]  73 0.6443153</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt;  [5,]  74 0.6494260</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt;  [6,]  75 0.6544756</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt;  [7,]  76 0.6594646</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#&gt;  [8,]  77 0.6643934</span></span>
-<span id="cb5-23"><a href="#cb5-23"></a><span class="co">#&gt;  [9,]  78 0.6692624</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a><span class="co">#&gt; [10,]  79 0.6740721</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a><span class="co">#&gt; [11,]  80 0.6788230</span></span>
-<span id="cb5-26"><a href="#cb5-26"></a><span class="co">#&gt; [12,]  81 0.6835154</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a><span class="co">#&gt; [13,]  82 0.6881499</span></span>
-<span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt; [14,]  83 0.6927269</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; [15,]  84 0.6972468</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; [16,]  85 0.7017102</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; [17,]  86 0.7061174</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; [18,]  87 0.7104690</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a><span class="co">#&gt; [19,]  88 0.7147654</span></span>
-<span id="cb5-34"><a href="#cb5-34"></a><span class="co">#&gt; [20,]  89 0.7190072</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#&gt; [21,]  90 0.7231947</span></span>
-<span id="cb5-36"><a href="#cb5-36"></a><span class="co">#&gt; [22,]  91 0.7273284</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a><span class="co">#&gt; [23,]  92 0.7314089</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a><span class="co">#&gt; [24,]  93 0.7354366</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a><span class="co">#&gt; [25,]  94 0.7394120</span></span>
-<span id="cb5-40"><a href="#cb5-40"></a><span class="co">#&gt; [26,]  95 0.7433356</span></span>
-<span id="cb5-41"><a href="#cb5-41"></a><span class="co">#&gt; [27,]  96 0.7472078</span></span>
-<span id="cb5-42"><a href="#cb5-42"></a><span class="co">#&gt; [28,]  97 0.7510292</span></span>
-<span id="cb5-43"><a href="#cb5-43"></a><span class="co">#&gt; [29,]  98 0.7548002</span></span>
-<span id="cb5-44"><a href="#cb5-44"></a><span class="co">#&gt; [30,]  99 0.7585213</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a><span class="co">#&gt; [31,] 100 0.7621931</span></span>
-<span id="cb5-46"><a href="#cb5-46"></a><span class="co">#&gt; [32,] 101 0.7658159</span></span>
-<span id="cb5-47"><a href="#cb5-47"></a><span class="co">#&gt; [33,] 102 0.7693903</span></span>
-<span id="cb5-48"><a href="#cb5-48"></a><span class="co">#&gt; [34,] 103 0.7729167</span></span>
-<span id="cb5-49"><a href="#cb5-49"></a><span class="co">#&gt; [35,] 104 0.7763957</span></span>
-<span id="cb5-50"><a href="#cb5-50"></a><span class="co">#&gt; [36,] 105 0.7798277</span></span>
-<span id="cb5-51"><a href="#cb5-51"></a><span class="co">#&gt; [37,] 106 0.7832132</span></span>
-<span id="cb5-52"><a href="#cb5-52"></a><span class="co">#&gt; [38,] 107 0.7865527</span></span>
-<span id="cb5-53"><a href="#cb5-53"></a><span class="co">#&gt; [39,] 108 0.7898466</span></span>
-<span id="cb5-54"><a href="#cb5-54"></a><span class="co">#&gt; [40,] 109 0.7930955</span></span>
-<span id="cb5-55"><a href="#cb5-55"></a><span class="co">#&gt; [41,] 110 0.7962999</span></span>
-<span id="cb5-56"><a href="#cb5-56"></a><span class="co">#&gt; [42,] 111 0.7994601</span></span>
-<span id="cb5-57"><a href="#cb5-57"></a><span class="co">#&gt; [43,] 112 0.8025767</span></span>
-<span id="cb5-58"><a href="#cb5-58"></a><span class="co">#&gt; [44,] 113 0.8056501</span></span>
-<span id="cb5-59"><a href="#cb5-59"></a><span class="co">#&gt; [45,] 114 0.8086808</span></span>
-<span id="cb5-60"><a href="#cb5-60"></a><span class="co">#&gt; [46,] 115 0.8116693</span></span>
-<span id="cb5-61"><a href="#cb5-61"></a><span class="co">#&gt; [47,] 116 0.8146161</span></span>
-<span id="cb5-62"><a href="#cb5-62"></a><span class="co">#&gt; [48,] 117 0.8175216</span></span>
-<span id="cb5-63"><a href="#cb5-63"></a><span class="co">#&gt; [49,] 118 0.8203863</span></span>
-<span id="cb5-64"><a href="#cb5-64"></a><span class="co">#&gt; [50,] 119 0.8232106</span></span>
-<span id="cb5-65"><a href="#cb5-65"></a><span class="co">#&gt; [51,] 120 0.8259950</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">n &lt;-<span class="st"> </span><span class="dv">70</span><span class="op">:</span><span class="dv">120</span></a>
+<a class="sourceLine" id="cb5-2" title="2"></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co"># Here's the se for pi_hat</span></a>
+<a class="sourceLine" id="cb5-4" title="4">h0.se &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(h0.prop <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>h0.prop) <span class="op">/</span><span class="st"> </span>n)</a>
+<a class="sourceLine" id="cb5-5" title="5"></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co"># Here's the critical value for rejecting H0 when n = 70</span></a>
+<a class="sourceLine" id="cb5-7" title="7">cv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span>(<span class="fl">0.95</span>, <span class="dt">mean =</span> h0.prop, <span class="dt">sd =</span> h0.se)</a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co"># Here's the power for rejecting H0 when the mean increases by 3</span></a>
+<a class="sourceLine" id="cb5-10" title="10">pow &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(cv, <span class="dt">mean =</span> h1.prop, <span class="dt">sd =</span> h0.se, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-11" title="11"></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co"># Let's put it together</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(n, pow)</a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;         n       pow</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;  [1,]  70 0.6286129</span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt;  [2,]  71 0.6339092</span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt;  [3,]  72 0.6391432</span></a>
+<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt;  [4,]  73 0.6443153</span></a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="co">#&gt;  [5,]  74 0.6494260</span></a>
+<a class="sourceLine" id="cb5-20" title="20"><span class="co">#&gt;  [6,]  75 0.6544756</span></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="co">#&gt;  [7,]  76 0.6594646</span></a>
+<a class="sourceLine" id="cb5-22" title="22"><span class="co">#&gt;  [8,]  77 0.6643934</span></a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="co">#&gt;  [9,]  78 0.6692624</span></a>
+<a class="sourceLine" id="cb5-24" title="24"><span class="co">#&gt; [10,]  79 0.6740721</span></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt; [11,]  80 0.6788230</span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt; [12,]  81 0.6835154</span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt; [13,]  82 0.6881499</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt; [14,]  83 0.6927269</span></a>
+<a class="sourceLine" id="cb5-29" title="29"><span class="co">#&gt; [15,]  84 0.6972468</span></a>
+<a class="sourceLine" id="cb5-30" title="30"><span class="co">#&gt; [16,]  85 0.7017102</span></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="co">#&gt; [17,]  86 0.7061174</span></a>
+<a class="sourceLine" id="cb5-32" title="32"><span class="co">#&gt; [18,]  87 0.7104690</span></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="co">#&gt; [19,]  88 0.7147654</span></a>
+<a class="sourceLine" id="cb5-34" title="34"><span class="co">#&gt; [20,]  89 0.7190072</span></a>
+<a class="sourceLine" id="cb5-35" title="35"><span class="co">#&gt; [21,]  90 0.7231947</span></a>
+<a class="sourceLine" id="cb5-36" title="36"><span class="co">#&gt; [22,]  91 0.7273284</span></a>
+<a class="sourceLine" id="cb5-37" title="37"><span class="co">#&gt; [23,]  92 0.7314089</span></a>
+<a class="sourceLine" id="cb5-38" title="38"><span class="co">#&gt; [24,]  93 0.7354366</span></a>
+<a class="sourceLine" id="cb5-39" title="39"><span class="co">#&gt; [25,]  94 0.7394120</span></a>
+<a class="sourceLine" id="cb5-40" title="40"><span class="co">#&gt; [26,]  95 0.7433356</span></a>
+<a class="sourceLine" id="cb5-41" title="41"><span class="co">#&gt; [27,]  96 0.7472078</span></a>
+<a class="sourceLine" id="cb5-42" title="42"><span class="co">#&gt; [28,]  97 0.7510292</span></a>
+<a class="sourceLine" id="cb5-43" title="43"><span class="co">#&gt; [29,]  98 0.7548002</span></a>
+<a class="sourceLine" id="cb5-44" title="44"><span class="co">#&gt; [30,]  99 0.7585213</span></a>
+<a class="sourceLine" id="cb5-45" title="45"><span class="co">#&gt; [31,] 100 0.7621931</span></a>
+<a class="sourceLine" id="cb5-46" title="46"><span class="co">#&gt; [32,] 101 0.7658159</span></a>
+<a class="sourceLine" id="cb5-47" title="47"><span class="co">#&gt; [33,] 102 0.7693903</span></a>
+<a class="sourceLine" id="cb5-48" title="48"><span class="co">#&gt; [34,] 103 0.7729167</span></a>
+<a class="sourceLine" id="cb5-49" title="49"><span class="co">#&gt; [35,] 104 0.7763957</span></a>
+<a class="sourceLine" id="cb5-50" title="50"><span class="co">#&gt; [36,] 105 0.7798277</span></a>
+<a class="sourceLine" id="cb5-51" title="51"><span class="co">#&gt; [37,] 106 0.7832132</span></a>
+<a class="sourceLine" id="cb5-52" title="52"><span class="co">#&gt; [38,] 107 0.7865527</span></a>
+<a class="sourceLine" id="cb5-53" title="53"><span class="co">#&gt; [39,] 108 0.7898466</span></a>
+<a class="sourceLine" id="cb5-54" title="54"><span class="co">#&gt; [40,] 109 0.7930955</span></a>
+<a class="sourceLine" id="cb5-55" title="55"><span class="co">#&gt; [41,] 110 0.7962999</span></a>
+<a class="sourceLine" id="cb5-56" title="56"><span class="co">#&gt; [42,] 111 0.7994601</span></a>
+<a class="sourceLine" id="cb5-57" title="57"><span class="co">#&gt; [43,] 112 0.8025767</span></a>
+<a class="sourceLine" id="cb5-58" title="58"><span class="co">#&gt; [44,] 113 0.8056501</span></a>
+<a class="sourceLine" id="cb5-59" title="59"><span class="co">#&gt; [45,] 114 0.8086808</span></a>
+<a class="sourceLine" id="cb5-60" title="60"><span class="co">#&gt; [46,] 115 0.8116693</span></a>
+<a class="sourceLine" id="cb5-61" title="61"><span class="co">#&gt; [47,] 116 0.8146161</span></a>
+<a class="sourceLine" id="cb5-62" title="62"><span class="co">#&gt; [48,] 117 0.8175216</span></a>
+<a class="sourceLine" id="cb5-63" title="63"><span class="co">#&gt; [49,] 118 0.8203863</span></a>
+<a class="sourceLine" id="cb5-64" title="64"><span class="co">#&gt; [50,] 119 0.8232106</span></a>
+<a class="sourceLine" id="cb5-65" title="65"><span class="co">#&gt; [51,] 120 0.8259950</span></a></code></pre></div>
 <p>We hit it at 112. So now we can calculate the LRE.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>efficiency.s.t &lt;-<span class="st"> </span><span class="dv">70</span><span class="op">/</span><span class="dv">112</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>efficiency.s.t</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; [1] 0.625</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">efficiency.s.t &lt;-<span class="st"> </span><span class="dv">70</span><span class="op">/</span><span class="dv">112</span></a>
+<a class="sourceLine" id="cb6-2" title="2">efficiency.s.t</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] 0.625</span></a></code></pre></div>
 <p>So the LRE of the sign test to the <em>t</em> test in this particular situation is 0.625. This means that we need only about 63% the number of subjects if we are doing the <em>t</em> test to get the same power as we would with the sign test. We could have done it the other way around.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>efficiency.t.s &lt;-<span class="st"> </span><span class="dv">112</span><span class="op">/</span><span class="dv">70</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>efficiency.t.s</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; [1] 1.6</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">efficiency.t.s &lt;-<span class="st"> </span><span class="dv">112</span><span class="op">/</span><span class="dv">70</span></a>
+<a class="sourceLine" id="cb7-2" title="2">efficiency.t.s</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1] 1.6</span></a></code></pre></div>
 <p>The relative efficiency of the <em>t</em> test to the sign test is 1.6. This means that we would need 160% the number of subjects if we are doing the sign test to get the same power as we would with the <em>t</em> test. This is no surprise because the circumstances are ideal for the <em>t</em> test. The only surprise might be the magnitude of the sample size difference.</p>
 <p>As you might have surmised, figuring local relative efficiency can take a bit of work. The work load increases if we now move on to the Wilcoxon signed ranks test, and increases further if we use exact distributions, which we should when we can. Fortunately, there are two alternative approaches that we can take, both of which involve simulation. Let’s look at an easy method first, then we will move to one that is a bit more sophisticated, but a bit more accurate, and still simpler than actually calculating power for a variety of methods.</p>
 <p>For these methods, we will ignore the actual efficiency statistic, but instead ask the question, “Which method is most powerful in this situation?” Let’s take this approach to compare the <em>t</em> test to the Wilcoxon signed ranks test in the current setting. First, I’m going to draw a random sample of scores from a normal distribution with the mean of 0.3 and a standard deviation of 1. Notice that this is the distribution under the specific alternative hypothesis that we posed above. I’m going to use the sample size of 70 that we calculated as necessary for the <em>t</em> test to obtain 80% power, but we’ll fiddle with this in a moment.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p>Now let’s calculate both the <em>t</em> test and the Wilcoxon signed ranks test. For this sample size, it doesn’t much matter if we use the exact test for the Wilcoxon or a large-sample approximation. I’m going to see if the exact test works because I like using the exact test when it is available.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; </span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; data:  my.sample</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; t = 2.8482, df = 69, p-value = 0.002895</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt;  0.1471843       Inf</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; 0.3549777</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; </span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; </span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; data:  my.sample</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; V = 1692, p-value = 0.004015</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;  0.1357387       Inf</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; (pseudo)median </span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt;       0.341252</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; data:  my.sample</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; t = 3.5323, df = 69, p-value = 0.0003698</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  0.2213128       Inf</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; 0.4191563</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt; data:  my.sample</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; V = 1794, p-value = 0.0005189</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></a>
+<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt;  0.212287      Inf</span></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb9-23" title="23"><span class="co">#&gt; (pseudo)median </span></a>
+<a class="sourceLine" id="cb9-24" title="24"><span class="co">#&gt;      0.4251389</span></a></code></pre></div>
 <p>Remember, results will vary. The first time I ran this, I obtained a smaller <em>p</em> value and a narrower interval for the Wilcoxon test than I did for the <em>t</em> test, yet I know that the <em>t</em> test has more power in this situation. What happened? Remember that power is a probability calculation, so we are talking about “in the long run.” That is where our second approach to this problem comes into play. One random sample is a good “first guess” that will give us the right answer the majority of the time, but we would like a bit more confidence that we are choosing the best method. One trial will not tell us what we need to know. I’m going to do this again, but I’m going to repeat it 30 times. Each time I’m going to track the p-value from each procedure.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># I'm going to initialize some arrays</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a>t.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>w.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>winner &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">30</span>) {</span>
-<span id="cb10-9"><a href="#cb10-9"></a>  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb10-10"><a href="#cb10-10"></a>  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb10-11"><a href="#cb10-11"></a>  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb10-12"><a href="#cb10-12"></a>  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</span>
-<span id="cb10-13"><a href="#cb10-13"></a>  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</span>
-<span id="cb10-14"><a href="#cb10-14"></a>  </span>
-<span id="cb10-15"><a href="#cb10-15"></a>  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</span>
-<span id="cb10-16"><a href="#cb10-16"></a>    winner[i] =<span class="st"> "t"</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a>  } <span class="cf">else</span> {</span>
-<span id="cb10-18"><a href="#cb10-18"></a>    winner[i] =<span class="st"> "w"</span></span>
-<span id="cb10-19"><a href="#cb10-19"></a>  }</span>
-<span id="cb10-20"><a href="#cb10-20"></a>}</span>
-<span id="cb10-21"><a href="#cb10-21"></a></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(t.pvalue, w.pvalue, winner)</span>
-<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt;       t.pvalue               w.pvalue               winner</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt;  [1,] "0.000138822266094206" "0.000232447256790864" "t"   </span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt;  [2,] "0.125063366608448"    "0.118222843383198"    "w"   </span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt;  [3,] "0.00144148868747711"  "0.00225346814448058"  "t"   </span></span>
-<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt;  [4,] "0.0344178085965792"   "0.0471644859804495"   "t"   </span></span>
-<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt;  [5,] "0.0080277380449345"   "0.00366734338069509"  "w"   </span></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt;  [6,] "0.0678118286571474"   "0.0621459062700678"   "w"   </span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt;  [7,] "3.89490330282524e-05" "9.36039618655065e-05" "t"   </span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt;  [8,] "0.059835108842731"    "0.0333901134920598"   "w"   </span></span>
-<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt;  [9,] "0.0010156357545054"   "0.000518884171845978" "w"   </span></span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; [10,] "0.0417756411228206"   "0.0593057672229359"   "t"   </span></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; [11,] "0.0269458946094055"   "0.0338342727170564"   "t"   </span></span>
-<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; [12,] "0.00278772064562933"  "0.00380321325781241"  "t"   </span></span>
-<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; [13,] "0.000210859228526598" "0.000414790289089773" "t"   </span></span>
-<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; [14,] "4.9156482767885e-06"  "5.18786602070307e-06" "t"   </span></span>
-<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt; [15,] "0.00252378093325931"  "0.00463301229317054"  "t"   </span></span>
-<span id="cb10-39"><a href="#cb10-39"></a><span class="co">#&gt; [16,] "1.08671146766033e-05" "3.56648846112464e-06" "w"   </span></span>
-<span id="cb10-40"><a href="#cb10-40"></a><span class="co">#&gt; [17,] "0.00107410963003673"  "0.0035357857763132"   "t"   </span></span>
-<span id="cb10-41"><a href="#cb10-41"></a><span class="co">#&gt; [18,] "0.0216656790914035"   "0.0205904693267618"   "w"   </span></span>
-<span id="cb10-42"><a href="#cb10-42"></a><span class="co">#&gt; [19,] "0.0129886142814244"   "0.0188744237418072"   "t"   </span></span>
-<span id="cb10-43"><a href="#cb10-43"></a><span class="co">#&gt; [20,] "0.00689019967080486"  "0.00713397823955176"  "t"   </span></span>
-<span id="cb10-44"><a href="#cb10-44"></a><span class="co">#&gt; [21,] "0.0472954111610125"   "0.04161536005319"     "w"   </span></span>
-<span id="cb10-45"><a href="#cb10-45"></a><span class="co">#&gt; [22,] "0.275718306729471"    "0.27252265949079"     "w"   </span></span>
-<span id="cb10-46"><a href="#cb10-46"></a><span class="co">#&gt; [23,] "0.185739582527946"    "0.259137716946601"    "t"   </span></span>
-<span id="cb10-47"><a href="#cb10-47"></a><span class="co">#&gt; [24,] "0.0222651784657916"   "0.0188744237418072"   "w"   </span></span>
-<span id="cb10-48"><a href="#cb10-48"></a><span class="co">#&gt; [25,] "0.0411237039581855"   "0.0437688796601612"   "t"   </span></span>
-<span id="cb10-49"><a href="#cb10-49"></a><span class="co">#&gt; [26,] "0.000456137886501697" "0.000474679796088364" "t"   </span></span>
-<span id="cb10-50"><a href="#cb10-50"></a><span class="co">#&gt; [27,] "0.000754582207637273" "0.00126836940958496"  "t"   </span></span>
-<span id="cb10-51"><a href="#cb10-51"></a><span class="co">#&gt; [28,] "0.00311105229284793"  "0.00168104503288045"  "w"   </span></span>
-<span id="cb10-52"><a href="#cb10-52"></a><span class="co">#&gt; [29,] "0.00249352299110433"  "0.00299407793739524"  "t"   </span></span>
-<span id="cb10-53"><a href="#cb10-53"></a><span class="co">#&gt; [30,] "0.00405843755236271"  "0.00552157850718268"  "t"</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co"># I'm going to initialize some arrays</span></a>
+<a class="sourceLine" id="cb10-3" title="3"></a>
+<a class="sourceLine" id="cb10-4" title="4">t.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb10-5" title="5">w.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb10-6" title="6">winner &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">30</span></a>
+<a class="sourceLine" id="cb10-7" title="7"></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">30</span>) {</a>
+<a class="sourceLine" id="cb10-9" title="9">  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-10" title="10">  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb10-11" title="11">  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb10-12" title="12">  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb10-13" title="13">  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb10-14" title="14">  </a>
+<a class="sourceLine" id="cb10-15" title="15">  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</a>
+<a class="sourceLine" id="cb10-16" title="16">    winner[i] =<span class="st"> "t"</span></a>
+<a class="sourceLine" id="cb10-17" title="17">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb10-18" title="18">    winner[i] =<span class="st"> "w"</span></a>
+<a class="sourceLine" id="cb10-19" title="19">  }</a>
+<a class="sourceLine" id="cb10-20" title="20">}</a>
+<a class="sourceLine" id="cb10-21" title="21"></a>
+<a class="sourceLine" id="cb10-22" title="22"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(t.pvalue, w.pvalue, winner)</a>
+<a class="sourceLine" id="cb10-23" title="23"><span class="co">#&gt;       t.pvalue               w.pvalue               winner</span></a>
+<a class="sourceLine" id="cb10-24" title="24"><span class="co">#&gt;  [1,] "0.00853227483915354"  "0.0191517992013956"   "t"   </span></a>
+<a class="sourceLine" id="cb10-25" title="25"><span class="co">#&gt;  [2,] "0.0197198870136989"   "0.0194325855734909"   "w"   </span></a>
+<a class="sourceLine" id="cb10-26" title="26"><span class="co">#&gt;  [3,] "0.0168607833379697"   "0.0188744237418072"   "t"   </span></a>
+<a class="sourceLine" id="cb10-27" title="27"><span class="co">#&gt;  [4,] "0.00511362842566046"  "0.00334628104960705"  "w"   </span></a>
+<a class="sourceLine" id="cb10-28" title="28"><span class="co">#&gt;  [5,] "0.025284876223406"    "0.0338342727170564"   "t"   </span></a>
+<a class="sourceLine" id="cb10-29" title="29"><span class="co">#&gt;  [6,] "0.049939306891996"    "0.0507651896197468"   "t"   </span></a>
+<a class="sourceLine" id="cb10-30" title="30"><span class="co">#&gt;  [7,] "0.00790477525570549"  "0.00678213854078893"  "w"   </span></a>
+<a class="sourceLine" id="cb10-31" title="31"><span class="co">#&gt;  [8,] "0.00462372214095041"  "0.00431445418865169"  "w"   </span></a>
+<a class="sourceLine" id="cb10-32" title="32"><span class="co">#&gt;  [9,] "0.0609249706296352"   "0.0945695147905843"   "t"   </span></a>
+<a class="sourceLine" id="cb10-33" title="33"><span class="co">#&gt; [10,] "0.000326126286101127" "0.000221654492082654" "w"   </span></a>
+<a class="sourceLine" id="cb10-34" title="34"><span class="co">#&gt; [11,] "0.0217277845107254"   "0.0258138236383988"   "t"   </span></a>
+<a class="sourceLine" id="cb10-35" title="35"><span class="co">#&gt; [12,] "0.0402602915211625"   "0.0421456314746973"   "t"   </span></a>
+<a class="sourceLine" id="cb10-36" title="36"><span class="co">#&gt; [13,] "0.0588862967967705"   "0.0338342727170564"   "w"   </span></a>
+<a class="sourceLine" id="cb10-37" title="37"><span class="co">#&gt; [14,] "0.135301114095049"    "0.259137716946601"    "t"   </span></a>
+<a class="sourceLine" id="cb10-38" title="38"><span class="co">#&gt; [15,] "0.00207889936882037"  "0.000768041923165584" "w"   </span></a>
+<a class="sourceLine" id="cb10-39" title="39"><span class="co">#&gt; [16,] "0.00360189380368574"  "0.00455149087628424"  "t"   </span></a>
+<a class="sourceLine" id="cb10-40" title="40"><span class="co">#&gt; [17,] "0.303809111378889"    "0.346225153605735"    "t"   </span></a>
+<a class="sourceLine" id="cb10-41" title="41"><span class="co">#&gt; [18,] "0.000486695300127795" "0.000929616087286207" "t"   </span></a>
+<a class="sourceLine" id="cb10-42" title="42"><span class="co">#&gt; [19,] "0.0155953568038657"   "0.00884838401696854"  "w"   </span></a>
+<a class="sourceLine" id="cb10-43" title="43"><span class="co">#&gt; [20,] "0.00622825233968556"  "0.0105665475831493"   "t"   </span></a>
+<a class="sourceLine" id="cb10-44" title="44"><span class="co">#&gt; [21,] "0.00609658997295239"  "0.00366734338069509"  "w"   </span></a>
+<a class="sourceLine" id="cb10-45" title="45"><span class="co">#&gt; [22,] "0.00123255558416112"  "0.00161552705474801"  "t"   </span></a>
+<a class="sourceLine" id="cb10-46" title="46"><span class="co">#&gt; [23,] "0.00553610048288699"  "0.005332777400599"    "w"   </span></a>
+<a class="sourceLine" id="cb10-47" title="47"><span class="co">#&gt; [24,] "0.0631928017386074"   "0.0887619157864561"   "t"   </span></a>
+<a class="sourceLine" id="cb10-48" title="48"><span class="co">#&gt; [25,] "0.00748591247607976"  "0.00701497327526227"  "w"   </span></a>
+<a class="sourceLine" id="cb10-49" title="49"><span class="co">#&gt; [26,] "0.127885877275738"    "0.0565671209414041"   "w"   </span></a>
+<a class="sourceLine" id="cb10-50" title="50"><span class="co">#&gt; [27,] "0.0419583650418337"   "0.0520122956985857"   "t"   </span></a>
+<a class="sourceLine" id="cb10-51" title="51"><span class="co">#&gt; [28,] "0.0667293353465833"   "0.0887619157864561"   "t"   </span></a>
+<a class="sourceLine" id="cb10-52" title="52"><span class="co">#&gt; [29,] "0.233858382520765"    "0.270589974074678"    "t"   </span></a>
+<a class="sourceLine" id="cb10-53" title="53"><span class="co">#&gt; [30,] "0.00251254563153307"  "0.00192955823915397"  "w"</span></a></code></pre></div>
 <p>I kept track of which test resulted in the lowest <em>p</em> value each time. Let’s see how many time the <em>t</em> test was the winner. Again, remember that your results will very likely be different.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 19</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; [1] 17</span></a></code></pre></div>
 <p>We are going to get various outcomes every time we try this. If you run it a number of times, one thing should become clear: the Wilcoxon test is not a bad option! It sure seems to be doing much better than what we had expected from the sign test.</p>
 <p>Randomness and probability are still at work. Probability expectations are based on the long run, so I’m going to simulate 10,000 samples. I don’t want to print those all out, so I’ll just show the final result at the end.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># I'm going to initialize some arrays</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a></span>
-<span id="cb12-4"><a href="#cb12-4"></a>t.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>w.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>winner &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
-<span id="cb12-9"><a href="#cb12-9"></a>  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb12-10"><a href="#cb12-10"></a>  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb12-11"><a href="#cb12-11"></a>  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb12-12"><a href="#cb12-12"></a>  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</span>
-<span id="cb12-13"><a href="#cb12-13"></a>  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</span>
-<span id="cb12-14"><a href="#cb12-14"></a>  </span>
-<span id="cb12-15"><a href="#cb12-15"></a>  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</span>
-<span id="cb12-16"><a href="#cb12-16"></a>    winner[i] =<span class="st"> "t"</span></span>
-<span id="cb12-17"><a href="#cb12-17"></a>  } <span class="cf">else</span> {</span>
-<span id="cb12-18"><a href="#cb12-18"></a>    winner[i] =<span class="st"> "w"</span></span>
-<span id="cb12-19"><a href="#cb12-19"></a>  }</span>
-<span id="cb12-20"><a href="#cb12-20"></a>}</span>
-<span id="cb12-21"><a href="#cb12-21"></a></span>
-<span id="cb12-22"><a href="#cb12-22"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb12-23"><a href="#cb12-23"></a><span class="co">#&gt; [1] 0.6361</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co"># I'm going to initialize some arrays</span></a>
+<a class="sourceLine" id="cb12-3" title="3"></a>
+<a class="sourceLine" id="cb12-4" title="4">t.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb12-5" title="5">w.pvalue &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb12-6" title="6">winner &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb12-7" title="7"></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</a>
+<a class="sourceLine" id="cb12-9" title="9">  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb12-10" title="10">  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb12-11" title="11">  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb12-12" title="12">  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb12-13" title="13">  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb12-14" title="14">  </a>
+<a class="sourceLine" id="cb12-15" title="15">  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</a>
+<a class="sourceLine" id="cb12-16" title="16">    winner[i] =<span class="st"> "t"</span></a>
+<a class="sourceLine" id="cb12-17" title="17">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb12-18" title="18">    winner[i] =<span class="st"> "w"</span></a>
+<a class="sourceLine" id="cb12-19" title="19">  }</a>
+<a class="sourceLine" id="cb12-20" title="20">}</a>
+<a class="sourceLine" id="cb12-21" title="21"></a>
+<a class="sourceLine" id="cb12-22" title="22"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb12-23" title="23"><span class="co">#&gt; [1] 0.6341</span></a></code></pre></div>
 <p>The <em>t</em> test won more than half of the time, but again, the Wilcoxon doesn’t lose as much as we might have expected considering that we are replacing observed quantities with the ranks of those quantities. Let’s try this one more time with a smaller effect size.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
-<span id="cb13-3"><a href="#cb13-3"></a>  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.2</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</span>
-<span id="cb13-7"><a href="#cb13-7"></a>  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</span>
-<span id="cb13-8"><a href="#cb13-8"></a>  </span>
-<span id="cb13-9"><a href="#cb13-9"></a>  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</span>
-<span id="cb13-10"><a href="#cb13-10"></a>    winner[i] =<span class="st"> "t"</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a>  } <span class="cf">else</span> {</span>
-<span id="cb13-12"><a href="#cb13-12"></a>    winner[i] =<span class="st"> "w"</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a>  }</span>
-<span id="cb13-14"><a href="#cb13-14"></a>}</span>
-<span id="cb13-15"><a href="#cb13-15"></a></span>
-<span id="cb13-16"><a href="#cb13-16"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="co">#&gt; [1] 0.5925</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</a>
+<a class="sourceLine" id="cb13-3" title="3">  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">70</span>, <span class="dt">mean =</span> <span class="fl">0.2</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-4" title="4">  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb13-5" title="5">  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-6" title="6">  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb13-7" title="7">  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb13-8" title="8">  </a>
+<a class="sourceLine" id="cb13-9" title="9">  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</a>
+<a class="sourceLine" id="cb13-10" title="10">    winner[i] =<span class="st"> "t"</span></a>
+<a class="sourceLine" id="cb13-11" title="11">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb13-12" title="12">    winner[i] =<span class="st"> "w"</span></a>
+<a class="sourceLine" id="cb13-13" title="13">  }</a>
+<a class="sourceLine" id="cb13-14" title="14">}</a>
+<a class="sourceLine" id="cb13-15" title="15"></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; [1] 0.5889</span></a></code></pre></div>
 <p>Your results may vary, but I don’t expect the <em>t</em> test to win as often in this example as it did in the previous example. I’ll explain why in the next section.</p>
 </div>
 <div id="asymptotic-relative-efficiency" class="section level3">
@@ -407,46 +412,46 @@ high proportion of responses are clustered in the middle, yet we still have a nu
 <p>What if we are dealing with data that looks nothing like any of the mathematical models? In this case, we can resort to a simulation, as we did when looking at LRE. For example, consider obtaining data on a scale that represents opinion on a polarizing issue. That is, more respondents will lean toward one end or the other on the scale than what we will find in the middle. This scale results in bimodal data. How can I model such a situation? I know how easy it is to obtain random normal deviates, so what if I use two normal distributions?</p>
 <p>Let’s suppose that our scale ranges from 0 to 8. Let’s put the peak of one of the two distributions at 3 and the peak of the other one of the two distributions at 5. I know that most of the normal distribution (99.7% of it, to be more precise) is within three standard deviations of the mean, so we can use a standard deviation of 1 to keep most values within the range of our scale. (Yes, an occasional data point may drift outside, but remember that the purpose of this simulation is to find out what analytic method we want to use, so it is only important that we simulate the main features of our distribution. We don’t need to have an exact imitation of reality.)</p>
 <p>Here’s our random sample from this model, as well as a histogram so that we can see how this is “shaping” up. I’m using a sample size of 60, but this choice is arbitrary. I just want it to be a large enough sample to have some stability in our simulation.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>lower.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>upper.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(lower.norm, upper.norm)</span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(my.sample, <span class="dt">breaks =</span> <span class="dv">15</span>, <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">8</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">lower.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2">upper.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb14-3" title="3">my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lower.norm, upper.norm)</a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="kw"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(my.sample, <span class="dt">breaks =</span> <span class="dv">15</span>, <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">8</span>))</a></code></pre></div>
 <p><img src="releffic_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>Pictures will vary because we are using a random sample. If you try this a few times, sometimes you’ll see a clear bimodal distribution and sometimes it may even look normal. That’s due to sampling variability. Obviously, we know that the population distribution is <em>not</em> normal, but is bimodal.</p>
 <p>Now let’s do this 10,000 times, as we did for LRE, and compare the <em>t</em> test and the Wilcoxon test. Suppose that we consider the midpoint of this scale (4) as a neutral position. Further suppose that we have an alternative hypothesis that this particular population is to the right of neutral (i.e. a higher mean than 4). I can simulate this by putting a few more people on the right side of the distribution, so I will do so. I’m also going to shift the distribution to the left by 4 points so that we can use a null hypothesis of 0, thus avoiding any complication with the Wilcoxon test.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">25</span>, <span class="dt">mean =</span> <span class="dv">-1</span>, <span class="dt">sd =</span> <span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">35</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">1</span>))</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5"></a>  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb15-6"><a href="#cb15-6"></a>  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</span>
-<span id="cb15-7"><a href="#cb15-7"></a>  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</span>
-<span id="cb15-8"><a href="#cb15-8"></a>  </span>
-<span id="cb15-9"><a href="#cb15-9"></a>  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</span>
-<span id="cb15-10"><a href="#cb15-10"></a>    winner[i] =<span class="st"> "t"</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a>  } <span class="cf">else</span> {</span>
-<span id="cb15-12"><a href="#cb15-12"></a>    winner[i] =<span class="st"> "w"</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a>  }</span>
-<span id="cb15-14"><a href="#cb15-14"></a>}</span>
-<span id="cb15-15"><a href="#cb15-15"></a></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt; [1] 0.4516</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</a>
+<a class="sourceLine" id="cb15-3" title="3">  my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">25</span>, <span class="dt">mean =</span> <span class="dv">-1</span>, <span class="dt">sd =</span> <span class="dv">1</span>), <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">35</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb15-4" title="4">  t.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb15-5" title="5">  w.result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-6" title="6">  t.pvalue[i] &lt;-<span class="st"> </span>t.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb15-7" title="7">  w.pvalue[i] &lt;-<span class="st"> </span>w.result<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb15-8" title="8">  </a>
+<a class="sourceLine" id="cb15-9" title="9">  <span class="cf">if</span> (t.pvalue[i] <span class="op">&lt;</span><span class="st"> </span>w.pvalue[i]) {</a>
+<a class="sourceLine" id="cb15-10" title="10">    winner[i] =<span class="st"> "t"</span></a>
+<a class="sourceLine" id="cb15-11" title="11">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb15-12" title="12">    winner[i] =<span class="st"> "w"</span></a>
+<a class="sourceLine" id="cb15-13" title="13">  }</a>
+<a class="sourceLine" id="cb15-14" title="14">}</a>
+<a class="sourceLine" id="cb15-15" title="15"></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(winner <span class="op">==</span><span class="st"> "t"</span>)<span class="op">/</span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb15-17" title="17"><span class="co">#&gt; [1] 0.4517</span></a></code></pre></div>
 <p>We have a winner! Unless you obtained a peculiar outcome, which is possible, but not probable, it isn’t the <em>t</em> test. If this was my research study, I would analyze the data with the Wilcoxon. The confidence interval for the median is my preferred statistic here, but I know that with these kind of data, most of the time my interval will be narrower if I use the Wilcoxon test rather than the <em>t</em> test.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>lower.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">25</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>upper.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">35</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb16-3"><a href="#cb16-3"></a>my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(lower.norm, upper.norm)</span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; </span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; </span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; data:  my.sample</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; V = 1830, p-value = 8.357e-12</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt;  3.693186      Inf</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a><span class="co">#&gt; (pseudo)median </span></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt;       3.974818</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">lower.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">25</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb16-2" title="2">upper.norm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">35</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb16-3" title="3">my.sample &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lower.norm, upper.norm)</a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(my.sample, <span class="dt">alternative =</span> <span class="st">"greater"</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; data:  my.sample</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt; V = 1830, p-value = 8.357e-12</span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; alternative hypothesis: true location is greater than 0</span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt;  3.802956      Inf</span></a>
+<a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; (pseudo)median </span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt;       4.116389</span></a></code></pre></div>
 <p>The <em>p</em> value is meaningless here because it is for a test of a median of 0, which is ridiculous since that’s the edge of our scale. We could shift the distribution if we really want a <em>p</em> value, but I don’t need to. I want the confidence interval.</p>
 <p>One final word about ARE. Mathematicians have also calculated the lower limit of ARE for one procedure when compared to another. This tells us that no matter what the distribution, this is the lowest possible ARE. For example, the ARE for the Wilcoxon test when compared to the <em>t</em> test has a lower limit of 0.86. This means that if you can find the worst-case scenario for the Wilcoxon, the sample size for the <em>t</em> test can be 86% the sample size for the Wilcoxon to achieve the same power. That may seem like a big difference, but remember, this is the <em>worst-case scenario</em>. Also remember that you can only count on the <em>t</em> test to maintain the Type I error rate when the distribution is normal. For the Wilcoxon test, it only needs to be symmetrical (and even that restriction can be relaxed if you change the hypothesis to one of a stochastic increase, or decrease).</p>
 <p>Here’s a startling fact: the ARE for the Wilcoxon to the <em>t</em> test when the data are normally distributed is 0.96. That means, if you have a sample size of 50 and use the Wilcoxon for inference, you “only” need a sample size of 48 with the <em>t</em> test. That’s not much difference, and yet we we are assuming a normal distribution where the <em>t</em> test has home-field advantage! By contrast, if the distribution is a Laplace distribution (very high peak and heavier than normal tails), the ARE for the Wilcoxon is 1.5. That means if the sample size of the Wilcoxon is 50, you need 75 units with the <em>t</em> test to achieve the same power. Wow! Ranks rule! And don’t get me started on talking about how often our measures are such that we can be more confident in ranking than in creating a one-to-one correspondence of interval data with the scale of an underlying construct.</p>
@@ -454,9 +459,11 @@ high proportion of responses are clustered in the middle, yet we still have a nu
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -464,12 +471,14 @@ high proportion of responses are clustered in the middle, yet we still have a nu
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
