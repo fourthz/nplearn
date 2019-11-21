@@ -31,11 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-<<<<<<< HEAD
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9019</span>
-=======
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
->>>>>>> master
       </span>
     </div>
 
@@ -145,7 +141,6 @@
 <p><span class="math inline">\(H_a: \mu_k \ne \mu_{k'}, k \ne k'\)</span></p>
 <p>Note that the alternative hypothesis (which matches our research hypothesis) is that some of the means are different from the others. It is possible for the alternative hypothesis to be true even if there are two conditions with equal means, as long as there are also at least two conditions that do not have equal means.</p>
 <p>The normal approach to analyzing such data is with one-factor analysis of variance (ANOVA). The conditions for such inference to be valid are these.</p>
-<<<<<<< HEAD
 <ul>
 <li>Observations within conditions are independent of each other</li>
 <li>The <em>K</em> conditions are independent of each other</li>
@@ -155,11 +150,6 @@
 <ul>
 <li>Population distributions have the same shape</li>
 </ul>
-=======
-<p><em>Observations within conditions are independent of each other </em>The <em>K</em> conditions are independent of each other *The population of scores represented by participants in each condition have a normal distribution</p>
-<p>The strongest of these conditions is that scores follow a normal distribution. For inference using the Fisher-Pitman randomization test, we can replace this with a weaker condition.</p>
-<p>*Population distributions have the same shape</p>
->>>>>>> master
 <p>This condition is going to be valid if the effect of any treatment is to “shift” the distribution one way or the other. This will occur if the treatment has a similar effect for all participants in the study. For observational studies in which there is no treatment, such a condition implies that differences associated with the explanatory variable are similar across the range of population attributes.</p>
 <p>Whether the study involves the administration of a treatment or the measurement for different categories of an explanatory variable, under the null hypothesis of no mean (or median) difference, we consider any differences that we observe as a consequence of who was assigned to which condition (in an experiment) or who we observed in existing conditions (in an observational study). Considering all possible randomizations (or all possible selections of 12 individuals with these scores), Here are the number of ways that we could have observed these same 12 scores across the three conditions. That is, this is the number of combinations we could obtain for three groups with four participants in each group.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">12</span>)<span class="op">/</span>(<span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">4</span>)<span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">4</span>)<span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">4</span>))</a>
@@ -263,13 +253,6 @@
 <p>Fast forward about fifteen years. By this time this former doctoral student was a university professor, with students of his own. For several years he had a student who loved writing computer programs. That gave him an idea. His program no longer worked (computer code compilers had evolved), yet hard drives had become much, much bigger. He presented his student with a proposal. If the student would update the code so that it would work with the new compilers, and if they could build an even bigger table of critical values, the student could get a publication as first author. The student happily agreed. The code was updated, new hard drives were purchased, and the program was set in motion. The result is the table of Kruskal-Wallis critical values that we have today, going up to <em>n</em> = 105 for three groups and <em>n</em> = 32 for four groups. (Doing the calculations for four groups took much more space on the hard drives.)</p>
 <p>In sum, you can use the Kruskal-Wallis function to obtain the value of H. If your sample size is within the limit of the critical value table, you can do an exact test for <span class="math inline">\(\alpha\)</span> of .10, .05, or .01. Once the sample size exceeds what is available in the tables, you can feel safer about using a mathematical distribution (the chi-square distribution) for a large-sample approximation.</p>
 </div>
-<<<<<<< HEAD
-=======
-<div id="multiple-comparisons" class="section level3">
-<h3 class="hasAnchor">
-<a href="#multiple-comparisons" class="anchor"></a>Multiple comparisons</h3>
-</div>
->>>>>>> master
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
