@@ -138,7 +138,11 @@
 <a class="sourceLine" id="cb2-2" title="2">pi &lt;-<span class="st"> </span><span class="fl">0.7</span></a>
 <a class="sourceLine" id="cb2-3" title="3"></a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="kw"><a href="https://rdrr.io/pkg/Rlab/man/Bernoulli.html">rbern</a></span>(n, pi)</a>
+<<<<<<< HEAD
 <a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;  [1] 1 1 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 0 1 1 1 1 1 0 1 1 0 1 0 1 1 1 1 1</span></a>
+=======
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;  [1] 1 0 0 1 1 0 0 1 1 1 1 1 1 0 1 0 1 0 0 1 1 1 1 1 0 1 0 1 1 1 1 1 0 1 0</span></a>
+>>>>>>> master
 <a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; [36] 1 1 1 0 0</span></a></code></pre></div>
 <p>Now we will repeat this simulation 10,000 times. Each time, we will calculate the proportion success in the sample and save it.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">reps &lt;-<span class="st"> </span><span class="dv">10000</span></a>
@@ -149,7 +153,11 @@
 <p><img src="lsprop_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
 <p>We can see the CLT at work. Further, note that if we calculate the mean of all 10,000 values of the sample proportions, it is quite close to the population proportion of 0.7.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(pi_hat)</a>
+<<<<<<< HEAD
 <a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] 0.697965</span></a></code></pre></div>
+=======
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] 0.70066</span></a></code></pre></div>
+>>>>>>> master
 <p>When the mean of a statistic’s sampling distribution is the population value of the parameter the statistic is estimating, we refer to the statistic as <em>unbiased</em>. This is a desirable property because it tells us that the average of many wrongs is a right!</p>
 <p>If we increase the sample size, we can see the Law of Large Numbers at work. Let’s try increasing it from 40 to 200.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">n &lt;-<span class="st"> </span><span class="dv">200</span></a>
