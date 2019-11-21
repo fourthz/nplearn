@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Replacement Scores • nplearn</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Replacement Scores">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9019</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
+    </li>
+    <li>
+      <a href="../articles/ksamp.html">K-Sample Methods for Quantitative Data</a>
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
@@ -103,6 +107,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -121,192 +126,192 @@
 <h3 class="hasAnchor">
 <a href="#required-packages" class="anchor"></a>Required packages</h3>
 <p>The packages required for this vignette are nplearn, coin, and DescTools.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nplearn)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(coin)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Loading required package: survival</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(DescTools)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nplearn)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(coin)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt; Loading required package: survival</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(DescTools)</a></code></pre></div>
 </div>
 <div id="the-wilcoxon-signed-ranks-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-wilcoxon-signed-ranks-test" class="anchor"></a>The Wilcoxon signed ranks test</h3>
 <p>A disadvantage of the Fisher-Pitman permutation test is that with even moderately-sized samples the number of possible permutations can grow large so that calculations are prohibitive. Let’s look at a little table showing the number of differences and the number of possible permutations associated with that number of differences.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>differences &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">:</span><span class="dv">50</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>num.perms &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>differences</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/noquote">noquote</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(differences, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(num.perms, <span class="dt">scientific =</span> <span class="ot">FALSE</span>)))</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;       differences                 </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  [1,] 2                          4</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;  [2,] 3                          8</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  [3,] 4                         16</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  [4,] 5                         32</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;  [5,] 6                         64</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;  [6,] 7                        128</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;  [7,] 8                        256</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;  [8,] 9                        512</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;  [9,] 10                      1024</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; [10,] 11                      2048</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; [11,] 12                      4096</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; [12,] 13                      8192</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; [13,] 14                     16384</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; [14,] 15                     32768</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; [15,] 16                     65536</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; [16,] 17                    131072</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; [17,] 18                    262144</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; [18,] 19                    524288</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; [19,] 20                   1048576</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; [20,] 21                   2097152</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; [21,] 22                   4194304</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; [22,] 23                   8388608</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt; [23,] 24                  16777216</span></span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt; [24,] 25                  33554432</span></span>
-<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt; [25,] 26                  67108864</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt; [26,] 27                 134217728</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a><span class="co">#&gt; [27,] 28                 268435456</span></span>
-<span id="cb2-32"><a href="#cb2-32"></a><span class="co">#&gt; [28,] 29                 536870912</span></span>
-<span id="cb2-33"><a href="#cb2-33"></a><span class="co">#&gt; [29,] 30                1073741824</span></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="co">#&gt; [30,] 31                2147483648</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt; [31,] 32                4294967296</span></span>
-<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt; [32,] 33                8589934592</span></span>
-<span id="cb2-37"><a href="#cb2-37"></a><span class="co">#&gt; [33,] 34               17179869184</span></span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="co">#&gt; [34,] 35               34359738368</span></span>
-<span id="cb2-39"><a href="#cb2-39"></a><span class="co">#&gt; [35,] 36               68719476736</span></span>
-<span id="cb2-40"><a href="#cb2-40"></a><span class="co">#&gt; [36,] 37              137438953472</span></span>
-<span id="cb2-41"><a href="#cb2-41"></a><span class="co">#&gt; [37,] 38              274877906944</span></span>
-<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt; [38,] 39              549755813888</span></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt; [39,] 40             1099511627776</span></span>
-<span id="cb2-44"><a href="#cb2-44"></a><span class="co">#&gt; [40,] 41             2199023255552</span></span>
-<span id="cb2-45"><a href="#cb2-45"></a><span class="co">#&gt; [41,] 42             4398046511104</span></span>
-<span id="cb2-46"><a href="#cb2-46"></a><span class="co">#&gt; [42,] 43             8796093022208</span></span>
-<span id="cb2-47"><a href="#cb2-47"></a><span class="co">#&gt; [43,] 44            17592186044416</span></span>
-<span id="cb2-48"><a href="#cb2-48"></a><span class="co">#&gt; [44,] 45            35184372088832</span></span>
-<span id="cb2-49"><a href="#cb2-49"></a><span class="co">#&gt; [45,] 46            70368744177664</span></span>
-<span id="cb2-50"><a href="#cb2-50"></a><span class="co">#&gt; [46,] 47           140737488355328</span></span>
-<span id="cb2-51"><a href="#cb2-51"></a><span class="co">#&gt; [47,] 48           281474976710656</span></span>
-<span id="cb2-52"><a href="#cb2-52"></a><span class="co">#&gt; [48,] 49           562949953421312</span></span>
-<span id="cb2-53"><a href="#cb2-53"></a><span class="co">#&gt; [49,] 50          1125899906842624</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">differences &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">:</span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb2-2" title="2">num.perms &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">^</span>differences</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/noquote.html">noquote</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(differences, <span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(num.perms, <span class="dt">scientific =</span> <span class="ot">FALSE</span>)))</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;       differences                 </span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;  [1,] 2                          4</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;  [2,] 3                          8</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;  [3,] 4                         16</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;  [4,] 5                         32</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;  [5,] 6                         64</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;  [6,] 7                        128</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;  [7,] 8                        256</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;  [8,] 9                        512</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;  [9,] 10                      1024</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; [10,] 11                      2048</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; [11,] 12                      4096</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; [12,] 13                      8192</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; [13,] 14                     16384</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt; [14,] 15                     32768</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt; [15,] 16                     65536</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt; [16,] 17                    131072</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt; [17,] 18                    262144</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt; [18,] 19                    524288</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt; [19,] 20                   1048576</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt; [20,] 21                   2097152</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt; [21,] 22                   4194304</span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt; [22,] 23                   8388608</span></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt; [23,] 24                  16777216</span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt; [24,] 25                  33554432</span></a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; [25,] 26                  67108864</span></a>
+<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; [26,] 27                 134217728</span></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt; [27,] 28                 268435456</span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; [28,] 29                 536870912</span></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt; [29,] 30                1073741824</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt; [30,] 31                2147483648</span></a>
+<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; [31,] 32                4294967296</span></a>
+<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt; [32,] 33                8589934592</span></a>
+<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; [33,] 34               17179869184</span></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; [34,] 35               34359738368</span></a>
+<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; [35,] 36               68719476736</span></a>
+<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; [36,] 37              137438953472</span></a>
+<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; [37,] 38              274877906944</span></a>
+<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; [38,] 39              549755813888</span></a>
+<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; [39,] 40             1099511627776</span></a>
+<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt; [40,] 41             2199023255552</span></a>
+<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt; [41,] 42             4398046511104</span></a>
+<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt; [42,] 43             8796093022208</span></a>
+<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; [43,] 44            17592186044416</span></a>
+<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; [44,] 45            35184372088832</span></a>
+<a class="sourceLine" id="cb2-49" title="49"><span class="co">#&gt; [45,] 46            70368744177664</span></a>
+<a class="sourceLine" id="cb2-50" title="50"><span class="co">#&gt; [46,] 47           140737488355328</span></a>
+<a class="sourceLine" id="cb2-51" title="51"><span class="co">#&gt; [47,] 48           281474976710656</span></a>
+<a class="sourceLine" id="cb2-52" title="52"><span class="co">#&gt; [48,] 49           562949953421312</span></a>
+<a class="sourceLine" id="cb2-53" title="53"><span class="co">#&gt; [49,] 50          1125899906842624</span></a></code></pre></div>
 <p>Even with 50 difference scores we are into territory where calculation time might become a factor. I’m going to make the assumption that we can do the calculations for 10,000,000 permutations per second.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="dv">2</span><span class="op">^</span><span class="dv">50</span><span class="op">/</span><span class="dv">10000000</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">24</span><span class="op">/</span><span class="dv">365</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 3.570205</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="dv">2</span><span class="op">^</span><span class="dv">50</span><span class="op">/</span><span class="dv">10000000</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">24</span><span class="op">/</span><span class="dv">365</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] 3.570205</span></a></code></pre></div>
 <p>Although 3.6 years might seem worth it for a study of high scientific value, we wouldn’t want to do this too often. If we repeat the study with a different set of numbers, we have to do the calculations all over again. (Can you imagine being about two years into your wait for the calculations to be done when you suddenly discover a typo in your data set?!)</p>
 <p>One solution to the problem is to replace our original scores with ranks. Just as with the Fisher-Pitman permutation test, we order the scores (now we will use ranks instead of scores) without regard to the observed sign. Once we have done this, we can then look at all possible permutations of signs. We again use the sum of the positive scores (i.e., ranks) as our test statistic. As it is when we use scores, and using the same hypotheses, if the null hypothesis is true, we expect the sum of positive ranks to equal the sum of negative ranks, but with opposite signs. If the null hypothesis is not true, we would expect the sum of positive ranks to become either larger or smaller than we would expect.</p>
 <p>Here are the data from the fertilizer study.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>fruit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">A =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>),</span>
-<span id="cb4-2"><a href="#cb4-2"></a>                    <span class="dt">B =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">81</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>))</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B)</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; [1,]   82   85</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; [2,]   91   89</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; [3,]   74   81</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; [4,]   90   96</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; [5,]   66   65</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; [6,]   81   93</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a>A.minus.B &lt;-<span class="st"> </span>fruit<span class="op">$</span>A <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B</span>
-<span id="cb4-13"><a href="#cb4-13"></a>A.minus.B</span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">fruit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">A =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>),</a>
+<a class="sourceLine" id="cb4-2" title="2">                    <span class="dt">B =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">81</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>))</a>
+<a class="sourceLine" id="cb4-3" title="3"></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B)</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt;      [,1] [,2]</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; [1,]   82   85</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; [2,]   91   89</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; [3,]   74   81</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; [4,]   90   96</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; [5,]   66   65</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [6,]   81   93</span></a>
+<a class="sourceLine" id="cb4-12" title="12">A.minus.B &lt;-<span class="st"> </span>fruit<span class="op">$</span>A <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B</a>
+<a class="sourceLine" id="cb4-13" title="13">A.minus.B</a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></a></code></pre></div>
 <p>Here are the ranks for these data, without regard to sign.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>abs.fruit.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rank">rank</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(A.minus.B))</span>
-<span id="cb5-2"><a href="#cb5-2"></a>abs.fruit.rank</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; [1] 3 2 5 4 1 6</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">abs.fruit.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rank.html">rank</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(A.minus.B))</a>
+<a class="sourceLine" id="cb5-2" title="2">abs.fruit.rank</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; [1] 3 2 5 4 1 6</span></a></code></pre></div>
 <p>Now let’s attach signs to them.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>fruit.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sign">sign</a></span>(A.minus.B)<span class="op">*</span>abs.fruit.rank</span>
-<span id="cb6-2"><a href="#cb6-2"></a>fruit.rank</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; [1] -3  2 -5 -4  1 -6</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">fruit.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sign.html">sign</a></span>(A.minus.B)<span class="op">*</span>abs.fruit.rank</a>
+<a class="sourceLine" id="cb6-2" title="2">fruit.rank</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] -3  2 -5 -4  1 -6</span></a></code></pre></div>
 <p>Our test statistic is the sum of positive ranks.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>test.statistic &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(fruit.rank[fruit.rank <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</span>
-<span id="cb7-2"><a href="#cb7-2"></a>test.statistic</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">test.statistic &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(fruit.rank[fruit.rank <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb7-2" title="2">test.statistic</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
 <p>Let’s look at the distrbution of the test statistic when the null hypothesis is true. Notice that we are doing just what we did for the Fisher-Pitman test, but this time we are using ranks instead of the original scores.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit.rank)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt;       T                               </span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt;  [4,] 3  0.0156250 0.0625000 0.9531250</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt;  [5,] 3  0.0156250 0.0781250 0.9375000</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt;  [6,] 4  0.0156250 0.0937500 0.9218750</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt;  [7,] 4  0.0156250 0.1093750 0.9062500</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt;  [8,] 5  0.0156250 0.1250000 0.8906250</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;  [9,] 5  0.0156250 0.1406250 0.8750000</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; [10,] 5  0.0156250 0.1562500 0.8593750</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; [11,] 6  0.0156250 0.1718750 0.8437500</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt; [12,] 6  0.0156250 0.1875000 0.8281250</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; [13,] 6  0.0156250 0.2031250 0.8125000</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; [14,] 6  0.0156250 0.2187500 0.7968750</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; [15,] 7  0.0156250 0.2343750 0.7812500</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt; [16,] 7  0.0156250 0.2500000 0.7656250</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; [17,] 7  0.0156250 0.2656250 0.7500000</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; [18,] 7  0.0156250 0.2812500 0.7343750</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="co">#&gt; [19,] 8  0.0156250 0.2968750 0.7187500</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a><span class="co">#&gt; [20,] 8  0.0156250 0.3125000 0.7031250</span></span>
-<span id="cb8-23"><a href="#cb8-23"></a><span class="co">#&gt; [21,] 8  0.0156250 0.3281250 0.6875000</span></span>
-<span id="cb8-24"><a href="#cb8-24"></a><span class="co">#&gt; [22,] 8  0.0156250 0.3437500 0.6718750</span></span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="co">#&gt; [23,] 9  0.0156250 0.3593750 0.6562500</span></span>
-<span id="cb8-26"><a href="#cb8-26"></a><span class="co">#&gt; [24,] 9  0.0156250 0.3750000 0.6406250</span></span>
-<span id="cb8-27"><a href="#cb8-27"></a><span class="co">#&gt; [25,] 9  0.0156250 0.3906250 0.6250000</span></span>
-<span id="cb8-28"><a href="#cb8-28"></a><span class="co">#&gt; [26,] 9  0.0156250 0.4062500 0.6093750</span></span>
-<span id="cb8-29"><a href="#cb8-29"></a><span class="co">#&gt; [27,] 9  0.0156250 0.4218750 0.5937500</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a><span class="co">#&gt; [28,] 10 0.0156250 0.4375000 0.5781250</span></span>
-<span id="cb8-31"><a href="#cb8-31"></a><span class="co">#&gt; [29,] 10 0.0156250 0.4531250 0.5625000</span></span>
-<span id="cb8-32"><a href="#cb8-32"></a><span class="co">#&gt; [30,] 10 0.0156250 0.4687500 0.5468750</span></span>
-<span id="cb8-33"><a href="#cb8-33"></a><span class="co">#&gt; [31,] 10 0.0156250 0.4843750 0.5312500</span></span>
-<span id="cb8-34"><a href="#cb8-34"></a><span class="co">#&gt; [32,] 10 0.0156250 0.5000000 0.5156250</span></span>
-<span id="cb8-35"><a href="#cb8-35"></a><span class="co">#&gt; [33,] 11 0.0156250 0.5156250 0.5000000</span></span>
-<span id="cb8-36"><a href="#cb8-36"></a><span class="co">#&gt; [34,] 11 0.0156250 0.5312500 0.4843750</span></span>
-<span id="cb8-37"><a href="#cb8-37"></a><span class="co">#&gt; [35,] 11 0.0156250 0.5468750 0.4687500</span></span>
-<span id="cb8-38"><a href="#cb8-38"></a><span class="co">#&gt; [36,] 11 0.0156250 0.5625000 0.4531250</span></span>
-<span id="cb8-39"><a href="#cb8-39"></a><span class="co">#&gt; [37,] 11 0.0156250 0.5781250 0.4375000</span></span>
-<span id="cb8-40"><a href="#cb8-40"></a><span class="co">#&gt; [38,] 12 0.0156250 0.5937500 0.4218750</span></span>
-<span id="cb8-41"><a href="#cb8-41"></a><span class="co">#&gt; [39,] 12 0.0156250 0.6093750 0.4062500</span></span>
-<span id="cb8-42"><a href="#cb8-42"></a><span class="co">#&gt; [40,] 12 0.0156250 0.6250000 0.3906250</span></span>
-<span id="cb8-43"><a href="#cb8-43"></a><span class="co">#&gt; [41,] 12 0.0156250 0.6406250 0.3750000</span></span>
-<span id="cb8-44"><a href="#cb8-44"></a><span class="co">#&gt; [42,] 12 0.0156250 0.6562500 0.3593750</span></span>
-<span id="cb8-45"><a href="#cb8-45"></a><span class="co">#&gt; [43,] 13 0.0156250 0.6718750 0.3437500</span></span>
-<span id="cb8-46"><a href="#cb8-46"></a><span class="co">#&gt; [44,] 13 0.0156250 0.6875000 0.3281250</span></span>
-<span id="cb8-47"><a href="#cb8-47"></a><span class="co">#&gt; [45,] 13 0.0156250 0.7031250 0.3125000</span></span>
-<span id="cb8-48"><a href="#cb8-48"></a><span class="co">#&gt; [46,] 13 0.0156250 0.7187500 0.2968750</span></span>
-<span id="cb8-49"><a href="#cb8-49"></a><span class="co">#&gt; [47,] 14 0.0156250 0.7343750 0.2812500</span></span>
-<span id="cb8-50"><a href="#cb8-50"></a><span class="co">#&gt; [48,] 14 0.0156250 0.7500000 0.2656250</span></span>
-<span id="cb8-51"><a href="#cb8-51"></a><span class="co">#&gt; [49,] 14 0.0156250 0.7656250 0.2500000</span></span>
-<span id="cb8-52"><a href="#cb8-52"></a><span class="co">#&gt; [50,] 14 0.0156250 0.7812500 0.2343750</span></span>
-<span id="cb8-53"><a href="#cb8-53"></a><span class="co">#&gt; [51,] 15 0.0156250 0.7968750 0.2187500</span></span>
-<span id="cb8-54"><a href="#cb8-54"></a><span class="co">#&gt; [52,] 15 0.0156250 0.8125000 0.2031250</span></span>
-<span id="cb8-55"><a href="#cb8-55"></a><span class="co">#&gt; [53,] 15 0.0156250 0.8281250 0.1875000</span></span>
-<span id="cb8-56"><a href="#cb8-56"></a><span class="co">#&gt; [54,] 15 0.0156250 0.8437500 0.1718750</span></span>
-<span id="cb8-57"><a href="#cb8-57"></a><span class="co">#&gt; [55,] 16 0.0156250 0.8593750 0.1562500</span></span>
-<span id="cb8-58"><a href="#cb8-58"></a><span class="co">#&gt; [56,] 16 0.0156250 0.8750000 0.1406250</span></span>
-<span id="cb8-59"><a href="#cb8-59"></a><span class="co">#&gt; [57,] 16 0.0156250 0.8906250 0.1250000</span></span>
-<span id="cb8-60"><a href="#cb8-60"></a><span class="co">#&gt; [58,] 17 0.0156250 0.9062500 0.1093750</span></span>
-<span id="cb8-61"><a href="#cb8-61"></a><span class="co">#&gt; [59,] 17 0.0156250 0.9218750 0.0937500</span></span>
-<span id="cb8-62"><a href="#cb8-62"></a><span class="co">#&gt; [60,] 18 0.0156250 0.9375000 0.0781250</span></span>
-<span id="cb8-63"><a href="#cb8-63"></a><span class="co">#&gt; [61,] 18 0.0156250 0.9531250 0.0625000</span></span>
-<span id="cb8-64"><a href="#cb8-64"></a><span class="co">#&gt; [62,] 19 0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb8-65"><a href="#cb8-65"></a><span class="co">#&gt; [63,] 20 0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb8-66"><a href="#cb8-66"></a><span class="co">#&gt; [64,] 21 0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit.rank)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt;       T                               </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  [4,] 3  0.0156250 0.0625000 0.9531250</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  [5,] 3  0.0156250 0.0781250 0.9375000</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  [6,] 4  0.0156250 0.0937500 0.9218750</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  [7,] 4  0.0156250 0.1093750 0.9062500</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  [8,] 5  0.0156250 0.1250000 0.8906250</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  [9,] 5  0.0156250 0.1406250 0.8750000</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; [10,] 5  0.0156250 0.1562500 0.8593750</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; [11,] 6  0.0156250 0.1718750 0.8437500</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; [12,] 6  0.0156250 0.1875000 0.8281250</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; [13,] 6  0.0156250 0.2031250 0.8125000</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; [14,] 6  0.0156250 0.2187500 0.7968750</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; [15,] 7  0.0156250 0.2343750 0.7812500</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt; [16,] 7  0.0156250 0.2500000 0.7656250</span></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; [17,] 7  0.0156250 0.2656250 0.7500000</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; [18,] 7  0.0156250 0.2812500 0.7343750</span></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt; [19,] 8  0.0156250 0.2968750 0.7187500</span></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt; [20,] 8  0.0156250 0.3125000 0.7031250</span></a>
+<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt; [21,] 8  0.0156250 0.3281250 0.6875000</span></a>
+<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt; [22,] 8  0.0156250 0.3437500 0.6718750</span></a>
+<a class="sourceLine" id="cb8-25" title="25"><span class="co">#&gt; [23,] 9  0.0156250 0.3593750 0.6562500</span></a>
+<a class="sourceLine" id="cb8-26" title="26"><span class="co">#&gt; [24,] 9  0.0156250 0.3750000 0.6406250</span></a>
+<a class="sourceLine" id="cb8-27" title="27"><span class="co">#&gt; [25,] 9  0.0156250 0.3906250 0.6250000</span></a>
+<a class="sourceLine" id="cb8-28" title="28"><span class="co">#&gt; [26,] 9  0.0156250 0.4062500 0.6093750</span></a>
+<a class="sourceLine" id="cb8-29" title="29"><span class="co">#&gt; [27,] 9  0.0156250 0.4218750 0.5937500</span></a>
+<a class="sourceLine" id="cb8-30" title="30"><span class="co">#&gt; [28,] 10 0.0156250 0.4375000 0.5781250</span></a>
+<a class="sourceLine" id="cb8-31" title="31"><span class="co">#&gt; [29,] 10 0.0156250 0.4531250 0.5625000</span></a>
+<a class="sourceLine" id="cb8-32" title="32"><span class="co">#&gt; [30,] 10 0.0156250 0.4687500 0.5468750</span></a>
+<a class="sourceLine" id="cb8-33" title="33"><span class="co">#&gt; [31,] 10 0.0156250 0.4843750 0.5312500</span></a>
+<a class="sourceLine" id="cb8-34" title="34"><span class="co">#&gt; [32,] 10 0.0156250 0.5000000 0.5156250</span></a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="co">#&gt; [33,] 11 0.0156250 0.5156250 0.5000000</span></a>
+<a class="sourceLine" id="cb8-36" title="36"><span class="co">#&gt; [34,] 11 0.0156250 0.5312500 0.4843750</span></a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="co">#&gt; [35,] 11 0.0156250 0.5468750 0.4687500</span></a>
+<a class="sourceLine" id="cb8-38" title="38"><span class="co">#&gt; [36,] 11 0.0156250 0.5625000 0.4531250</span></a>
+<a class="sourceLine" id="cb8-39" title="39"><span class="co">#&gt; [37,] 11 0.0156250 0.5781250 0.4375000</span></a>
+<a class="sourceLine" id="cb8-40" title="40"><span class="co">#&gt; [38,] 12 0.0156250 0.5937500 0.4218750</span></a>
+<a class="sourceLine" id="cb8-41" title="41"><span class="co">#&gt; [39,] 12 0.0156250 0.6093750 0.4062500</span></a>
+<a class="sourceLine" id="cb8-42" title="42"><span class="co">#&gt; [40,] 12 0.0156250 0.6250000 0.3906250</span></a>
+<a class="sourceLine" id="cb8-43" title="43"><span class="co">#&gt; [41,] 12 0.0156250 0.6406250 0.3750000</span></a>
+<a class="sourceLine" id="cb8-44" title="44"><span class="co">#&gt; [42,] 12 0.0156250 0.6562500 0.3593750</span></a>
+<a class="sourceLine" id="cb8-45" title="45"><span class="co">#&gt; [43,] 13 0.0156250 0.6718750 0.3437500</span></a>
+<a class="sourceLine" id="cb8-46" title="46"><span class="co">#&gt; [44,] 13 0.0156250 0.6875000 0.3281250</span></a>
+<a class="sourceLine" id="cb8-47" title="47"><span class="co">#&gt; [45,] 13 0.0156250 0.7031250 0.3125000</span></a>
+<a class="sourceLine" id="cb8-48" title="48"><span class="co">#&gt; [46,] 13 0.0156250 0.7187500 0.2968750</span></a>
+<a class="sourceLine" id="cb8-49" title="49"><span class="co">#&gt; [47,] 14 0.0156250 0.7343750 0.2812500</span></a>
+<a class="sourceLine" id="cb8-50" title="50"><span class="co">#&gt; [48,] 14 0.0156250 0.7500000 0.2656250</span></a>
+<a class="sourceLine" id="cb8-51" title="51"><span class="co">#&gt; [49,] 14 0.0156250 0.7656250 0.2500000</span></a>
+<a class="sourceLine" id="cb8-52" title="52"><span class="co">#&gt; [50,] 14 0.0156250 0.7812500 0.2343750</span></a>
+<a class="sourceLine" id="cb8-53" title="53"><span class="co">#&gt; [51,] 15 0.0156250 0.7968750 0.2187500</span></a>
+<a class="sourceLine" id="cb8-54" title="54"><span class="co">#&gt; [52,] 15 0.0156250 0.8125000 0.2031250</span></a>
+<a class="sourceLine" id="cb8-55" title="55"><span class="co">#&gt; [53,] 15 0.0156250 0.8281250 0.1875000</span></a>
+<a class="sourceLine" id="cb8-56" title="56"><span class="co">#&gt; [54,] 15 0.0156250 0.8437500 0.1718750</span></a>
+<a class="sourceLine" id="cb8-57" title="57"><span class="co">#&gt; [55,] 16 0.0156250 0.8593750 0.1562500</span></a>
+<a class="sourceLine" id="cb8-58" title="58"><span class="co">#&gt; [56,] 16 0.0156250 0.8750000 0.1406250</span></a>
+<a class="sourceLine" id="cb8-59" title="59"><span class="co">#&gt; [57,] 16 0.0156250 0.8906250 0.1250000</span></a>
+<a class="sourceLine" id="cb8-60" title="60"><span class="co">#&gt; [58,] 17 0.0156250 0.9062500 0.1093750</span></a>
+<a class="sourceLine" id="cb8-61" title="61"><span class="co">#&gt; [59,] 17 0.0156250 0.9218750 0.0937500</span></a>
+<a class="sourceLine" id="cb8-62" title="62"><span class="co">#&gt; [60,] 18 0.0156250 0.9375000 0.0781250</span></a>
+<a class="sourceLine" id="cb8-63" title="63"><span class="co">#&gt; [61,] 18 0.0156250 0.9531250 0.0625000</span></a>
+<a class="sourceLine" id="cb8-64" title="64"><span class="co">#&gt; [62,] 19 0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb8-65" title="65"><span class="co">#&gt; [63,] 20 0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb8-66" title="66"><span class="co">#&gt; [64,] 21 0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>Let’s clean up the table a bit by combining redundant values.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit.rank, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt;       T                               </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;  [5,] 4  0.0312500 0.1093750 0.9218750</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt;  [6,] 5  0.0468750 0.1562500 0.8906250</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt;  [7,] 6  0.0625000 0.2187500 0.8437500</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt;  [8,] 7  0.0625000 0.2812500 0.7812500</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt;  [9,] 8  0.0625000 0.3437500 0.7187500</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; [10,] 9  0.0781250 0.4218750 0.6562500</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; [11,] 10 0.0781250 0.5000000 0.5781250</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; [12,] 11 0.0781250 0.5781250 0.5000000</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; [13,] 12 0.0781250 0.6562500 0.4218750</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; [14,] 13 0.0625000 0.7187500 0.3437500</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; [15,] 14 0.0625000 0.7812500 0.2812500</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; [16,] 15 0.0625000 0.8437500 0.2187500</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; [17,] 16 0.0468750 0.8906250 0.1562500</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; [18,] 17 0.0312500 0.9218750 0.1093750</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; [19,] 18 0.0312500 0.9531250 0.0781250</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; [20,] 19 0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; [21,] 20 0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; [22,] 21 0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit.rank, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt;       T                               </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;  [5,] 4  0.0312500 0.1093750 0.9218750</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  [6,] 5  0.0468750 0.1562500 0.8906250</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  [7,] 6  0.0625000 0.2187500 0.8437500</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;  [8,] 7  0.0625000 0.2812500 0.7812500</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;  [9,] 8  0.0625000 0.3437500 0.7187500</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; [10,] 9  0.0781250 0.4218750 0.6562500</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; [11,] 10 0.0781250 0.5000000 0.5781250</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; [12,] 11 0.0781250 0.5781250 0.5000000</span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; [13,] 12 0.0781250 0.6562500 0.4218750</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; [14,] 13 0.0625000 0.7187500 0.3437500</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt; [15,] 14 0.0625000 0.7812500 0.2812500</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; [16,] 15 0.0625000 0.8437500 0.2187500</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt; [17,] 16 0.0468750 0.8906250 0.1562500</span></a>
+<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt; [18,] 17 0.0312500 0.9218750 0.1093750</span></a>
+<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt; [19,] 18 0.0312500 0.9531250 0.0781250</span></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="co">#&gt; [20,] 19 0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb9-23" title="23"><span class="co">#&gt; [21,] 20 0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb9-24" title="24"><span class="co">#&gt; [22,] 21 0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>As we would expect, the highest probability under the null hypothesis is smack in the middle of the distribution: 10 and 11. We observed a value of 3. If we use a maximum Type I error rate of 0.10 (a confidence level of 90%), we are unable to reject this null hypothesis in favor of this alternative hypothesis.</p>
 <p><span class="math inline">\(H_0: \theta_d = 0\)</span></p>
 <p><span class="math inline">\(H_a: \theta_d \ne 0\)</span></p>
@@ -316,73 +321,73 @@
 <p>In this case, with a maximum Type I error rate of 0.10, we would be able to reject the null hypothesis in favor of the alternative hypothesis. Note that the direction of the alternative hypothesis is determined by the direction of subtraction in order to obtain our difference scores.</p>
 <p>So what advantage have we gained by using ranks instead of the observed differences? There are several, but we will discuss one of these right now and hold off on the others for later discussion. Recall our 3.6 year wait for obtaining the distribution when we have 50 paired differences? Using the Wilcoxon signed rank test, we only have to do that once. Why? Because everytime we have 50 paired differences, the ranks will be the same. So one 3.6 year wait is all that we need to compute the distribution of the test statistic that can then be used for all time. We might envision running a bunch of computers for several years, using different sample sizes, and then publishing these distributions. In fact, that’s been done! You and I don’t have to wait.</p>
 <p>We have a function in R that can do the Wilcoxon test for us, so let’s use it. Note that we don’t have to convert to ranks first because it will do that for us.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(A.minus.B)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; </span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; data:  A.minus.B</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; V = 3, p-value = 0.1563</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(A.minus.B)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; data:  A.minus.B</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; V = 3, p-value = 0.1563</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></a></code></pre></div>
 <p>The <em>p</em> value is what we obtained above. Yay!</p>
 <p>We can also provide the observations from the separate fruit trees, but be careful. There is also a Wilcoxon test for two independent samples and that’s not what we want here. We need to specify that we want a paired test. When you enter two sets of observations, the default is a two-sample test calculation.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; </span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; </span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; data:  fruit$A and fruit$B</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; V = 3, p-value = 0.1563</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; data:  fruit$A and fruit$B</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; V = 3, p-value = 0.1563</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></a></code></pre></div>
 <p>We can, of course, use this for a one-sided test.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; </span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; </span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; data:  fruit$A and fruit$B</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; V = 3, p-value = 0.07813</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; data:  fruit$A and fruit$B</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt; V = 3, p-value = 0.07813</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></a></code></pre></div>
 <p>What about if we use very large sample sizes? In that case, the function will switch to an approximation. (We will discuss large-sample approximations later.) It uses 50 as the cut-off. Up to 50, it will use an exact test. For 50 and over, it will use an approximation. We can force an exact test in these larger sample settings, but will it work? Let’s try it.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Obtain 60 observations from trees with Fertilizer A. I'm going to assume that </span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># these observations are normally distributed.</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a>large.A &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">80</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="co"># Do it again for Fertilizer B. I'm going to assume that we obtain an average </span></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># of 3 more bushels of fruit from this tree.</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a></span>
-<span id="cb13-9"><a href="#cb13-9"></a>large.B &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">83</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb13-10"><a href="#cb13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="co"># Let's suppose we are doing confirmatory research, so we'll do a one-sided </span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="co"># test. Now we hold our breath and hope that we aren't holding it for 400 </span></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="co"># years.</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a></span>
-<span id="cb13-15"><a href="#cb13-15"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb13-16"><a href="#cb13-16"></a><span class="co">#&gt; </span></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb13-18"><a href="#cb13-18"></a><span class="co">#&gt; </span></span>
-<span id="cb13-19"><a href="#cb13-19"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#&gt; V = 767, p-value = 0.1399</span></span>
-<span id="cb13-21"><a href="#cb13-21"></a><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># Obtain 60 observations from trees with Fertilizer A. I'm going to assume that </span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co"># these observations are normally distributed.</span></a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4">large.A &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">80</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb13-5" title="5"></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co"># Do it again for Fertilizer B. I'm going to assume that we obtain an average </span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co"># of 3 more bushels of fruit from this tree.</span></a>
+<a class="sourceLine" id="cb13-8" title="8"></a>
+<a class="sourceLine" id="cb13-9" title="9">large.B &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">83</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb13-10" title="10"></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co"># Let's suppose we are doing confirmatory research, so we'll do a one-sided </span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co"># test. Now we hold our breath and hope that we aren't holding it for 400 </span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co"># years.</span></a>
+<a class="sourceLine" id="cb13-14" title="14"></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt; data:  large.A and large.B</span></a>
+<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt; V = 637, p-value = 0.02023</span></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></a></code></pre></div>
 <p>Wow! It did it, and fast! Let’s see how this compares to if we had just let the function do the large-sample approximation.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; </span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; V = 767, p-value = 0.1388</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt; data:  large.A and large.B</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt; V = 637, p-value = 0.02053</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt; alternative hypothesis: true location shift is less than 0</span></a></code></pre></div>
 <p>This is quite good, which is why the function switches to the large-sample approximation at 50. We know that the Fisher-Pitman permutation test with original scores would take way too long for us to do in our lifetime. (Maybe grandchildren could get our results off the printer and help establish our lebacy!) Yet we also know that the <em>t</em> test is a large-sample approxiamation for the Fisher-Pitman permutation test, so let’s see how those results compare.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; </span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  Paired t-test</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt; </span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt; data:  large.A and large.B</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; t = -0.84162, df = 59, p-value = 0.2017</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; alternative hypothesis: true difference in means is less than 0</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;     -Inf 1.84188</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; mean of the differences </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;               -1.868863</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(large.A, large.B, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co">#&gt;  Paired t-test</span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="co">#&gt; data:  large.A and large.B</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt; t = -2.0708, df = 59, p-value = 0.02138</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt; alternative hypothesis: true difference in means is less than 0</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;        -Inf -0.6228767</span></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt; mean of the differences </span></a>
+<a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt;               -3.227119</span></a></code></pre></div>
 <p>Remember that we simulated this study using random numbers, so your results will be different than mine, and my results will be different every time I go through this vignette. What we do know is that <em>most of the time</em> we should obtain a smaller <em>p</em> value with the <em>t</em> test. Why? Because we have exactly met the conditions for valid inference with the <em>t</em> test by simulating our data using a normal distribution. I will venture, however, that most of the time when you try this with normally distributed data that your results will not differ too drastically from what you are obtaining with the Wilcoxon test. This is surprising given that the <em>t</em> test is valid, and most powerful, when the sample comes from a normal distribution. We will discuss this further when we compare the power of competing methods.</p>
 </div>
 <div id="conditions-for-valid-inference" class="section level3">
@@ -401,142 +406,142 @@
 <h3 class="hasAnchor">
 <a href="#the-problem-of-ties" class="anchor"></a>The “problem” of ties</h3>
 <p>I am going back to our original fertilizer example, but I’m going to alter the scores a bit so that you can see how it creates a “problem.”</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>fruit<span class="op">$</span>A2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>fruit<span class="op">$</span>B2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">80</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>)</span>
-<span id="cb16-3"><a href="#cb16-3"></a>A2.minus.B2 &lt;-<span class="st"> </span>fruit<span class="op">$</span>A2 <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B2</span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fruit<span class="op">$</span>A2, fruit<span class="op">$</span>B2, A2.minus.B2)</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt;            A2.minus.B2</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt; [1,] 82 85          -3</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; [2,] 91 89           2</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; [3,] 74 80          -6</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; [4,] 90 96          -6</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; [5,] 66 65           1</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt; [6,] 81 93         -12</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">fruit<span class="op">$</span>A2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>)</a>
+<a class="sourceLine" id="cb16-2" title="2">fruit<span class="op">$</span>B2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">80</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>)</a>
+<a class="sourceLine" id="cb16-3" title="3">A2.minus.B2 &lt;-<span class="st"> </span>fruit<span class="op">$</span>A2 <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B2</a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(fruit<span class="op">$</span>A2, fruit<span class="op">$</span>B2, A2.minus.B2)</a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt;            A2.minus.B2</span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt; [1,] 82 85          -3</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; [2,] 91 89           2</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; [3,] 74 80          -6</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt; [4,] 90 96          -6</span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; [5,] 66 65           1</span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; [6,] 81 93         -12</span></a></code></pre></div>
 <p>Only one value changed slightly, yet this one change means that we have a tie among our difference scores. Why is this important? If we are going to rank the absolute value of the differences, as is required for the Wilcoxon method, how do we rank the two values of -6? (Note that we would have also had a tie if one of these was -6 and one was 6, because we rank the absolute values of the scores.)</p>
 <p>At least three methods have been proposed for dealing with ties. These are:</p>
 <p><em>Eliminate the tied values </em>Randomly assign the two ranks to the tied values *Use midranks</p>
 <p>The first of these options runs counter to a major pillar of science: Gather as much information as you can to better understand variable relationships. Throwing out data is rather distasteful. From a statistical point of view, we are not going to be happy about taking an already small sample of six pairs and throwing out one-third of the data to leave us with four pairs.</p>
 <p>Although the second method retains the data, it also means that two researchers with the exact same scores can arrive at two different results because they some of their results are due to chance outcomes. Although randomness is a powerful tool for both sampling and experimentation, we do not want to randomly select our findings, yet that is what we are doing if we randomly assign ranks and then use a statistical method based on ranking.</p>
 <p>The third option addresses all of the concerns of the first two methods. All the data are retained and rankings are not left to chance. A midrank is simply the average of the ranks that would have been assigned to the scores if they were slightly different from each other. For example, look at the ranks that we assigned with our original fruit data.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(A.minus.B, abs.fruit.rank)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt;      A.minus.B abs.fruit.rank</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co">#&gt; [1,]        -3              3</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co">#&gt; [2,]         2              2</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#&gt; [3,]        -7              5</span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#&gt; [4,]        -6              4</span></span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt; [5,]         1              1</span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; [6,]       -12              6</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(A.minus.B, abs.fruit.rank)</a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt;      A.minus.B abs.fruit.rank</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt; [1,]        -3              3</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="co">#&gt; [2,]         2              2</span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="co">#&gt; [3,]        -7              5</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="co">#&gt; [4,]        -6              4</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="co">#&gt; [5,]         1              1</span></a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="co">#&gt; [6,]       -12              6</span></a></code></pre></div>
 <p>The values of -6 and -7 received the ranks of 4 and 5, respectively. Now that the value of -7 has changed to -6, we still want to use the ranks of 4 and 5 because those are the correct ranks in the context of the other scores. Yet rather than throwing out or randomly assigning these ranks, we average them and assign this average to both values. The ranking function in R accomplishes this task for us.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>fruit2.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rank">rank</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(A2.minus.B2))</span>
-<span id="cb18-2"><a href="#cb18-2"></a>fruit2.rank</span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt; [1] 3.0 2.0 4.5 4.5 1.0 6.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">fruit2.rank &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rank.html">rank</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(A2.minus.B2))</a>
+<a class="sourceLine" id="cb18-2" title="2">fruit2.rank</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&gt; [1] 3.0 2.0 4.5 4.5 1.0 6.0</span></a></code></pre></div>
 <p>We can look at the distribution of sums of all possible positive ranks, just as we did when we did not have ties.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit2.rank, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt;       T                                 </span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt;  [1,] 0    0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt;  [2,] 1    0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt;  [3,] 2    0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt;  [4,] 3    0.0312500 0.0781250 0.9531250</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt;  [5,] 4    0.0156250 0.0937500 0.9218750</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt;  [6,] 4.5  0.0312500 0.1250000 0.9062500</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt;  [7,] 5    0.0156250 0.1406250 0.8750000</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="co">#&gt;  [8,] 5.5  0.0312500 0.1718750 0.8593750</span></span>
-<span id="cb19-11"><a href="#cb19-11"></a><span class="co">#&gt;  [9,] 6    0.0312500 0.2031250 0.8281250</span></span>
-<span id="cb19-12"><a href="#cb19-12"></a><span class="co">#&gt; [10,] 6.5  0.0312500 0.2343750 0.7968750</span></span>
-<span id="cb19-13"><a href="#cb19-13"></a><span class="co">#&gt; [11,] 7    0.0156250 0.2500000 0.7656250</span></span>
-<span id="cb19-14"><a href="#cb19-14"></a><span class="co">#&gt; [12,] 7.5  0.0625000 0.3125000 0.7500000</span></span>
-<span id="cb19-15"><a href="#cb19-15"></a><span class="co">#&gt; [13,] 8    0.0156250 0.3281250 0.6875000</span></span>
-<span id="cb19-16"><a href="#cb19-16"></a><span class="co">#&gt; [14,] 8.5  0.0312500 0.3593750 0.6718750</span></span>
-<span id="cb19-17"><a href="#cb19-17"></a><span class="co">#&gt; [15,] 9    0.0468750 0.4062500 0.6406250</span></span>
-<span id="cb19-18"><a href="#cb19-18"></a><span class="co">#&gt; [16,] 9.5  0.0312500 0.4375000 0.5937500</span></span>
-<span id="cb19-19"><a href="#cb19-19"></a><span class="co">#&gt; [17,] 10   0.0312500 0.4687500 0.5625000</span></span>
-<span id="cb19-20"><a href="#cb19-20"></a><span class="co">#&gt; [18,] 10.5 0.0625000 0.5312500 0.5312500</span></span>
-<span id="cb19-21"><a href="#cb19-21"></a><span class="co">#&gt; [19,] 11   0.0312500 0.5625000 0.4687500</span></span>
-<span id="cb19-22"><a href="#cb19-22"></a><span class="co">#&gt; [20,] 11.5 0.0312500 0.5937500 0.4375000</span></span>
-<span id="cb19-23"><a href="#cb19-23"></a><span class="co">#&gt; [21,] 12   0.0468750 0.6406250 0.4062500</span></span>
-<span id="cb19-24"><a href="#cb19-24"></a><span class="co">#&gt; [22,] 12.5 0.0312500 0.6718750 0.3593750</span></span>
-<span id="cb19-25"><a href="#cb19-25"></a><span class="co">#&gt; [23,] 13   0.0156250 0.6875000 0.3281250</span></span>
-<span id="cb19-26"><a href="#cb19-26"></a><span class="co">#&gt; [24,] 13.5 0.0625000 0.7500000 0.3125000</span></span>
-<span id="cb19-27"><a href="#cb19-27"></a><span class="co">#&gt; [25,] 14   0.0156250 0.7656250 0.2500000</span></span>
-<span id="cb19-28"><a href="#cb19-28"></a><span class="co">#&gt; [26,] 14.5 0.0312500 0.7968750 0.2343750</span></span>
-<span id="cb19-29"><a href="#cb19-29"></a><span class="co">#&gt; [27,] 15   0.0312500 0.8281250 0.2031250</span></span>
-<span id="cb19-30"><a href="#cb19-30"></a><span class="co">#&gt; [28,] 15.5 0.0312500 0.8593750 0.1718750</span></span>
-<span id="cb19-31"><a href="#cb19-31"></a><span class="co">#&gt; [29,] 16   0.0156250 0.8750000 0.1406250</span></span>
-<span id="cb19-32"><a href="#cb19-32"></a><span class="co">#&gt; [30,] 16.5 0.0312500 0.9062500 0.1250000</span></span>
-<span id="cb19-33"><a href="#cb19-33"></a><span class="co">#&gt; [31,] 17   0.0156250 0.9218750 0.0937500</span></span>
-<span id="cb19-34"><a href="#cb19-34"></a><span class="co">#&gt; [32,] 18   0.0312500 0.9531250 0.0781250</span></span>
-<span id="cb19-35"><a href="#cb19-35"></a><span class="co">#&gt; [33,] 19   0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb19-36"><a href="#cb19-36"></a><span class="co">#&gt; [34,] 20   0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb19-37"><a href="#cb19-37"></a><span class="co">#&gt; [35,] 21   0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(fruit2.rank, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&gt;       T                                 </span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&gt;  [1,] 0    0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="co">#&gt;  [2,] 1    0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt;  [3,] 2    0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="co">#&gt;  [4,] 3    0.0312500 0.0781250 0.9531250</span></a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="co">#&gt;  [5,] 4    0.0156250 0.0937500 0.9218750</span></a>
+<a class="sourceLine" id="cb19-8" title="8"><span class="co">#&gt;  [6,] 4.5  0.0312500 0.1250000 0.9062500</span></a>
+<a class="sourceLine" id="cb19-9" title="9"><span class="co">#&gt;  [7,] 5    0.0156250 0.1406250 0.8750000</span></a>
+<a class="sourceLine" id="cb19-10" title="10"><span class="co">#&gt;  [8,] 5.5  0.0312500 0.1718750 0.8593750</span></a>
+<a class="sourceLine" id="cb19-11" title="11"><span class="co">#&gt;  [9,] 6    0.0312500 0.2031250 0.8281250</span></a>
+<a class="sourceLine" id="cb19-12" title="12"><span class="co">#&gt; [10,] 6.5  0.0312500 0.2343750 0.7968750</span></a>
+<a class="sourceLine" id="cb19-13" title="13"><span class="co">#&gt; [11,] 7    0.0156250 0.2500000 0.7656250</span></a>
+<a class="sourceLine" id="cb19-14" title="14"><span class="co">#&gt; [12,] 7.5  0.0625000 0.3125000 0.7500000</span></a>
+<a class="sourceLine" id="cb19-15" title="15"><span class="co">#&gt; [13,] 8    0.0156250 0.3281250 0.6875000</span></a>
+<a class="sourceLine" id="cb19-16" title="16"><span class="co">#&gt; [14,] 8.5  0.0312500 0.3593750 0.6718750</span></a>
+<a class="sourceLine" id="cb19-17" title="17"><span class="co">#&gt; [15,] 9    0.0468750 0.4062500 0.6406250</span></a>
+<a class="sourceLine" id="cb19-18" title="18"><span class="co">#&gt; [16,] 9.5  0.0312500 0.4375000 0.5937500</span></a>
+<a class="sourceLine" id="cb19-19" title="19"><span class="co">#&gt; [17,] 10   0.0312500 0.4687500 0.5625000</span></a>
+<a class="sourceLine" id="cb19-20" title="20"><span class="co">#&gt; [18,] 10.5 0.0625000 0.5312500 0.5312500</span></a>
+<a class="sourceLine" id="cb19-21" title="21"><span class="co">#&gt; [19,] 11   0.0312500 0.5625000 0.4687500</span></a>
+<a class="sourceLine" id="cb19-22" title="22"><span class="co">#&gt; [20,] 11.5 0.0312500 0.5937500 0.4375000</span></a>
+<a class="sourceLine" id="cb19-23" title="23"><span class="co">#&gt; [21,] 12   0.0468750 0.6406250 0.4062500</span></a>
+<a class="sourceLine" id="cb19-24" title="24"><span class="co">#&gt; [22,] 12.5 0.0312500 0.6718750 0.3593750</span></a>
+<a class="sourceLine" id="cb19-25" title="25"><span class="co">#&gt; [23,] 13   0.0156250 0.6875000 0.3281250</span></a>
+<a class="sourceLine" id="cb19-26" title="26"><span class="co">#&gt; [24,] 13.5 0.0625000 0.7500000 0.3125000</span></a>
+<a class="sourceLine" id="cb19-27" title="27"><span class="co">#&gt; [25,] 14   0.0156250 0.7656250 0.2500000</span></a>
+<a class="sourceLine" id="cb19-28" title="28"><span class="co">#&gt; [26,] 14.5 0.0312500 0.7968750 0.2343750</span></a>
+<a class="sourceLine" id="cb19-29" title="29"><span class="co">#&gt; [27,] 15   0.0312500 0.8281250 0.2031250</span></a>
+<a class="sourceLine" id="cb19-30" title="30"><span class="co">#&gt; [28,] 15.5 0.0312500 0.8593750 0.1718750</span></a>
+<a class="sourceLine" id="cb19-31" title="31"><span class="co">#&gt; [29,] 16   0.0156250 0.8750000 0.1406250</span></a>
+<a class="sourceLine" id="cb19-32" title="32"><span class="co">#&gt; [30,] 16.5 0.0312500 0.9062500 0.1250000</span></a>
+<a class="sourceLine" id="cb19-33" title="33"><span class="co">#&gt; [31,] 17   0.0156250 0.9218750 0.0937500</span></a>
+<a class="sourceLine" id="cb19-34" title="34"><span class="co">#&gt; [32,] 18   0.0312500 0.9531250 0.0781250</span></a>
+<a class="sourceLine" id="cb19-35" title="35"><span class="co">#&gt; [33,] 19   0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb19-36" title="36"><span class="co">#&gt; [34,] 20   0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb19-37" title="37"><span class="co">#&gt; [35,] 21   0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>Here is the sum of positive ranks with our new fruit data.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>((A2.minus.B2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)<span class="op">*</span>A2.minus.B2)</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((A2.minus.B2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)<span class="op">*</span>A2.minus.B2)</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
 <p>Looking at 3 in the distribution, we can calculate our <em>p</em> value.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fl">.078125</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="co">#&gt; [1] 0.15625</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="fl">.078125</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="co">#&gt; [1] 0.15625</span></a></code></pre></div>
 <p>The use of midranks makes so much sense and is the recommended method by many prominent nonparametric statisticians. So why are the other two methods even considered? Let’s see what happens when we use the Wilcoxon test function with these data.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(A2.minus.B2, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co">#&gt; Warning in wilcox.test.default(A2.minus.B2, exact = TRUE, conf.level =</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co">#&gt; 0.9): cannot compute exact p-value with ties</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="co">#&gt; </span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt; </span></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt; data:  A2.minus.B2</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">#&gt; V = 3, p-value = 0.1411</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(A2.minus.B2, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="co">#&gt; Warning in wilcox.test.default(A2.minus.B2, exact = TRUE, conf.level =</span></a>
+<a class="sourceLine" id="cb22-3" title="3"><span class="co">#&gt; 0.9): cannot compute exact p-value with ties</span></a>
+<a class="sourceLine" id="cb22-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb22-5" title="5"><span class="co">#&gt;  Wilcoxon signed rank test with continuity correction</span></a>
+<a class="sourceLine" id="cb22-6" title="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb22-7" title="7"><span class="co">#&gt; data:  A2.minus.B2</span></a>
+<a class="sourceLine" id="cb22-8" title="8"><span class="co">#&gt; V = 3, p-value = 0.1411</span></a>
+<a class="sourceLine" id="cb22-9" title="9"><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></a></code></pre></div>
 <p>The function doesn’t work! It provides a <em>p</em> value, but this is a large-sample approximation, and obviously we don’t have a large sample. (Though, admittedly, that <em>p</em> value is not very far off.) The algorithm for the exact test that is programmed into many major statistical software packages assumes that there are no ties. Indeed, you can find textbooks that add a condition of either no ties or continuous data (so that you can’t have ties) as a condition for valid inference. Yet we have just seen with our distribution that this condition is not necessary. Fortunately, we are using R and can access many additional functions that are not programmed into base R. Let’s see what the coin package does if we provide it these tied values. The coin package has a function for the Wilcoxon signed ranks test.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">wilcoxsign_test</span>(fruit<span class="op">$</span>A2 <span class="op">~</span><span class="st"> </span>fruit<span class="op">$</span>B2, <span class="dt">distribution =</span> <span class="st">"exact"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#&gt; </span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co">#&gt;  Exact Wilcoxon-Pratt Signed-Rank Test</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#&gt; </span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#&gt; data:  y by x (pos, neg) </span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt; Z = -1.5768, p-value = 0.1562</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt; alternative hypothesis: true mu is not equal to 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">wilcoxsign_test</span>(fruit<span class="op">$</span>A2 <span class="op">~</span><span class="st"> </span>fruit<span class="op">$</span>B2, <span class="dt">distribution =</span> <span class="st">"exact"</span>)</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="co">#&gt;  Exact Wilcoxon-Pratt Signed-Rank Test</span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="co">#&gt; data:  y by x (pos, neg) </span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb23-7" title="7"><span class="co">#&gt; Z = -1.5768, p-value = 0.1562</span></a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="co">#&gt; alternative hypothesis: true mu is not equal to 0</span></a></code></pre></div>
 <p>That’s the same <em>p</em> value we obtained. Yes! Notice this is now called the Wilcoxon-Pratt test. That’s because Wilcoxon assumed no ties, but back in 1959, Pratt realized that you could use a distribution that includes midranks, just like we did, so that is implemented into the coin algorithm.</p>
 <p>Let’s see if this can handle a larger problem, such as the one we looked at above. This time I’m going to round the numbers so that we have a good chance of getting tied ranks.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Obtain 60 observations from trees with Fertilizer A. I'm going to assume that </span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># these observations are normally distributed.</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a>large.A &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">80</span>, <span class="dt">sd =</span> <span class="dv">10</span>))</span>
-<span id="cb24-5"><a href="#cb24-5"></a></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="co"># Do it again for Fertilizer B. I'm going to assume that we obtain an average </span></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co"># of 3 more bushels of fruit from this tree.</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a></span>
-<span id="cb24-9"><a href="#cb24-9"></a>large.B &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">83</span>, <span class="dt">sd =</span> <span class="dv">10</span>))</span>
-<span id="cb24-10"><a href="#cb24-10"></a></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="co"># Let's see if we have any ties.</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a></span>
-<span id="cb24-13"><a href="#cb24-13"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rank">rank</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A))</span>
-<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt;  [1] 28.5 45.5 36.0 59.0 39.5 58.0 51.5 20.5 57.0 49.5 45.5 18.0 22.5 10.0</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a><span class="co">#&gt; [15] 10.0 14.5 36.0 24.5 32.0 41.5 60.0 10.0 26.5  1.5 18.0  4.5 30.0 26.5</span></span>
-<span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt; [29] 22.5  4.5 24.5  4.5 56.0 32.0 20.5 10.0 38.0 14.5 39.5 53.5  1.5 43.5</span></span>
-<span id="cb24-17"><a href="#cb24-17"></a><span class="co">#&gt; [43] 53.5 47.0 51.5 43.5 55.0 34.0 49.5 28.5 14.5 32.0  7.0 36.0 18.0 48.0</span></span>
-<span id="cb24-18"><a href="#cb24-18"></a><span class="co">#&gt; [57]  4.5 10.0 41.5 14.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="co"># Obtain 60 observations from trees with Fertilizer A. I'm going to assume that </span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="co"># these observations are normally distributed.</span></a>
+<a class="sourceLine" id="cb24-3" title="3"></a>
+<a class="sourceLine" id="cb24-4" title="4">large.A &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">80</span>, <span class="dt">sd =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb24-5" title="5"></a>
+<a class="sourceLine" id="cb24-6" title="6"><span class="co"># Do it again for Fertilizer B. I'm going to assume that we obtain an average </span></a>
+<a class="sourceLine" id="cb24-7" title="7"><span class="co"># of 3 more bushels of fruit from this tree.</span></a>
+<a class="sourceLine" id="cb24-8" title="8"></a>
+<a class="sourceLine" id="cb24-9" title="9">large.B &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">83</span>, <span class="dt">sd =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb24-10" title="10"></a>
+<a class="sourceLine" id="cb24-11" title="11"><span class="co"># Let's see if we have any ties.</span></a>
+<a class="sourceLine" id="cb24-12" title="12"></a>
+<a class="sourceLine" id="cb24-13" title="13"><span class="kw"><a href="https://rdrr.io/r/base/rank.html">rank</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A))</a>
+<a class="sourceLine" id="cb24-14" title="14"><span class="co">#&gt;  [1] 28.5 24.0 59.5 48.5 11.5  8.0 32.0 59.5 16.0 24.0  8.0  4.0  6.0  1.5</span></a>
+<a class="sourceLine" id="cb24-15" title="15"><span class="co">#&gt; [15] 28.5 57.0 52.0 11.5 43.0  8.0  4.0 55.0  4.0 56.0 16.0 24.0 43.0 46.5</span></a>
+<a class="sourceLine" id="cb24-16" title="16"><span class="co">#&gt; [29] 50.0 43.0 54.0 11.5 52.0 35.0 35.0 48.5 19.5 38.5 32.0 43.0 35.0 24.0</span></a>
+<a class="sourceLine" id="cb24-17" title="17"><span class="co">#&gt; [43] 21.0 24.0 28.5 16.0 38.5 32.0 52.0 28.5  1.5 16.0 58.0 38.5 46.5 11.5</span></a>
+<a class="sourceLine" id="cb24-18" title="18"><span class="co">#&gt; [57] 19.5 43.0 16.0 38.5</span></a></code></pre></div>
 <p>Now let’s see if the function works for us. Remember we did a one-sided test for this example.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">wilcoxsign_test</span>(large.B <span class="op">~</span><span class="st"> </span>large.A,</span>
-<span id="cb25-2"><a href="#cb25-2"></a>                <span class="dt">distribution =</span> <span class="st">"exact"</span>,</span>
-<span id="cb25-3"><a href="#cb25-3"></a>                <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#&gt; </span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co">#&gt;  Exact Wilcoxon-Pratt Signed-Rank Test</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="co">#&gt; </span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt; data:  y by x (pos, neg) </span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt; Z = 1.4764, p-value = 0.07059</span></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="co">#&gt; alternative hypothesis: true mu is greater than 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">wilcoxsign_test</span>(large.B <span class="op">~</span><span class="st"> </span>large.A,</a>
+<a class="sourceLine" id="cb25-2" title="2">                <span class="dt">distribution =</span> <span class="st">"exact"</span>,</a>
+<a class="sourceLine" id="cb25-3" title="3">                <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-5" title="5"><span class="co">#&gt;  Exact Wilcoxon-Pratt Signed-Rank Test</span></a>
+<a class="sourceLine" id="cb25-6" title="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-7" title="7"><span class="co">#&gt; data:  y by x (pos, neg) </span></a>
+<a class="sourceLine" id="cb25-8" title="8"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb25-9" title="9"><span class="co">#&gt; Z = 0.95373, p-value = 0.1718</span></a>
+<a class="sourceLine" id="cb25-10" title="10"><span class="co">#&gt; alternative hypothesis: true mu is greater than 0</span></a></code></pre></div>
 <p>Let’s see how this <em>p</em> value compares to that of the <em>t</em> test.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#&gt; </span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="co">#&gt; </span></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="co">#&gt; data:  large.B - large.A</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="co">#&gt; t = 1.5712, df = 59, p-value = 0.06075</span></span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a><span class="co">#&gt;  -0.2098798        Inf</span></span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb26-12"><a href="#cb26-12"></a><span class="co">#&gt;       3.3</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(large.B <span class="op">-</span><span class="st"> </span>large.A, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb26-5" title="5"><span class="co">#&gt; data:  large.B - large.A</span></a>
+<a class="sourceLine" id="cb26-6" title="6"><span class="co">#&gt; t = 0.99388, df = 59, p-value = 0.1622</span></a>
+<a class="sourceLine" id="cb26-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></a>
+<a class="sourceLine" id="cb26-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb26-9" title="9"><span class="co">#&gt;  -1.19243      Inf</span></a>
+<a class="sourceLine" id="cb26-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb26-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb26-12" title="12"><span class="co">#&gt;      1.75</span></a></code></pre></div>
 <p>Pretty close!</p>
 </div>
 <div id="a-confidence-interval-for-the-median" class="section level3">
@@ -548,72 +553,72 @@
 <a href="#walsh-averages" class="anchor"></a>Walsh averages</h4>
 <p>The first step in confidence interval construction is to construct Walsh averages. A Walsh average is the average of a pair of scores. We will need to construct all Walsh averages for all pairs of difference scores. Let’s use our small fertilizer data set as an example. Here is a matrix of Walsh averages.</p>
 <div class="figure">
-<img src="Walsh%20Averages.jpg" alt=""><p class="caption"><em>Figure 1</em></p>
+<img src="Walsh%20Averages.jpg" alt="Figure 1"><p class="caption"><em>Figure 1</em></p>
 </div>
 </div>
 <div id="the-hodges-lehmann-median-estimate" class="section level4">
 <h4 class="hasAnchor">
 <a href="#the-hodges-lehmann-median-estimate" class="anchor"></a>The Hodges-Lehmann median estimate</h4>
 <p>Hodges and Lehmann showed that the median of Walsh averages is an estimate of the median of scores with strong statistical properties. Thus, in this example, here is the estimate of the median.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">2</span>, <span class="fl">-1.5</span>, <span class="dv">-1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">4.5</span>, <span class="dv">6</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">6.5</span>, <span class="dv">7</span>,</span>
-<span id="cb27-2"><a href="#cb27-2"></a>         <span class="dv">5</span>, <span class="fl">5.5</span>, <span class="fl">7.5</span>, <span class="dv">9</span>, <span class="fl">9.5</span>, <span class="dv">12</span>))</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="co">#&gt; [1] 4.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">2</span>, <span class="fl">-1.5</span>, <span class="dv">-1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">4.5</span>, <span class="dv">6</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">6.5</span>, <span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb27-2" title="2">         <span class="dv">5</span>, <span class="fl">5.5</span>, <span class="fl">7.5</span>, <span class="dv">9</span>, <span class="fl">9.5</span>, <span class="dv">12</span>))</a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="co">#&gt; [1] 4.5</span></a></code></pre></div>
 <p>This is a point estimate, which is useful information, but we seek an interval estimate that has an associated level of confidence. Look again at the distribution of the possible sum of positive ranks.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#&gt;       T                               </span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="co">#&gt;  [5,] 4  0.0312500 0.1093750 0.9218750</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt;  [6,] 5  0.0468750 0.1562500 0.8906250</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="co">#&gt;  [7,] 6  0.0625000 0.2187500 0.8437500</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a><span class="co">#&gt;  [8,] 7  0.0625000 0.2812500 0.7812500</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="co">#&gt;  [9,] 8  0.0625000 0.3437500 0.7187500</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a><span class="co">#&gt; [10,] 9  0.0781250 0.4218750 0.6562500</span></span>
-<span id="cb28-13"><a href="#cb28-13"></a><span class="co">#&gt; [11,] 10 0.0781250 0.5000000 0.5781250</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a><span class="co">#&gt; [12,] 11 0.0781250 0.5781250 0.5000000</span></span>
-<span id="cb28-15"><a href="#cb28-15"></a><span class="co">#&gt; [13,] 12 0.0781250 0.6562500 0.4218750</span></span>
-<span id="cb28-16"><a href="#cb28-16"></a><span class="co">#&gt; [14,] 13 0.0625000 0.7187500 0.3437500</span></span>
-<span id="cb28-17"><a href="#cb28-17"></a><span class="co">#&gt; [15,] 14 0.0625000 0.7812500 0.2812500</span></span>
-<span id="cb28-18"><a href="#cb28-18"></a><span class="co">#&gt; [16,] 15 0.0625000 0.8437500 0.2187500</span></span>
-<span id="cb28-19"><a href="#cb28-19"></a><span class="co">#&gt; [17,] 16 0.0468750 0.8906250 0.1562500</span></span>
-<span id="cb28-20"><a href="#cb28-20"></a><span class="co">#&gt; [18,] 17 0.0312500 0.9218750 0.1093750</span></span>
-<span id="cb28-21"><a href="#cb28-21"></a><span class="co">#&gt; [19,] 18 0.0312500 0.9531250 0.0781250</span></span>
-<span id="cb28-22"><a href="#cb28-22"></a><span class="co">#&gt; [20,] 19 0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb28-23"><a href="#cb28-23"></a><span class="co">#&gt; [21,] 20 0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb28-24"><a href="#cb28-24"></a><span class="co">#&gt; [22,] 21 0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="co">#&gt;       T                               </span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb28-4" title="4"><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb28-5" title="5"><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb28-6" title="6"><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></a>
+<a class="sourceLine" id="cb28-7" title="7"><span class="co">#&gt;  [5,] 4  0.0312500 0.1093750 0.9218750</span></a>
+<a class="sourceLine" id="cb28-8" title="8"><span class="co">#&gt;  [6,] 5  0.0468750 0.1562500 0.8906250</span></a>
+<a class="sourceLine" id="cb28-9" title="9"><span class="co">#&gt;  [7,] 6  0.0625000 0.2187500 0.8437500</span></a>
+<a class="sourceLine" id="cb28-10" title="10"><span class="co">#&gt;  [8,] 7  0.0625000 0.2812500 0.7812500</span></a>
+<a class="sourceLine" id="cb28-11" title="11"><span class="co">#&gt;  [9,] 8  0.0625000 0.3437500 0.7187500</span></a>
+<a class="sourceLine" id="cb28-12" title="12"><span class="co">#&gt; [10,] 9  0.0781250 0.4218750 0.6562500</span></a>
+<a class="sourceLine" id="cb28-13" title="13"><span class="co">#&gt; [11,] 10 0.0781250 0.5000000 0.5781250</span></a>
+<a class="sourceLine" id="cb28-14" title="14"><span class="co">#&gt; [12,] 11 0.0781250 0.5781250 0.5000000</span></a>
+<a class="sourceLine" id="cb28-15" title="15"><span class="co">#&gt; [13,] 12 0.0781250 0.6562500 0.4218750</span></a>
+<a class="sourceLine" id="cb28-16" title="16"><span class="co">#&gt; [14,] 13 0.0625000 0.7187500 0.3437500</span></a>
+<a class="sourceLine" id="cb28-17" title="17"><span class="co">#&gt; [15,] 14 0.0625000 0.7812500 0.2812500</span></a>
+<a class="sourceLine" id="cb28-18" title="18"><span class="co">#&gt; [16,] 15 0.0625000 0.8437500 0.2187500</span></a>
+<a class="sourceLine" id="cb28-19" title="19"><span class="co">#&gt; [17,] 16 0.0468750 0.8906250 0.1562500</span></a>
+<a class="sourceLine" id="cb28-20" title="20"><span class="co">#&gt; [18,] 17 0.0312500 0.9218750 0.1093750</span></a>
+<a class="sourceLine" id="cb28-21" title="21"><span class="co">#&gt; [19,] 18 0.0312500 0.9531250 0.0781250</span></a>
+<a class="sourceLine" id="cb28-22" title="22"><span class="co">#&gt; [20,] 19 0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb28-23" title="23"><span class="co">#&gt; [21,] 20 0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb28-24" title="24"><span class="co">#&gt; [22,] 21 0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>There’s something interesting to note. The maximum possible sum of ranks is 21, which also happens to be the number of Walsh averages. Coincidence? No! This is always the case, and this knowledge leads to a simple method of confidence interval construction. Note in our distribution that we will reject (at the 90% confidence level) for values less than, or equal to, 2. We can translate this onto our chart of Walsh averages by rejecting the 2 lowest values and the 2 highest values in our table, then putting all other values in the confidence interval. This provides the following interval.</p>
 <p><span class="math inline">\(-1 \le \theta \le 9\)</span></p>
 <p>Here is the calculation using the wilcox.test function.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/wilcox.test">wilcox.test</a></span>(A.minus.B,</span>
-<span id="cb29-2"><a href="#cb29-2"></a>            <span class="dt">alternative =</span> <span class="st">"two.sided"</span>,</span>
-<span id="cb29-3"><a href="#cb29-3"></a>            <span class="dt">conf.int =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb29-4"><a href="#cb29-4"></a>            <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="co">#&gt; </span></span>
-<span id="cb29-6"><a href="#cb29-6"></a><span class="co">#&gt;  Wilcoxon signed rank test</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co">#&gt; </span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="co">#&gt; data:  A.minus.B</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="co">#&gt; V = 3, p-value = 0.1563</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="co">#&gt; 90 percent confidence interval:</span></span>
-<span id="cb29-12"><a href="#cb29-12"></a><span class="co">#&gt;  -9  1</span></span>
-<span id="cb29-13"><a href="#cb29-13"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb29-14"><a href="#cb29-14"></a><span class="co">#&gt; (pseudo)median </span></span>
-<span id="cb29-15"><a href="#cb29-15"></a><span class="co">#&gt;           -4.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(A.minus.B,</a>
+<a class="sourceLine" id="cb29-2" title="2">            <span class="dt">alternative =</span> <span class="st">"two.sided"</span>,</a>
+<a class="sourceLine" id="cb29-3" title="3">            <span class="dt">conf.int =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb29-4" title="4">            <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</a>
+<a class="sourceLine" id="cb29-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb29-6" title="6"><span class="co">#&gt;  Wilcoxon signed rank test</span></a>
+<a class="sourceLine" id="cb29-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb29-8" title="8"><span class="co">#&gt; data:  A.minus.B</span></a>
+<a class="sourceLine" id="cb29-9" title="9"><span class="co">#&gt; V = 3, p-value = 0.1563</span></a>
+<a class="sourceLine" id="cb29-10" title="10"><span class="co">#&gt; alternative hypothesis: true location is not equal to 0</span></a>
+<a class="sourceLine" id="cb29-11" title="11"><span class="co">#&gt; 90 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb29-12" title="12"><span class="co">#&gt;  -9  1</span></a>
+<a class="sourceLine" id="cb29-13" title="13"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb29-14" title="14"><span class="co">#&gt; (pseudo)median </span></a>
+<a class="sourceLine" id="cb29-15" title="15"><span class="co">#&gt;           -4.5</span></a></code></pre></div>
 <p>The subtraction was in the opposite direction of ours, but this is no matter as long as we interpret based on direction. Let’s compare it to the interval using the sign test.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">SignTest</span>(A.minus.B, <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="co">#&gt; </span></span>
-<span id="cb30-3"><a href="#cb30-3"></a><span class="co">#&gt;  One-sample Sign-Test</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="co">#&gt; </span></span>
-<span id="cb30-5"><a href="#cb30-5"></a><span class="co">#&gt; data:  A.minus.B</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="co">#&gt; S = 2, number of differences = 6, p-value = 0.6875</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a><span class="co">#&gt; alternative hypothesis: true median is not equal to 0</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a><span class="co">#&gt; 96.9 percent confidence interval:</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#&gt;  -12   2</span></span>
-<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb30-11"><a href="#cb30-11"></a><span class="co">#&gt; median of the differences </span></span>
-<span id="cb30-12"><a href="#cb30-12"></a><span class="co">#&gt;                      -4.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">SignTest</span>(A.minus.B, <span class="dt">conf.level =</span> <span class="fl">0.90</span>)</a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb30-3" title="3"><span class="co">#&gt;  One-sample Sign-Test</span></a>
+<a class="sourceLine" id="cb30-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb30-5" title="5"><span class="co">#&gt; data:  A.minus.B</span></a>
+<a class="sourceLine" id="cb30-6" title="6"><span class="co">#&gt; S = 2, number of differences = 6, p-value = 0.6875</span></a>
+<a class="sourceLine" id="cb30-7" title="7"><span class="co">#&gt; alternative hypothesis: true median is not equal to 0</span></a>
+<a class="sourceLine" id="cb30-8" title="8"><span class="co">#&gt; 96.9 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb30-9" title="9"><span class="co">#&gt;  -12   2</span></a>
+<a class="sourceLine" id="cb30-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb30-11" title="11"><span class="co">#&gt; median of the differences </span></a>
+<a class="sourceLine" id="cb30-12" title="12"><span class="co">#&gt;                      -4.5</span></a></code></pre></div>
 <p>This is wider than the interval we obtained with the Wilcoxon method, which is to be expected when the data are symmetrical. If the data were normal, we could obtain an even narrower interval with the <em>t</em> test, but we shouldn’t go there unless we know we have normally distributed data.</p>
 </div>
 </div>
@@ -623,223 +628,225 @@
 <p>Although ranks are among the most common replacement scores that we can use to test a hypothesis of interest, there are other possible replacement scores, including those that have a primary advantage of ranks; namely, that the scores are the same for every sample of the same sample size. The reason we should entertain the possibility of alternative replacement scores is that such scores may provide us more power for some distributions of the original scores. I will discuss that in more detail later. For now, let’s look at another type of replacement scores: normal scores.</p>
 <p>In the early 1950s, the Dutch mathematician Bartel Leender van der Waerden proposed replacing scores with quantiles of the normal distribution and developed some statistical tests using these replacement scores. In honor of this insight, we refer to these as van der Waerden normal scores. Here is a picture to illustrate how we obtain normal scores. In this example, we obtain nine scores by partitioning the normal distribution into 10 equal areas. Each area is bounded by one or two quantiles. These quantiles are the normal scores.</p>
 <div class="figure">
-<img src="normal%20scores.jpg" alt=""><p class="caption"><em>Figure 2</em></p>
+<img src="normal%20scores.jpg" alt="Figure 2"><p class="caption"><em>Figure 2</em></p>
 </div>
 <p>For the one-sample test, we first compute 2n + 1 normal scores, where n is our sample size. This will give us n positive normal scores, and it is these positive scores that we use as our replacement values. Here is some code to calculate normal scores for our small set of fertilizer differences.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>i &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>(<span class="dv">2</span><span class="op">*</span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
-<span id="cb31-2"><a href="#cb31-2"></a>n.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(i<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>))</span>
-<span id="cb31-3"><a href="#cb31-3"></a>n.scores</span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt;  [1] -1.4652338 -1.0675705 -0.7916386 -0.5659488 -0.3661064 -0.1800124</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt;  [7]  0.0000000  0.1800124  0.3661064  0.5659488  0.7916386  1.0675705</span></span>
-<span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt; [13]  1.4652338</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">i &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>(<span class="dv">2</span><span class="op">*</span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb31-2" title="2">n.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span>(i<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb31-3" title="3">n.scores</a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="co">#&gt;  [1] -1.4652338 -1.0675705 -0.7916386 -0.5659488 -0.3661064 -0.1800124</span></a>
+<a class="sourceLine" id="cb31-5" title="5"><span class="co">#&gt;  [7]  0.0000000  0.1800124  0.3661064  0.5659488  0.7916386  1.0675705</span></a>
+<a class="sourceLine" id="cb31-6" title="6"><span class="co">#&gt; [13]  1.4652338</span></a></code></pre></div>
 <p>Notice that the area between any two of these scores is the same.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="fl">0.3661064</span>) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="fl">0.1800124</span>)</span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="co">#&gt; [1] 0.07142858</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="fl">1.0675705</span>) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(<span class="fl">0.7916386</span>)</span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="co">#&gt; [1] 0.07142857</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="fl">0.3661064</span>) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="fl">0.1800124</span>)</a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="co">#&gt; [1] 0.07142858</span></a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="fl">1.0675705</span>) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(<span class="fl">0.7916386</span>)</a>
+<a class="sourceLine" id="cb32-4" title="4"><span class="co">#&gt; [1] 0.07142857</span></a></code></pre></div>
 <p>We have divided the normal distribution into 14 sections, each with the same area.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="dv">14</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.07142858</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="dv">14</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.07142858</span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
 <p>We only want the positive scores for our replacement scores.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>n.scores &lt;-<span class="st"> </span>n.scores[<span class="dv">8</span><span class="op">:</span><span class="dv">13</span>]</span>
-<span id="cb34-2"><a href="#cb34-2"></a>n.scores</span>
-<span id="cb34-3"><a href="#cb34-3"></a><span class="co">#&gt; [1] 0.1800124 0.3661064 0.5659488 0.7916386 1.0675705 1.4652338</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">n.scores &lt;-<span class="st"> </span>n.scores[<span class="dv">8</span><span class="op">:</span><span class="dv">13</span>]</a>
+<a class="sourceLine" id="cb34-2" title="2">n.scores</a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co">#&gt; [1] 0.1800124 0.3661064 0.5659488 0.7916386 1.0675705 1.4652338</span></a></code></pre></div>
 <p>We now order our fertilizer difference scores based on the absolute values of these differences.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>A.minus.B &lt;-<span class="st"> </span>A.minus.B[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/order">order</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(A.minus.B))]</span>
-<span id="cb35-2"><a href="#cb35-2"></a>A.minus.B</span>
-<span id="cb35-3"><a href="#cb35-3"></a><span class="co">#&gt; [1]   1   2  -3  -6  -7 -12</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">A.minus.B &lt;-<span class="st"> </span>A.minus.B[<span class="kw"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(A.minus.B))]</a>
+<a class="sourceLine" id="cb35-2" title="2">A.minus.B</a>
+<a class="sourceLine" id="cb35-3" title="3"><span class="co">#&gt; [1]   1   2  -3  -6  -7 -12</span></a></code></pre></div>
 <p>Now that we have the order, we can attach the signs to our normal scores.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>n.scores &lt;-<span class="st"> </span>n.scores<span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sign">sign</a></span>(A.minus.B)</span>
-<span id="cb36-2"><a href="#cb36-2"></a>n.scores</span>
-<span id="cb36-3"><a href="#cb36-3"></a><span class="co">#&gt; [1]  0.1800124  0.3661064 -0.5659488 -0.7916386 -1.0675705 -1.4652338</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">n.scores &lt;-<span class="st"> </span>n.scores<span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/sign.html">sign</a></span>(A.minus.B)</a>
+<a class="sourceLine" id="cb36-2" title="2">n.scores</a>
+<a class="sourceLine" id="cb36-3" title="3"><span class="co">#&gt; [1]  0.1800124  0.3661064 -0.5659488 -0.7916386 -1.0675705 -1.4652338</span></a></code></pre></div>
 <p>Our test statistic is the sum of the positive difference scores.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>T &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n.scores[n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</span>
-<span id="cb37-2"><a href="#cb37-2"></a>T</span>
-<span id="cb37-3"><a href="#cb37-3"></a><span class="co">#&gt; [1] 0.5461187</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">T &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(n.scores[n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb37-2" title="2">T</a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="co">#&gt; [1] 0.5461187</span></a></code></pre></div>
 <p>Let’s look at the distribution.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(n.scores)</span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="co">#&gt;       T                                              </span></span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="co">#&gt;  [1,] 0                 0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="co">#&gt;  [2,] 0.180012369792705 0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb38-5"><a href="#cb38-5"></a><span class="co">#&gt;  [3,] 0.36610635680057  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb38-6"><a href="#cb38-6"></a><span class="co">#&gt;  [4,] 0.546118726593275 0.0156250 0.0625000 0.9531250</span></span>
-<span id="cb38-7"><a href="#cb38-7"></a><span class="co">#&gt;  [5,] 0.565948821932863 0.0156250 0.0781250 0.9375000</span></span>
-<span id="cb38-8"><a href="#cb38-8"></a><span class="co">#&gt;  [6,] 0.745961191725568 0.0156250 0.0937500 0.9218750</span></span>
-<span id="cb38-9"><a href="#cb38-9"></a><span class="co">#&gt;  [7,] 0.791638607743375 0.0156250 0.1093750 0.9062500</span></span>
-<span id="cb38-10"><a href="#cb38-10"></a><span class="co">#&gt;  [8,] 0.932055178733433 0.0156250 0.1250000 0.8906250</span></span>
-<span id="cb38-11"><a href="#cb38-11"></a><span class="co">#&gt;  [9,] 0.97165097753608  0.0156250 0.1406250 0.8750000</span></span>
-<span id="cb38-12"><a href="#cb38-12"></a><span class="co">#&gt; [10,] 1.06757052387814  0.0156250 0.1562500 0.8593750</span></span>
-<span id="cb38-13"><a href="#cb38-13"></a><span class="co">#&gt; [11,] 1.11206754852614  0.0156250 0.1718750 0.8437500</span></span>
-<span id="cb38-14"><a href="#cb38-14"></a><span class="co">#&gt; [12,] 1.15774496454394  0.0156250 0.1875000 0.8281250</span></span>
-<span id="cb38-15"><a href="#cb38-15"></a><span class="co">#&gt; [13,] 1.24758289367085  0.0156250 0.2031250 0.8125000</span></span>
-<span id="cb38-16"><a href="#cb38-16"></a><span class="co">#&gt; [14,] 1.33775733433665  0.0156250 0.2187500 0.7968750</span></span>
-<span id="cb38-17"><a href="#cb38-17"></a><span class="co">#&gt; [15,] 1.35758742967624  0.0156250 0.2343750 0.7812500</span></span>
-<span id="cb38-18"><a href="#cb38-18"></a><span class="co">#&gt; [16,] 1.43367688067871  0.0156250 0.2500000 0.7656250</span></span>
-<span id="cb38-19"><a href="#cb38-19"></a><span class="co">#&gt; [17,] 1.46523379268552  0.0156250 0.2656250 0.7500000</span></span>
-<span id="cb38-20"><a href="#cb38-20"></a><span class="co">#&gt; [18,] 1.53759979946894  0.0156250 0.2812500 0.7343750</span></span>
-<span id="cb38-21"><a href="#cb38-21"></a><span class="co">#&gt; [19,] 1.61368925047142  0.0156250 0.2968750 0.7187500</span></span>
-<span id="cb38-22"><a href="#cb38-22"></a><span class="co">#&gt; [20,] 1.633519345811    0.0156250 0.3125000 0.7031250</span></span>
-<span id="cb38-23"><a href="#cb38-23"></a><span class="co">#&gt; [21,] 1.64524616247823  0.0156250 0.3281250 0.6875000</span></span>
-<span id="cb38-24"><a href="#cb38-24"></a><span class="co">#&gt; [22,] 1.72369378647681  0.0156250 0.3437500 0.6718750</span></span>
-<span id="cb38-25"><a href="#cb38-25"></a><span class="co">#&gt; [23,] 1.81353171560371  0.0156250 0.3593750 0.6562500</span></span>
-<span id="cb38-26"><a href="#cb38-26"></a><span class="co">#&gt; [24,] 1.83134014948609  0.0156250 0.3750000 0.6406250</span></span>
-<span id="cb38-27"><a href="#cb38-27"></a><span class="co">#&gt; [25,] 1.85920913162152  0.0156250 0.3906250 0.6250000</span></span>
-<span id="cb38-28"><a href="#cb38-28"></a><span class="co">#&gt; [26,] 1.90370615626951  0.0156250 0.4062500 0.6093750</span></span>
-<span id="cb38-29"><a href="#cb38-29"></a><span class="co">#&gt; [27,] 1.99962570261157  0.0156250 0.4218750 0.5937500</span></span>
-<span id="cb38-30"><a href="#cb38-30"></a><span class="co">#&gt; [28,] 2.0113525192788   0.0156250 0.4375000 0.5781250</span></span>
-<span id="cb38-31"><a href="#cb38-31"></a><span class="co">#&gt; [29,] 2.03118261461839  0.0156250 0.4531250 0.5625000</span></span>
-<span id="cb38-32"><a href="#cb38-32"></a><span class="co">#&gt; [30,] 2.03922150141422  0.0156250 0.4687500 0.5468750</span></span>
-<span id="cb38-33"><a href="#cb38-33"></a><span class="co">#&gt; [31,] 2.17963807240428  0.0156250 0.4843750 0.5312500</span></span>
-<span id="cb38-34"><a href="#cb38-34"></a><span class="co">#&gt; [32,] 2.21119498441109  0.0156250 0.5000000 0.5156250</span></span>
-<span id="cb38-35"><a href="#cb38-35"></a><span class="co">#&gt; [33,] 2.22531548842209  0.0156250 0.5156250 0.5000000</span></span>
-<span id="cb38-36"><a href="#cb38-36"></a><span class="co">#&gt; [34,] 2.2568724004289   0.0156250 0.5312500 0.4843750</span></span>
-<span id="cb38-37"><a href="#cb38-37"></a><span class="co">#&gt; [35,] 2.39728897141896  0.0156250 0.5468750 0.4687500</span></span>
-<span id="cb38-38"><a href="#cb38-38"></a><span class="co">#&gt; [36,] 2.40532785821479  0.0156250 0.5625000 0.4531250</span></span>
-<span id="cb38-39"><a href="#cb38-39"></a><span class="co">#&gt; [37,] 2.42515795355438  0.0156250 0.5781250 0.4375000</span></span>
-<span id="cb38-40"><a href="#cb38-40"></a><span class="co">#&gt; [38,] 2.4368847702216   0.0156250 0.5937500 0.4218750</span></span>
-<span id="cb38-41"><a href="#cb38-41"></a><span class="co">#&gt; [39,] 2.53280431656366  0.0156250 0.6093750 0.4062500</span></span>
-<span id="cb38-42"><a href="#cb38-42"></a><span class="co">#&gt; [40,] 2.57730134121166  0.0156250 0.6250000 0.3906250</span></span>
-<span id="cb38-43"><a href="#cb38-43"></a><span class="co">#&gt; [41,] 2.60517032334708  0.0156250 0.6406250 0.3750000</span></span>
-<span id="cb38-44"><a href="#cb38-44"></a><span class="co">#&gt; [42,] 2.62297875722947  0.0156250 0.6562500 0.3593750</span></span>
-<span id="cb38-45"><a href="#cb38-45"></a><span class="co">#&gt; [43,] 2.71281668635637  0.0156250 0.6718750 0.3437500</span></span>
-<span id="cb38-46"><a href="#cb38-46"></a><span class="co">#&gt; [44,] 2.79126431035495  0.0156250 0.6875000 0.3281250</span></span>
-<span id="cb38-47"><a href="#cb38-47"></a><span class="co">#&gt; [45,] 2.80299112702217  0.0156250 0.7031250 0.3125000</span></span>
-<span id="cb38-48"><a href="#cb38-48"></a><span class="co">#&gt; [46,] 2.82282122236176  0.0156250 0.7187500 0.2968750</span></span>
-<span id="cb38-49"><a href="#cb38-49"></a><span class="co">#&gt; [47,] 2.89891067336423  0.0156250 0.7343750 0.2812500</span></span>
-<span id="cb38-50"><a href="#cb38-50"></a><span class="co">#&gt; [48,] 2.97127668014765  0.0156250 0.7500000 0.2656250</span></span>
-<span id="cb38-51"><a href="#cb38-51"></a><span class="co">#&gt; [49,] 3.00283359215446  0.0156250 0.7656250 0.2500000</span></span>
-<span id="cb38-52"><a href="#cb38-52"></a><span class="co">#&gt; [50,] 3.07892304315694  0.0156250 0.7812500 0.2343750</span></span>
-<span id="cb38-53"><a href="#cb38-53"></a><span class="co">#&gt; [51,] 3.09875313849653  0.0156250 0.7968750 0.2187500</span></span>
-<span id="cb38-54"><a href="#cb38-54"></a><span class="co">#&gt; [52,] 3.18892757916233  0.0156250 0.8125000 0.2031250</span></span>
-<span id="cb38-55"><a href="#cb38-55"></a><span class="co">#&gt; [53,] 3.27876550828923  0.0156250 0.8281250 0.1875000</span></span>
-<span id="cb38-56"><a href="#cb38-56"></a><span class="co">#&gt; [54,] 3.32444292430704  0.0156250 0.8437500 0.1718750</span></span>
-<span id="cb38-57"><a href="#cb38-57"></a><span class="co">#&gt; [55,] 3.36893994895503  0.0156250 0.8593750 0.1562500</span></span>
-<span id="cb38-58"><a href="#cb38-58"></a><span class="co">#&gt; [56,] 3.4648594952971   0.0156250 0.8750000 0.1406250</span></span>
-<span id="cb38-59"><a href="#cb38-59"></a><span class="co">#&gt; [57,] 3.50445529409974  0.0156250 0.8906250 0.1250000</span></span>
-<span id="cb38-60"><a href="#cb38-60"></a><span class="co">#&gt; [58,] 3.6448718650898   0.0156250 0.9062500 0.1093750</span></span>
-<span id="cb38-61"><a href="#cb38-61"></a><span class="co">#&gt; [59,] 3.69054928110761  0.0156250 0.9218750 0.0937500</span></span>
-<span id="cb38-62"><a href="#cb38-62"></a><span class="co">#&gt; [60,] 3.87056165090031  0.0156250 0.9375000 0.0781250</span></span>
-<span id="cb38-63"><a href="#cb38-63"></a><span class="co">#&gt; [61,] 3.8903917462399   0.0156250 0.9531250 0.0625000</span></span>
-<span id="cb38-64"><a href="#cb38-64"></a><span class="co">#&gt; [62,] 4.07040411603261  0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb38-65"><a href="#cb38-65"></a><span class="co">#&gt; [63,] 4.25649810304047  0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb38-66"><a href="#cb38-66"></a><span class="co">#&gt; [64,] 4.43651047283318  0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(n.scores)</a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="co">#&gt;       T                                              </span></a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="co">#&gt;  [1,] 0                 0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="co">#&gt;  [2,] 0.180012369792705 0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb38-5" title="5"><span class="co">#&gt;  [3,] 0.36610635680057  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb38-6" title="6"><span class="co">#&gt;  [4,] 0.546118726593275 0.0156250 0.0625000 0.9531250</span></a>
+<a class="sourceLine" id="cb38-7" title="7"><span class="co">#&gt;  [5,] 0.565948821932863 0.0156250 0.0781250 0.9375000</span></a>
+<a class="sourceLine" id="cb38-8" title="8"><span class="co">#&gt;  [6,] 0.745961191725568 0.0156250 0.0937500 0.9218750</span></a>
+<a class="sourceLine" id="cb38-9" title="9"><span class="co">#&gt;  [7,] 0.791638607743375 0.0156250 0.1093750 0.9062500</span></a>
+<a class="sourceLine" id="cb38-10" title="10"><span class="co">#&gt;  [8,] 0.932055178733433 0.0156250 0.1250000 0.8906250</span></a>
+<a class="sourceLine" id="cb38-11" title="11"><span class="co">#&gt;  [9,] 0.97165097753608  0.0156250 0.1406250 0.8750000</span></a>
+<a class="sourceLine" id="cb38-12" title="12"><span class="co">#&gt; [10,] 1.06757052387814  0.0156250 0.1562500 0.8593750</span></a>
+<a class="sourceLine" id="cb38-13" title="13"><span class="co">#&gt; [11,] 1.11206754852614  0.0156250 0.1718750 0.8437500</span></a>
+<a class="sourceLine" id="cb38-14" title="14"><span class="co">#&gt; [12,] 1.15774496454394  0.0156250 0.1875000 0.8281250</span></a>
+<a class="sourceLine" id="cb38-15" title="15"><span class="co">#&gt; [13,] 1.24758289367085  0.0156250 0.2031250 0.8125000</span></a>
+<a class="sourceLine" id="cb38-16" title="16"><span class="co">#&gt; [14,] 1.33775733433665  0.0156250 0.2187500 0.7968750</span></a>
+<a class="sourceLine" id="cb38-17" title="17"><span class="co">#&gt; [15,] 1.35758742967624  0.0156250 0.2343750 0.7812500</span></a>
+<a class="sourceLine" id="cb38-18" title="18"><span class="co">#&gt; [16,] 1.43367688067871  0.0156250 0.2500000 0.7656250</span></a>
+<a class="sourceLine" id="cb38-19" title="19"><span class="co">#&gt; [17,] 1.46523379268552  0.0156250 0.2656250 0.7500000</span></a>
+<a class="sourceLine" id="cb38-20" title="20"><span class="co">#&gt; [18,] 1.53759979946894  0.0156250 0.2812500 0.7343750</span></a>
+<a class="sourceLine" id="cb38-21" title="21"><span class="co">#&gt; [19,] 1.61368925047142  0.0156250 0.2968750 0.7187500</span></a>
+<a class="sourceLine" id="cb38-22" title="22"><span class="co">#&gt; [20,] 1.633519345811    0.0156250 0.3125000 0.7031250</span></a>
+<a class="sourceLine" id="cb38-23" title="23"><span class="co">#&gt; [21,] 1.64524616247823  0.0156250 0.3281250 0.6875000</span></a>
+<a class="sourceLine" id="cb38-24" title="24"><span class="co">#&gt; [22,] 1.72369378647681  0.0156250 0.3437500 0.6718750</span></a>
+<a class="sourceLine" id="cb38-25" title="25"><span class="co">#&gt; [23,] 1.81353171560371  0.0156250 0.3593750 0.6562500</span></a>
+<a class="sourceLine" id="cb38-26" title="26"><span class="co">#&gt; [24,] 1.83134014948609  0.0156250 0.3750000 0.6406250</span></a>
+<a class="sourceLine" id="cb38-27" title="27"><span class="co">#&gt; [25,] 1.85920913162152  0.0156250 0.3906250 0.6250000</span></a>
+<a class="sourceLine" id="cb38-28" title="28"><span class="co">#&gt; [26,] 1.90370615626951  0.0156250 0.4062500 0.6093750</span></a>
+<a class="sourceLine" id="cb38-29" title="29"><span class="co">#&gt; [27,] 1.99962570261157  0.0156250 0.4218750 0.5937500</span></a>
+<a class="sourceLine" id="cb38-30" title="30"><span class="co">#&gt; [28,] 2.0113525192788   0.0156250 0.4375000 0.5781250</span></a>
+<a class="sourceLine" id="cb38-31" title="31"><span class="co">#&gt; [29,] 2.03118261461839  0.0156250 0.4531250 0.5625000</span></a>
+<a class="sourceLine" id="cb38-32" title="32"><span class="co">#&gt; [30,] 2.03922150141422  0.0156250 0.4687500 0.5468750</span></a>
+<a class="sourceLine" id="cb38-33" title="33"><span class="co">#&gt; [31,] 2.17963807240428  0.0156250 0.4843750 0.5312500</span></a>
+<a class="sourceLine" id="cb38-34" title="34"><span class="co">#&gt; [32,] 2.21119498441109  0.0156250 0.5000000 0.5156250</span></a>
+<a class="sourceLine" id="cb38-35" title="35"><span class="co">#&gt; [33,] 2.22531548842209  0.0156250 0.5156250 0.5000000</span></a>
+<a class="sourceLine" id="cb38-36" title="36"><span class="co">#&gt; [34,] 2.2568724004289   0.0156250 0.5312500 0.4843750</span></a>
+<a class="sourceLine" id="cb38-37" title="37"><span class="co">#&gt; [35,] 2.39728897141896  0.0156250 0.5468750 0.4687500</span></a>
+<a class="sourceLine" id="cb38-38" title="38"><span class="co">#&gt; [36,] 2.40532785821479  0.0156250 0.5625000 0.4531250</span></a>
+<a class="sourceLine" id="cb38-39" title="39"><span class="co">#&gt; [37,] 2.42515795355438  0.0156250 0.5781250 0.4375000</span></a>
+<a class="sourceLine" id="cb38-40" title="40"><span class="co">#&gt; [38,] 2.4368847702216   0.0156250 0.5937500 0.4218750</span></a>
+<a class="sourceLine" id="cb38-41" title="41"><span class="co">#&gt; [39,] 2.53280431656366  0.0156250 0.6093750 0.4062500</span></a>
+<a class="sourceLine" id="cb38-42" title="42"><span class="co">#&gt; [40,] 2.57730134121166  0.0156250 0.6250000 0.3906250</span></a>
+<a class="sourceLine" id="cb38-43" title="43"><span class="co">#&gt; [41,] 2.60517032334708  0.0156250 0.6406250 0.3750000</span></a>
+<a class="sourceLine" id="cb38-44" title="44"><span class="co">#&gt; [42,] 2.62297875722947  0.0156250 0.6562500 0.3593750</span></a>
+<a class="sourceLine" id="cb38-45" title="45"><span class="co">#&gt; [43,] 2.71281668635637  0.0156250 0.6718750 0.3437500</span></a>
+<a class="sourceLine" id="cb38-46" title="46"><span class="co">#&gt; [44,] 2.79126431035495  0.0156250 0.6875000 0.3281250</span></a>
+<a class="sourceLine" id="cb38-47" title="47"><span class="co">#&gt; [45,] 2.80299112702217  0.0156250 0.7031250 0.3125000</span></a>
+<a class="sourceLine" id="cb38-48" title="48"><span class="co">#&gt; [46,] 2.82282122236176  0.0156250 0.7187500 0.2968750</span></a>
+<a class="sourceLine" id="cb38-49" title="49"><span class="co">#&gt; [47,] 2.89891067336423  0.0156250 0.7343750 0.2812500</span></a>
+<a class="sourceLine" id="cb38-50" title="50"><span class="co">#&gt; [48,] 2.97127668014765  0.0156250 0.7500000 0.2656250</span></a>
+<a class="sourceLine" id="cb38-51" title="51"><span class="co">#&gt; [49,] 3.00283359215446  0.0156250 0.7656250 0.2500000</span></a>
+<a class="sourceLine" id="cb38-52" title="52"><span class="co">#&gt; [50,] 3.07892304315694  0.0156250 0.7812500 0.2343750</span></a>
+<a class="sourceLine" id="cb38-53" title="53"><span class="co">#&gt; [51,] 3.09875313849653  0.0156250 0.7968750 0.2187500</span></a>
+<a class="sourceLine" id="cb38-54" title="54"><span class="co">#&gt; [52,] 3.18892757916233  0.0156250 0.8125000 0.2031250</span></a>
+<a class="sourceLine" id="cb38-55" title="55"><span class="co">#&gt; [53,] 3.27876550828923  0.0156250 0.8281250 0.1875000</span></a>
+<a class="sourceLine" id="cb38-56" title="56"><span class="co">#&gt; [54,] 3.32444292430704  0.0156250 0.8437500 0.1718750</span></a>
+<a class="sourceLine" id="cb38-57" title="57"><span class="co">#&gt; [55,] 3.36893994895503  0.0156250 0.8593750 0.1562500</span></a>
+<a class="sourceLine" id="cb38-58" title="58"><span class="co">#&gt; [56,] 3.4648594952971   0.0156250 0.8750000 0.1406250</span></a>
+<a class="sourceLine" id="cb38-59" title="59"><span class="co">#&gt; [57,] 3.50445529409974  0.0156250 0.8906250 0.1250000</span></a>
+<a class="sourceLine" id="cb38-60" title="60"><span class="co">#&gt; [58,] 3.6448718650898   0.0156250 0.9062500 0.1093750</span></a>
+<a class="sourceLine" id="cb38-61" title="61"><span class="co">#&gt; [59,] 3.69054928110761  0.0156250 0.9218750 0.0937500</span></a>
+<a class="sourceLine" id="cb38-62" title="62"><span class="co">#&gt; [60,] 3.87056165090031  0.0156250 0.9375000 0.0781250</span></a>
+<a class="sourceLine" id="cb38-63" title="63"><span class="co">#&gt; [61,] 3.8903917462399   0.0156250 0.9531250 0.0625000</span></a>
+<a class="sourceLine" id="cb38-64" title="64"><span class="co">#&gt; [62,] 4.07040411603261  0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb38-65" title="65"><span class="co">#&gt; [63,] 4.25649810304047  0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb38-66" title="66"><span class="co">#&gt; [64,] 4.43651047283318  0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>We can calculate the <em>p</em> value.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.0625</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a><span class="co">#&gt; [1] 0.125</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.0625</span></a>
+<a class="sourceLine" id="cb39-2" title="2"><span class="co">#&gt; [1] 0.125</span></a></code></pre></div>
 <p>The nplearn package contains a function for generating normal scores.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(A.minus.B)</span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="co">#&gt; [1]  0.1800124  0.3661064 -0.5659488 -0.7916386 -1.0675705 -1.4652338</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(A.minus.B)</a>
+<a class="sourceLine" id="cb40-2" title="2"><span class="co">#&gt; [1]  0.1800124  0.3661064 -0.5659488 -0.7916386 -1.0675705 -1.4652338</span></a></code></pre></div>
 <p>Let’s again draw larger random samples. This time I’ll simulate normally distributed difference scores.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Obtain 60 normally distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a></span>
-<span id="cb41-3"><a href="#cb41-3"></a>diff.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">2</span>, <span class="dt">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb41-4"><a href="#cb41-4"></a></span>
-<span id="cb41-5"><a href="#cb41-5"></a>many.n.scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(diff.scores)</span>
-<span id="cb41-6"><a href="#cb41-6"></a>many.n.scores</span>
-<span id="cb41-7"><a href="#cb41-7"></a><span class="co">#&gt;  [1]  0.40085811  0.37869006  0.76777150  0.63628579  0.71370464</span></span>
-<span id="cb41-8"><a href="#cb41-8"></a><span class="co">#&gt;  [6] -1.16036154 -0.42322495 -2.13468333 -1.04703818  0.94577709</span></span>
-<span id="cb41-9"><a href="#cb41-9"></a><span class="co">#&gt; [11]  1.96702501  1.57718007 -0.68744352  1.50959209  0.20692866</span></span>
-<span id="cb41-10"><a href="#cb41-10"></a><span class="co">#&gt; [16] -0.16511628 -0.46861583  1.24504624 -0.14432239  0.29173166</span></span>
-<span id="cb41-11"><a href="#cb41-11"></a><span class="co">#&gt; [21] -0.51499376  1.12098304 -0.27035748  0.24910613  0.35670658</span></span>
-<span id="cb41-12"><a href="#cb41-12"></a><span class="co">#&gt; [26] -1.08327016  0.66164818 -0.58674192  0.88334633 -1.29094915</span></span>
-<span id="cb41-13"><a href="#cb41-13"></a><span class="co">#&gt; [31]  0.49167259  0.82418215  0.31323996  2.40003638 -1.01213103</span></span>
-<span id="cb41-14"><a href="#cb41-14"></a><span class="co">#&gt; [36]  0.74046747  0.91411630 -0.56250721  0.22796670 -0.04110384</span></span>
-<span id="cb41-15"><a href="#cb41-15"></a><span class="co">#&gt; [41] -0.18598182  1.84132620  0.79566030  1.33974621  0.33489417</span></span>
-<span id="cb41-16"><a href="#cb41-16"></a><span class="co">#&gt; [46] -1.73938416 -0.61132626 -0.12359072  0.10291203 -0.44580556</span></span>
-<span id="cb41-17"><a href="#cb41-17"></a><span class="co">#&gt; [51]  1.65285363  1.20162669 -0.02054758  0.85339080  1.44827204</span></span>
-<span id="cb41-18"><a href="#cb41-18"></a><span class="co">#&gt; [56]  0.97841553 -1.39196028 -0.53859848 -0.08227727 -0.06167748</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="co"># Obtain 60 normally distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.</span></a>
+<a class="sourceLine" id="cb41-2" title="2"></a>
+<a class="sourceLine" id="cb41-3" title="3">diff.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">60</span>, <span class="dt">mean =</span> <span class="dv">2</span>, <span class="dt">sd =</span> <span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb41-4" title="4"></a>
+<a class="sourceLine" id="cb41-5" title="5">many.n.scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(diff.scores)</a>
+<a class="sourceLine" id="cb41-6" title="6">many.n.scores</a>
+<a class="sourceLine" id="cb41-7" title="7"><span class="co">#&gt;  [1] -0.24910613  1.20162669  0.42322495  0.20692866 -0.35670658</span></a>
+<a class="sourceLine" id="cb41-8" title="8"><span class="co">#&gt;  [6]  2.13468333  0.68744352  1.73938416  1.44827204 -0.04110384</span></a>
+<a class="sourceLine" id="cb41-9" title="9"><span class="co">#&gt; [11] -1.50959209  0.02054758  0.79566030 -0.66164818  0.49167259</span></a>
+<a class="sourceLine" id="cb41-10" title="10"><span class="co">#&gt; [16] -0.22796670  2.40003638 -0.08227727  1.33974621 -1.65285363</span></a>
+<a class="sourceLine" id="cb41-11" title="11"><span class="co">#&gt; [21] -0.27035748  1.08327016  1.01213103  0.58674192  1.24504624</span></a>
+<a class="sourceLine" id="cb41-12" title="12"><span class="co">#&gt; [26] -0.76777150 -1.16036154  0.06167748  1.29094915 -0.12359072</span></a>
+<a class="sourceLine" id="cb41-13" title="13"><span class="co">#&gt; [31]  0.61132626 -0.29173166 -0.46861583  1.57718007  0.53859848</span></a>
+<a class="sourceLine" id="cb41-14" title="14"><span class="co">#&gt; [36]  0.94577709  0.82418215  0.91411630 -1.84132620  0.97841553</span></a>
+<a class="sourceLine" id="cb41-15" title="15"><span class="co">#&gt; [41] -0.51499376 -0.71370464  1.39196028  0.16511628 -0.88334633</span></a>
+<a class="sourceLine" id="cb41-16" title="16"><span class="co">#&gt; [46]  0.63628579  0.31323996 -1.12098304  0.14432239  0.37869006</span></a>
+<a class="sourceLine" id="cb41-17" title="17"><span class="co">#&gt; [51] -1.04703818 -0.10291203 -0.44580556 -0.40085811 -1.96702501</span></a>
+<a class="sourceLine" id="cb41-18" title="18"><span class="co">#&gt; [56] -0.56250721  0.74046747 -0.33489417  0.85339080  0.18598182</span></a></code></pre></div>
 <p>Now we are in the same predicament that we were when we had original scores and wanted to do the Fisher-Pitman test with a large sample. We need to turn to a large-sample approximation.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># Here is our observed value of the test statistic.</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a></span>
-<span id="cb42-3"><a href="#cb42-3"></a>TS &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</span>
-<span id="cb42-4"><a href="#cb42-4"></a></span>
-<span id="cb42-5"><a href="#cb42-5"></a><span class="co"># Here is the mean of T under the null hypothesis.</span></span>
-<span id="cb42-6"><a href="#cb42-6"></a></span>
-<span id="cb42-7"><a href="#cb42-7"></a>mu.TS &lt;-<span class="st"> </span><span class="fl">0.5</span><span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</span>
-<span id="cb42-8"><a href="#cb42-8"></a></span>
-<span id="cb42-9"><a href="#cb42-9"></a><span class="co"># Here is the standard deviation of T.</span></span>
-<span id="cb42-10"><a href="#cb42-10"></a></span>
-<span id="cb42-11"><a href="#cb42-11"></a>sd.TS &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="fl">0.25</span><span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]<span class="op">^</span><span class="dv">2</span>))</span>
-<span id="cb42-12"><a href="#cb42-12"></a></span>
-<span id="cb42-13"><a href="#cb42-13"></a><span class="co"># This is the Z score.</span></span>
-<span id="cb42-14"><a href="#cb42-14"></a></span>
-<span id="cb42-15"><a href="#cb42-15"></a>z &lt;-<span class="st"> </span>(TS <span class="op">-</span><span class="st"> </span>mu.TS)<span class="op">/</span>sd.TS</span>
-<span id="cb42-16"><a href="#cb42-16"></a></span>
-<span id="cb42-17"><a href="#cb42-17"></a><span class="co"># This is the p value for a one-sided test.</span></span>
-<span id="cb42-18"><a href="#cb42-18"></a></span>
-<span id="cb42-19"><a href="#cb42-19"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">pnorm</a></span>(z, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb42-20"><a href="#cb42-20"></a><span class="co">#&gt; [1] 3.89594e-07</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="co"># Here is our observed value of the test statistic.</span></a>
+<a class="sourceLine" id="cb42-2" title="2"></a>
+<a class="sourceLine" id="cb42-3" title="3">TS &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb42-4" title="4"></a>
+<a class="sourceLine" id="cb42-5" title="5"><span class="co"># Here is the mean of T under the null hypothesis.</span></a>
+<a class="sourceLine" id="cb42-6" title="6"></a>
+<a class="sourceLine" id="cb42-7" title="7">mu.TS &lt;-<span class="st"> </span><span class="fl">0.5</span><span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb42-8" title="8"></a>
+<a class="sourceLine" id="cb42-9" title="9"><span class="co"># Here is the standard deviation of T.</span></a>
+<a class="sourceLine" id="cb42-10" title="10"></a>
+<a class="sourceLine" id="cb42-11" title="11">sd.TS &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="fl">0.25</span><span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(many.n.scores[many.n.scores <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb42-12" title="12"></a>
+<a class="sourceLine" id="cb42-13" title="13"><span class="co"># This is the Z score.</span></a>
+<a class="sourceLine" id="cb42-14" title="14"></a>
+<a class="sourceLine" id="cb42-15" title="15">z &lt;-<span class="st"> </span>(TS <span class="op">-</span><span class="st"> </span>mu.TS)<span class="op">/</span>sd.TS</a>
+<a class="sourceLine" id="cb42-16" title="16"></a>
+<a class="sourceLine" id="cb42-17" title="17"><span class="co"># This is the p value for a one-sided test.</span></a>
+<a class="sourceLine" id="cb42-18" title="18"></a>
+<a class="sourceLine" id="cb42-19" title="19"><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(z, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb42-20" title="20"><span class="co">#&gt; [1] 5.784477e-07</span></a></code></pre></div>
 <p>Note that the “jumps” are all different sizes, so we can’t incorporate a correction for continuity, though we did take into account the discrete nature of the data.</p>
 <p>Under the null hypothesis, the normal scores are normally distributed. This means that we could use the t.test as a large-sample approximation. The difference is that we are assuming continuous, rather than discrete, data.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(diff.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb43-2"><a href="#cb43-2"></a><span class="co">#&gt; </span></span>
-<span id="cb43-3"><a href="#cb43-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb43-4"><a href="#cb43-4"></a><span class="co">#&gt; </span></span>
-<span id="cb43-5"><a href="#cb43-5"></a><span class="co">#&gt; data:  diff.scores</span></span>
-<span id="cb43-6"><a href="#cb43-6"></a><span class="co">#&gt; t = 1.8128, df = 59, p-value = 0.03747</span></span>
-<span id="cb43-7"><a href="#cb43-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
-<span id="cb43-8"><a href="#cb43-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb43-9"><a href="#cb43-9"></a><span class="co">#&gt;  0.16338     Inf</span></span>
-<span id="cb43-10"><a href="#cb43-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb43-11"><a href="#cb43-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb43-12"><a href="#cb43-12"></a><span class="co">#&gt;  2.089514</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(diff.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb43-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb43-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb43-5" title="5"><span class="co">#&gt; data:  diff.scores</span></a>
+<a class="sourceLine" id="cb43-6" title="6"><span class="co">#&gt; t = 1.566, df = 59, p-value = 0.06135</span></a>
+<a class="sourceLine" id="cb43-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></a>
+<a class="sourceLine" id="cb43-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb43-9" title="9"><span class="co">#&gt;  -0.09898901         Inf</span></a>
+<a class="sourceLine" id="cb43-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb43-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb43-12" title="12"><span class="co">#&gt;  1.475242</span></a></code></pre></div>
 <p>What if we had done this with normal scores? Given that we have a normal distribution, we should obtain approximately the same result.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(many.n.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</span>
-<span id="cb44-2"><a href="#cb44-2"></a><span class="co">#&gt; </span></span>
-<span id="cb44-3"><a href="#cb44-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb44-4"><a href="#cb44-4"></a><span class="co">#&gt; </span></span>
-<span id="cb44-5"><a href="#cb44-5"></a><span class="co">#&gt; data:  many.n.scores</span></span>
-<span id="cb44-6"><a href="#cb44-6"></a><span class="co">#&gt; t = 1.8428, df = 59, p-value = 0.03519</span></span>
-<span id="cb44-7"><a href="#cb44-7"></a><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></span>
-<span id="cb44-8"><a href="#cb44-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb44-9"><a href="#cb44-9"></a><span class="co">#&gt;  0.02108999        Inf</span></span>
-<span id="cb44-10"><a href="#cb44-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb44-11"><a href="#cb44-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb44-12"><a href="#cb44-12"></a><span class="co">#&gt; 0.2263192</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(many.n.scores, <span class="dt">alternative =</span> <span class="st">"greater"</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb44-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb44-5" title="5"><span class="co">#&gt; data:  many.n.scores</span></a>
+<a class="sourceLine" id="cb44-6" title="6"><span class="co">#&gt; t = 1.5578, df = 59, p-value = 0.06232</span></a>
+<a class="sourceLine" id="cb44-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is greater than 0</span></a>
+<a class="sourceLine" id="cb44-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb44-9" title="9"><span class="co">#&gt;  -0.01402515         Inf</span></a>
+<a class="sourceLine" id="cb44-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb44-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb44-12" title="12"><span class="co">#&gt; 0.1928169</span></a></code></pre></div>
 <p>I am pleased with these last two results, but using the formula for a large-sample approximation with Z scores gives a result that startles me! I obtained this from a reputable textbook, but now I’m questioning whether it is right. I am going to investigate. In the meantime, I suggest that you use the <em>t</em> test for the large-sample approximation.</p>
 <p>What if the difference scores had <em>not</em> come from a normal distribution? In the next example, I’m going to draw them from a uniform distribution.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Obtain 60 uniformly distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.</span></span>
-<span id="cb45-2"><a href="#cb45-2"></a></span>
-<span id="cb45-3"><a href="#cb45-3"></a>a &lt;-<span class="st"> </span>(<span class="dv">4</span><span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="dv">768</span>))<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb45-4"><a href="#cb45-4"></a>b &lt;-<span class="st"> </span><span class="dv">4</span> <span class="op">-</span><span class="st"> </span>a</span>
-<span id="cb45-5"><a href="#cb45-5"></a></span>
-<span id="cb45-6"><a href="#cb45-6"></a>diff.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">60</span>, a, b)</span>
-<span id="cb45-7"><a href="#cb45-7"></a></span>
-<span id="cb45-8"><a href="#cb45-8"></a>many.n.scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(diff.scores)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="co"># Obtain 60 uniformly distributed difference scores with a raw effect size of 2 and a standardized effect size of 0.25.</span></a>
+<a class="sourceLine" id="cb45-2" title="2"></a>
+<a class="sourceLine" id="cb45-3" title="3">a &lt;-<span class="st"> </span>(<span class="dv">4</span><span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="dv">768</span>))<span class="op">/</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb45-4" title="4">b &lt;-<span class="st"> </span><span class="dv">4</span> <span class="op">-</span><span class="st"> </span>a</a>
+<a class="sourceLine" id="cb45-5" title="5"></a>
+<a class="sourceLine" id="cb45-6" title="6">diff.scores &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">60</span>, a, b)</a>
+<a class="sourceLine" id="cb45-7" title="7"></a>
+<a class="sourceLine" id="cb45-8" title="8">many.n.scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/norm_scores.html">norm_scores</a></span>(diff.scores)</a></code></pre></div>
 <p>Now let’s look at the results of the <em>t</em> test with original scores. Notice that the distribution is not normal, but it is symmetrical and we have enough scores to exceed the rule of thumb of 30 and the rule of thumb of 50.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(diff.scores)</span>
-<span id="cb46-2"><a href="#cb46-2"></a><span class="co">#&gt; </span></span>
-<span id="cb46-3"><a href="#cb46-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb46-4"><a href="#cb46-4"></a><span class="co">#&gt; </span></span>
-<span id="cb46-5"><a href="#cb46-5"></a><span class="co">#&gt; data:  diff.scores</span></span>
-<span id="cb46-6"><a href="#cb46-6"></a><span class="co">#&gt; t = 1.0614, df = 59, p-value = 0.2928</span></span>
-<span id="cb46-7"><a href="#cb46-7"></a><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></span>
-<span id="cb46-8"><a href="#cb46-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb46-9"><a href="#cb46-9"></a><span class="co">#&gt;  -1.035019  3.373296</span></span>
-<span id="cb46-10"><a href="#cb46-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb46-11"><a href="#cb46-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb46-12"><a href="#cb46-12"></a><span class="co">#&gt;  1.169139</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(diff.scores)</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb46-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb46-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb46-5" title="5"><span class="co">#&gt; data:  diff.scores</span></a>
+<a class="sourceLine" id="cb46-6" title="6"><span class="co">#&gt; t = 1.1216, df = 59, p-value = 0.2666</span></a>
+<a class="sourceLine" id="cb46-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></a>
+<a class="sourceLine" id="cb46-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb46-9" title="9"><span class="co">#&gt;  -0.9683481  3.4385749</span></a>
+<a class="sourceLine" id="cb46-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb46-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb46-12" title="12"><span class="co">#&gt;  1.235113</span></a></code></pre></div>
 <p>Let’s now use the normal scores.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(many.n.scores)</span>
-<span id="cb47-2"><a href="#cb47-2"></a><span class="co">#&gt; </span></span>
-<span id="cb47-3"><a href="#cb47-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb47-4"><a href="#cb47-4"></a><span class="co">#&gt; </span></span>
-<span id="cb47-5"><a href="#cb47-5"></a><span class="co">#&gt; data:  many.n.scores</span></span>
-<span id="cb47-6"><a href="#cb47-6"></a><span class="co">#&gt; t = 1.4221, df = 59, p-value = 0.1603</span></span>
-<span id="cb47-7"><a href="#cb47-7"></a><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></span>
-<span id="cb47-8"><a href="#cb47-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb47-9"><a href="#cb47-9"></a><span class="co">#&gt;  -0.07189461  0.42509656</span></span>
-<span id="cb47-10"><a href="#cb47-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb47-11"><a href="#cb47-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb47-12"><a href="#cb47-12"></a><span class="co">#&gt;  0.176601</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(many.n.scores)</a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb47-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-5" title="5"><span class="co">#&gt; data:  many.n.scores</span></a>
+<a class="sourceLine" id="cb47-6" title="6"><span class="co">#&gt; t = 1.5797, df = 59, p-value = 0.1195</span></a>
+<a class="sourceLine" id="cb47-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></a>
+<a class="sourceLine" id="cb47-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb47-9" title="9"><span class="co">#&gt;  -0.05212297  0.44295305</span></a>
+<a class="sourceLine" id="cb47-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb47-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb47-12" title="12"><span class="co">#&gt;  0.195415</span></a></code></pre></div>
 <p>Should I be concerned that these <em>p</em> values are so different? No! We know that using the <em>t</em> test with the original scores should control our Type I error rate because the distribution is symmetrical and we have a large sample size. What we discover, however, is that by using the large-sample approximation to the nonparametric normal scores test, we obtain substantially more power. Take <strong>that</strong> all you bloggers who nonchalantly say that you get less power with nonparametric statistics! We’ll explore this issue some more in our next section on relative efficiency.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -847,12 +854,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

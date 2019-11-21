@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Binomial Distribution • nplearn</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="The Binomial Distribution">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9019</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
+    </li>
+    <li>
+      <a href="../articles/ksamp.html">K-Sample Methods for Quantitative Data</a>
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
@@ -103,6 +107,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -121,86 +126,86 @@
 <h3 class="hasAnchor">
 <a href="#required-packages" class="anchor"></a>Required packages</h3>
 <p>The nplearn package is required for this vignette. All other functions used are in the base package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nplearn)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nplearn)</a></code></pre></div>
 </div>
 <div id="joint-events" class="section level3">
 <h3 class="hasAnchor">
 <a href="#joint-events" class="anchor"></a>Joint Events</h3>
 <p>Multiple independent events that occur are referred to as <em>joint events</em>. The total number of possible joint outcomes of a joint event is the product of the number of potential outcomes of each separate event. For example, on a five-item multiple choice quiz, where each question has four options, the number of possible patterns of responses is the product of five fours.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; [1] 1024</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; [1] 1024</span></a></code></pre></div>
 <p>We can write this as an exponent.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="dv">4</span><span class="op">^</span><span class="dv">5</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 1024</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="dv">4</span><span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] 1024</span></a></code></pre></div>
 <p>We know from the laws of probability that if each event is independent, the probability of a specific set of joint events is equal to the product of the probability of the individual events. In our multiple-choice quiz example, here is the probability of a test taker getting a perfect score just by guessing.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; [1] 0.0009765625</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; [1] 0.0009765625</span></a></code></pre></div>
 <p>Here it is written another way.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">^</span><span class="dv">5</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] 0.0009765625</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)<span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] 0.0009765625</span></a></code></pre></div>
 <p>Here it is written yet another way.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fl">0.25</span><span class="op">^</span><span class="dv">5</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; [1] 0.0009765625</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="fl">0.25</span><span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; [1] 0.0009765625</span></a></code></pre></div>
 <p>Suppose we have a series of Bernoulli events. For example, suppose that we again administer a five-question quiz, but this time the items are true-false. This is a series of Bernoulli events because there are only two possible outcomes for each event. Here is the probability of getting a perfect score just by guessing.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fl">0.5</span><span class="op">^</span><span class="dv">5</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; [1] 0.03125</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="fl">0.5</span><span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; [1] 0.03125</span></a></code></pre></div>
 <p>A more sophisticated test taker will actually have studied for the test, so this test taker will not just be guessing. We could think of the probability of success on an item as a function of this person’s knowledge after learning the content. Here is the probability of a perfect score if the probability of success on each item is 0.7.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fl">0.7</span><span class="op">^</span><span class="dv">5</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; [1] 0.16807</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="fl">0.7</span><span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; [1] 0.16807</span></a></code></pre></div>
 <p>Let’s see what the chance of a perfect score is for someone who is very well prepared so that the success rate for each item is 0.95.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fl">0.95</span><span class="op">^</span><span class="dv">5</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; [1] 0.7737809</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="fl">0.95</span><span class="op">^</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; [1] 0.7737809</span></a></code></pre></div>
 <p>Of course all of this is making the unrealistic assumption that the rate of success is the same for every item. In fact, so items are more difficult than others, so the actual probability of a perfect score might be something more like this.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fl">0.8</span><span class="op">*</span><span class="fl">0.95</span><span class="op">*</span><span class="fl">0.75</span><span class="op">*</span><span class="fl">0.95</span><span class="op">*</span><span class="fl">0.70</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; [1] 0.37905</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="fl">0.8</span><span class="op">*</span><span class="fl">0.95</span><span class="op">*</span><span class="fl">0.75</span><span class="op">*</span><span class="fl">0.95</span><span class="op">*</span><span class="fl">0.70</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; [1] 0.37905</span></a></code></pre></div>
 <p>This kind of test-taking discussion with different item difficulties is best left for a measurement course, such as item response theory. We will step out of the test-taking domain in a bit, but for now let’s proceed with this example and the (unrealistic) assumption that each item has the same difficulty level.</p>
 </div>
 <div id="permutations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#permutations" class="anchor"></a>Permutations</h3>
 <p>Suppose I’m not just interested in a perfect score, but I’m also interested in questions like, what is the chance of obtaining four out of five correct on this true-false quiz if the probability of success for each item is 0.7? This is a bit tricky, because we don’t know which item the person will get wrong. Here is the probability of getting just the first item wrong.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 0.07203</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; [1] 0.07203</span></a></code></pre></div>
 <p>Here it is written another way.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; [1] 0.07203</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; [1] 0.07203</span></a></code></pre></div>
 <p>What about the probability of getting just the second item wrong?</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; [1] 0.07203</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span><span class="op">*</span><span class="fl">0.7</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [1] 0.07203</span></a></code></pre></div>
 <p>The probability is the same! In fact, we could still write it this way.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; [1] 0.07203</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; [1] 0.07203</span></a></code></pre></div>
 <p>It is pretty easy to figure out that there are five possible ways for the test taker to get just one item wrong on a five-item test: The first one could be wrong, the second item could be wrong, and so on. Thus, the total probability of getting any one item wrong is calculated this way.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; [1] 0.36015</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.7</span><span class="op">^</span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; [1] 0.36015</span></a></code></pre></div>
 <p>That was straightforward, but it becomes more difficult with different numbers of items correct and different numbers of items. For example, how many different patterns will there be for three items correct and two items incorrect? What about if there are 10 items instead of five? How many patterns will there be for four items correct and six incorrect? Clearly these questions are not as easy to answer. What we need are some counting rules. Many nonparametric statistics are based on working with discrete values, so we often need to count. Methods of counting for various situations are an important component of nonparametric analysis.</p>
 <p>The first counting rule is about permutations. A permutation of objects is a distinct ordering of objects. We can calculate the number of permutations of N objects with a product known as a <em>factorial</em>. For example, for five objects we use 5! (read as, five factorial).</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; [1] 120</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; [1] 120</span></a></code></pre></div>
 <p>R includes a factorial function.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">factorial</a></span>(<span class="dv">5</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; [1] 120</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt; [1] 120</span></a></code></pre></div>
 <p>A side note: What do we do with 0!? By definition, 0! = 1.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">factorial</a></span>(<span class="dv">0</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
 </div>
 <div id="the-binomial-coefficient" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-binomial-coefficient" class="anchor"></a>The Binomial Coefficient</h3>
 <p>In our true-false quiz example we had five questions, so the number of possible permutations of the answers is 5! = 120. Yet if we want to know how many ways there are to get two incorrect answers out of the five questions, we really only care about two incorrect and three correct answers, regardless of where they occur. That is, we consider all incorrect answers as indisitinguishable from one another. There are only two distinct type of answers here: correct and incorrect. The permutation of wrong, wrong, right, right, right does not need to be considered different than the permutation of wrong, right, right, right, wrong.</p>
 <p>To calculate how many permutations there are when we include identical “objects” (we consider every “right” and every “wrong” as identical) we need to divide the total number of permutations by the number of permutations of each identical object. Here’s the calculation for five true-false items when three are correct and two are incorrect.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">factorial</a></span>(<span class="dv">5</span>)<span class="op">/</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">factorial</a></span>(<span class="dv">3</span>)<span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">factorial</a></span>(<span class="dv">2</span>))</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">5</span>)<span class="op">/</span>(<span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">3</span>)<span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span>(<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&gt; [1] 10</span></a></code></pre></div>
 <p>This can be extended to any number of identical objects. The case where we have only two identical objects is all we will need when looking at a series of Bernoulli events, because by definition a Bernoulli event only has one of two outcomes. Given this case is so special, there is a special expression for it, as well as a special function for it. When we want to know how many ways we can get three items correct out of five Bernoulli trials, we say <em>five choose three</em>. Here is how we represent it.</p>
 <p><span class="math inline">\(\binom{5}{3}\)</span></p>
 <p>Here’s the R function.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>)</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="co">#&gt; [1] 10</span></a></code></pre></div>
 <p>This function is referred to as the <em>binomial coefficient</em>. In general, we represent the number of ways that we can have <span class="math inline">\(x\)</span> successes in <span class="math inline">\(n\)</span> trials like this, which we read as <em>n choose x</em>.</p>
 <p><span class="math inline">\(\binom{n}{x}\)</span></p>
 <p>It would seem quite difficult to figure how many different ways there are to obtain 13 correct answers on a 20-item true-false quiz, but the binomial coefficient function makes it easy.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">20</span>,<span class="dv">13</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="co">#&gt; [1] 77520</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">20</span>,<span class="dv">13</span>)</a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="co">#&gt; [1] 77520</span></a></code></pre></div>
 </div>
 <div id="the-binomial-probability-function" class="section level3">
 <h3 class="hasAnchor">
@@ -211,17 +216,17 @@
 <p><em>If the overall pass rate on an entrance exam is 70%, what is the probability </em> <em>that we will be able to fill eight slots with successful examinees if there </em> <em>are 11 applicants for the position?</em></p>
 <p>As we will see in the next vignette, knowing the probability of <span class="math inline">\(x\)</span> successes in <span class="math inline">\(n\)</span> trials can also be used to conduct hypotheses tests and construct confidence intervals for a proportion, so the value of being able to calculate probabilities based on <span class="math inline">\(n\)</span> Bernoulli events goes beyond answering questions like those above.</p>
 <p>Recall that we calculate the probability of independent joint events by taking the product of the probability of each event. When there is a 70% chance of passing an item on a five-item quiz, we calculate the probability of getting the first three items correct but missing the two remaining items like this.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fl">0.7</span><span class="op">^</span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co">#&gt; [1] 0.03087</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="fl">0.7</span><span class="op">^</span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="co">#&gt; [1] 0.03087</span></a></code></pre></div>
 <p>In more general terms, the chance of getting the first <span class="math inline">\(x\)</span> items correct but missing the remaining items on an <span class="math inline">\(n\)</span>-item quiz when the probability of success is <span class="math inline">\(pi\)</span> is calculated like this.</p>
 <p><span class="math inline">\(\pi^x (1-\pi)^{(n-x)}\)</span></p>
 <p>That is, we multiply the probability of the <span class="math inline">\(x\)</span> successes by the probability of the <span class="math inline">\(n-x\)</span> failures.</p>
 <p>I can’t think of a reason why I would want to know the chance of getting the first three items correct and missing the last two, but I can think of why I might want to know the probability of missing <em>any</em> two, not just the last two. That is where the binomial coefficient comes in handy. The binomial coefficient tells us how many ways we can arrange <span class="math inline">\(x\)</span> successes in <span class="math inline">\(n\)</span> trials. Here is how many ways we can have exactly three items correct on a five-item quiz.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="co">#&gt; [1] 10</span></a></code></pre></div>
 <p>If I multiply the probability of one specific sequence of three correct and two wrong with the number of ways I can have three correct and two wrong, that will give me the probability of obtaining any three correct on a five-item quiz.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>) <span class="op">*</span><span class="st"> </span><span class="fl">0.7</span><span class="op">^</span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#&gt; [1] 0.3087</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">5</span>, <span class="dv">3</span>) <span class="op">*</span><span class="st"> </span><span class="fl">0.7</span><span class="op">^</span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.3</span><span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="co">#&gt; [1] 0.3087</span></a></code></pre></div>
 <p>We can right this in general terms like this.</p>
 <p><span class="math inline">\(P(X = x) = \binom{n}{x}\pi^x (1-\pi)^{(n-x)}\)</span></p>
 <p>This is the binomial probability function. It tells us the probability of <span class="math inline">\(x\)</span> successes in <span class="math inline">\(n\)</span> Bernoulli events when the probability of success is <span class="math inline">\(\pi\)</span> for each Bernoulli event. Note that whereas the values of <span class="math inline">\(x\)</span> are either 0 or 1 for a Bernoulli event, the values of <span class="math inline">\(x\)</span> for the binomial function will range from 0 to <span class="math inline">\(n\)</span>. That is, you can have 0 success, 1 success, 2 successes, and so on, all the way up to <span class="math inline">\(n\)</span> successes.</p>
@@ -230,89 +235,91 @@
 <p>Here’s the formula that will provide the solution.</p>
 <p><span class="math inline">\(P(X = 0) = \binom{6}{0}0.4^0 (1-0.4)^{(6-0)}\)</span></p>
 <p>Here it is calculated in R.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">6</span>, <span class="dv">0</span>)<span class="op">*</span><span class="fl">0.4</span><span class="op">^</span><span class="dv">0</span><span class="op">*</span>(<span class="dv">1</span><span class="fl">-0.4</span>)<span class="op">^</span>(<span class="dv">6-0</span>)</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="co">#&gt; [1] 0.046656</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">6</span>, <span class="dv">0</span>)<span class="op">*</span><span class="fl">0.4</span><span class="op">^</span><span class="dv">0</span><span class="op">*</span>(<span class="dv">1</span><span class="fl">-0.4</span>)<span class="op">^</span>(<span class="dv">6-0</span>)</a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="co">#&gt; [1] 0.046656</span></a></code></pre></div>
 <p>It looks like there is a very high chance that someone will get sick! The second question is about the anticipation that this will be two people.</p>
 <p><em>Suppose that there is an expensive treatment for the above illness and that </em> <em>medical professionals purchased enough drugs to treat two patients in </em> <em>anticipation that two of the six people will contract the illness. What is </em> <em>the probability that exactly two of the six people will indeed contract the </em> <em>illness?</em></p>
 <p>Here’s the formula that will provide the solution.</p>
 <p><span class="math inline">\(P(X = 2) = \binom{6}{2}0.4^2 (1-0.4)^{(6-2)}\)</span></p>
 <p>Here it is calculated in R.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">6</span>, <span class="dv">2</span>)<span class="op">*</span><span class="fl">0.4</span><span class="op">^</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="fl">-0.4</span>)<span class="op">^</span>(<span class="dv">6-2</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#&gt; [1] 0.31104</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">6</span>, <span class="dv">2</span>)<span class="op">*</span><span class="fl">0.4</span><span class="op">^</span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span><span class="fl">-0.4</span>)<span class="op">^</span>(<span class="dv">6-2</span>)</a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="co">#&gt; [1] 0.31104</span></a></code></pre></div>
 <p>So there is about a one in three chance that the medical staff purchased exactly the correct amount of drugs. It is probably more reasonable to believe that the medical staff wants to make sure they have enough drugs, but it would be OK to have some left over. This leads us to the most common use of the binomial probability function, which is the creation of the binomial distribution.</p>
 </div>
 <div id="the-binomial-distribution" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-binomial-distribution" class="anchor"></a>The Binomial Distribution</h3>
 <p>Rather than calculating the probability that zero or two people will get sick when they come in contact with a particular bacteria or virus, wouldn’t it make sense to know the probability for every possible outcome? Yes! That is what we do to create the binomial distribution. Here are all the probabilities.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>n &lt;-<span class="st"> </span><span class="dv">6</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n</span>
-<span id="cb27-3"><a href="#cb27-3"></a>pi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a></span>
-<span id="cb27-5"><a href="#cb27-5"></a>prob.x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(n, x)<span class="op">*</span>pi<span class="op">^</span>x<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>pi)<span class="op">^</span>(n<span class="op">-</span>x)</span>
-<span id="cb27-6"><a href="#cb27-6"></a></span>
-<span id="cb27-7"><a href="#cb27-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(x,prob.x)</span>
-<span id="cb27-8"><a href="#cb27-8"></a><span class="co">#&gt;      x   prob.x</span></span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="co">#&gt; [1,] 0 0.046656</span></span>
-<span id="cb27-10"><a href="#cb27-10"></a><span class="co">#&gt; [2,] 1 0.186624</span></span>
-<span id="cb27-11"><a href="#cb27-11"></a><span class="co">#&gt; [3,] 2 0.311040</span></span>
-<span id="cb27-12"><a href="#cb27-12"></a><span class="co">#&gt; [4,] 3 0.276480</span></span>
-<span id="cb27-13"><a href="#cb27-13"></a><span class="co">#&gt; [5,] 4 0.138240</span></span>
-<span id="cb27-14"><a href="#cb27-14"></a><span class="co">#&gt; [6,] 5 0.036864</span></span>
-<span id="cb27-15"><a href="#cb27-15"></a><span class="co">#&gt; [7,] 6 0.004096</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">n &lt;-<span class="st"> </span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb27-2" title="2">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb27-3" title="3">pi &lt;-<span class="st"> </span><span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb27-4" title="4"></a>
+<a class="sourceLine" id="cb27-5" title="5">prob.x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(n, x)<span class="op">*</span>pi<span class="op">^</span>x<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>pi)<span class="op">^</span>(n<span class="op">-</span>x)</a>
+<a class="sourceLine" id="cb27-6" title="6"></a>
+<a class="sourceLine" id="cb27-7" title="7"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(x,prob.x)</a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="co">#&gt;      x   prob.x</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="co">#&gt; [1,] 0 0.046656</span></a>
+<a class="sourceLine" id="cb27-10" title="10"><span class="co">#&gt; [2,] 1 0.186624</span></a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="co">#&gt; [3,] 2 0.311040</span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="co">#&gt; [4,] 3 0.276480</span></a>
+<a class="sourceLine" id="cb27-13" title="13"><span class="co">#&gt; [5,] 4 0.138240</span></a>
+<a class="sourceLine" id="cb27-14" title="14"><span class="co">#&gt; [6,] 5 0.036864</span></a>
+<a class="sourceLine" id="cb27-15" title="15"><span class="co">#&gt; [7,] 6 0.004096</span></a></code></pre></div>
 <p>Given that we calculated the probability for every possible outcome, these better add to one!</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(prob.x)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(prob.x)</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
 <p>They do! Here’s a picture of the binomial distribution. Note that it relates every possible value of <span class="math inline">\(x\)</span> to the probability of observing <span class="math inline">\(x\)</span> in <span class="math inline">\(n\)</span> trials, so this is a probability function.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">6</span>, <span class="fl">0.4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">6</span>, <span class="fl">0.4</span>)</a></code></pre></div>
 <p><img src="binomdist_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 <p>If we want to determine the probability that we have enough drugs for up to two people who may get sick (rather than exactly two people), we can find the cumulative probability up to and including two.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>n &lt;-<span class="st"> </span><span class="dv">6</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>pi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a></span>
-<span id="cb30-5"><a href="#cb30-5"></a>prob.x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(n, x)<span class="op">*</span>pi<span class="op">^</span>x<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>pi)<span class="op">^</span>(n<span class="op">-</span>x)</span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(prob.x)</span>
-<span id="cb30-7"><a href="#cb30-7"></a><span class="co">#&gt; [1] 0.54432</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">n &lt;-<span class="st"> </span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb30-2" title="2">x &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb30-3" title="3">pi &lt;-<span class="st"> </span><span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb30-4" title="4"></a>
+<a class="sourceLine" id="cb30-5" title="5">prob.x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(n, x)<span class="op">*</span>pi<span class="op">^</span>x<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>pi)<span class="op">^</span>(n<span class="op">-</span>x)</a>
+<a class="sourceLine" id="cb30-6" title="6"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(prob.x)</a>
+<a class="sourceLine" id="cb30-7" title="7"><span class="co">#&gt; [1] 0.54432</span></a></code></pre></div>
 <p>There’s a little better than a one in two chance that two doses will be enough. (If this is a serious disease, I would want a higher probability that I’m going to be able to treat everyone!)</p>
 <p>You may have guessed by now that we don’t really need to write R code to make these calculations because someone has already done it for us. You would be correct. The binomial distribution is a common distribution, so we have the d, p, q, and r distribution functions at our disposal. Yay!</p>
 <p>Here’s the probability that exactly two out of six people will contract the sickness.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">dbinom</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">size =</span> <span class="dv">6</span>, <span class="dt">prob =</span> <span class="fl">0.4</span>)</span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="co">#&gt; [1] 0.31104</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">size =</span> <span class="dv">6</span>, <span class="dt">prob =</span> <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="co">#&gt; [1] 0.31104</span></a></code></pre></div>
 <p>Here’s the probability that two or less persons out of six people will contract the sickness.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="co">#&gt; [1] 0.54432</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="co">#&gt; [1] 0.54432</span></a></code></pre></div>
 <p>Suppose we want to be at least 80% certain that we have enough treatments. How many should we get?</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">qbinom</a></span>(<span class="fl">0.8</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">qbinom</a></span>(<span class="fl">0.8</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
 <p>We need three treatments. Remember that this is a discrete distribution, so it would be unusual to have the cumulative probability up to, and including, three be exactly 80%. Let’s see what it is.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="co">#&gt; [1] 0.8208</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="co">#&gt; [1] 0.8208</span></a></code></pre></div>
 <p>It is 82%. Remember the rule for quantiles of a discrete distribution. We are seeking the smallest value of <span class="math inline">\(x\)</span> on the distribution such that the cumulative probability to, and including, <span class="math inline">\(x\)</span> is at least the specified probability. That’s what we got here, and we were able to use this rule to our advantage by being at least 80% sure that we have enough treatments.</p>
 <p>Let’s consider the final question posed above.</p>
 <p><em>If the overall pass rate on an entrance exam is 70%, what is the probability </em> <em>that we will be able to fill eight slots with successful examinees if there </em> <em>are 11 applicants for the position?</em></p>
 <p>If we have eight or more successful examinees, we will be able to fill the eight slots. We could do this one of two ways. We could calculate the probability of seven or fewer successes and then subtract this from one.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="fl">0.7</span>)</span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="co">#&gt; [1] 0.5695623</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="fl">0.7</span>)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="co">#&gt; [1] 0.5695623</span></a></code></pre></div>
 <p>Alternatively, we could calculate the upper tail.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">pbinom</a></span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="fl">0.7</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="co">#&gt; [1] 0.5695623</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="fl">0.7</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="co">#&gt; [1] 0.5695623</span></a></code></pre></div>
 <p>The important trick to remember here is that if we want an upper tail that includes a specified value (in this case, the value of eight), we need to subtract one from this value to make sure it is included in the upper region of the distribution.</p>
 <p>Finally, suppose we wanted to do a simulation using the binomial distribution. Here are 20 random draws from a distribution with <span class="math inline">\(\pi\)</span> = 0.8 when the sample size is 15.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="fl">0.8</span>)</span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="co">#&gt;  [1] 11 13 13 10 14 10 13 14 11 11  9 11  8 12 10 13 15 13 14 13</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="co">#&gt;  [1] 12 14 14 11 12 11 12 14 12 13 14 13 13 12 14  8 15 10 12 11</span></a></code></pre></div>
 <p>Keep in mind that what each number we are randomly generating is the value of <span class="math inline">\(x\)</span>, which is the number of successes in <span class="math inline">\(n\)</span> trials. In this example there are 15 opportunities for success. The probability of success is quite high, so we are primarily seeing high numbers of successes out of the 15 trials.</p>
 <p>In this example, we were drawing from a binomial distribution with <span class="math inline">\(n\)</span> trials and a probability of success, <span class="math inline">\(\pi\)</span>. These are the parameters of the binomial distribution. Any binomial distribution can be generated if we know these two parameters. Let’s end with a picture of a binomial distribution when <span class="math inline">\(n\)</span> = 100 and <span class="math inline">\(\pi\)</span> = 0.5.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">100</span>, <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw"><a href="../reference/binom_plot.html">binom_plot</a></span>(<span class="dv">100</span>, <span class="fl">0.5</span>)</a></code></pre></div>
 <p><img src="binomdist_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 <p>That looks like a normal distribution, doesn’t it? That is why we can use the normal distribution for a large-sample approximation and it works pretty well. Yet the above distribution is <em>not</em> normal. For one thing, it is a discrete distribution, rather than continuous. So why bother to use a continuous distribution to approximate results when we can use the actual distribution? I have no idea! In the next vignette, let’s make inferences using the actual distribution, thus calculating exact probabilities rather than approximations.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -320,12 +327,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

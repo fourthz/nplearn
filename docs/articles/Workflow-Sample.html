@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Workflow Sample • nplearn</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Workflow Sample">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9019</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
+    </li>
+    <li>
+      <a href="../articles/ksamp.html">K-Sample Methods for Quantitative Data</a>
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
@@ -103,6 +107,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -126,60 +131,60 @@
 <h3 class="hasAnchor">
 <a href="#required-packages" class="anchor"></a>Required packages</h3>
 <p>This example uses packages that are part of the tidyverse. Installation of the complete tidyverse package will facilitate running this script.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nplearn)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nplearn)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a></code></pre></div>
 </div>
 <div id="data-import" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-import" class="anchor"></a>Data Import</h3>
 <p>First, data are imported into the statistical software.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>iq_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(data_file)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">iq_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(data_file)</a></code></pre></div>
 </div>
 <div id="data-cleaning-and-preparation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-cleaning-and-preparation" class="anchor"></a>Data Cleaning and Preparation</h3>
 <p>Next, we clean data and prepare it for analysis. In this case, because we have repeated measurements (due to correlated twin scores) in the original data set, we will need both long and wide formats. The data are currently in wide format only. We also should obtain a variable for the difference in IQ scores for each twin pair.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>iq_data_long &lt;-<span class="st"> </span><span class="kw">gather</span>(iq_data,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>                       <span class="st">'Foster'</span>,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>                       <span class="st">'Biological'</span>,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>                       <span class="dt">key =</span> <span class="st">"Upbringing"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>                       <span class="dt">value =</span> <span class="st">"IQ"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a>iq_data<span class="op">$</span>IQ_Diff &lt;-<span class="st"> </span>iq_data<span class="op">$</span>Foster <span class="op">-</span><span class="st"> </span>iq_data<span class="op">$</span>Biological</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a>iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(iq_data<span class="op">$</span>Social)</span>
-<span id="cb3-10"><a href="#cb3-10"></a>iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(iq_data_long<span class="op">$</span>Social)</span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a>iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data<span class="op">$</span>Social,</span>
-<span id="cb3-13"><a href="#cb3-13"></a>                              <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"low"</span>, <span class="st">"middle"</span>, <span class="st">"high"</span>))</span>
-<span id="cb3-14"><a href="#cb3-14"></a></span>
-<span id="cb3-15"><a href="#cb3-15"></a>iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data_long<span class="op">$</span>Social,</span>
-<span id="cb3-16"><a href="#cb3-16"></a>                                   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"low"</span>, <span class="st">"middle"</span>, <span class="st">"high"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">iq_data_long &lt;-<span class="st"> </span><span class="kw">gather</span>(iq_data,</a>
+<a class="sourceLine" id="cb3-2" title="2">                       <span class="st">'Foster'</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">                       <span class="st">'Biological'</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                       <span class="dt">key =</span> <span class="st">"Upbringing"</span>,</a>
+<a class="sourceLine" id="cb3-5" title="5">                       <span class="dt">value =</span> <span class="st">"IQ"</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7">iq_data<span class="op">$</span>IQ_Diff &lt;-<span class="st"> </span>iq_data<span class="op">$</span>Foster <span class="op">-</span><span class="st"> </span>iq_data<span class="op">$</span>Biological</a>
+<a class="sourceLine" id="cb3-8" title="8"></a>
+<a class="sourceLine" id="cb3-9" title="9">iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(iq_data<span class="op">$</span>Social)</a>
+<a class="sourceLine" id="cb3-10" title="10">iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(iq_data_long<span class="op">$</span>Social)</a>
+<a class="sourceLine" id="cb3-11" title="11"></a>
+<a class="sourceLine" id="cb3-12" title="12">iq_data<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data<span class="op">$</span>Social,</a>
+<a class="sourceLine" id="cb3-13" title="13">                              <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"low"</span>, <span class="st">"middle"</span>, <span class="st">"high"</span>))</a>
+<a class="sourceLine" id="cb3-14" title="14"></a>
+<a class="sourceLine" id="cb3-15" title="15">iq_data_long<span class="op">$</span>Social &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(iq_data_long<span class="op">$</span>Social,</a>
+<a class="sourceLine" id="cb3-16" title="16">                                   <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"low"</span>, <span class="st">"middle"</span>, <span class="st">"high"</span>))</a></code></pre></div>
 </div>
 <div id="graphical-display" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graphical-display" class="anchor"></a>Graphical Display</h3>
 <p>Next, we construct graphical displays to illustrate the major features of the data. First, side-by-side boxplots to compare the foster twins IQ to the biological twins IQ.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">ggplot</span>(iq_data_long, <span class="kw">aes</span>(<span class="dt">x =</span> Upbringing, <span class="dt">y =</span> IQ)) <span class="op">+</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Type of Upbringing"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>       <span class="dt">y =</span> <span class="st">"Intelligence Quotient"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>       <span class="dt">title =</span> <span class="st">"Comparison of IQ Scores for Twins with Different Upbringing"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">ggplot</span>(iq_data_long, <span class="kw">aes</span>(<span class="dt">x =</span> Upbringing, <span class="dt">y =</span> IQ)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Type of Upbringing"</span>,</a>
+<a class="sourceLine" id="cb4-4" title="4">       <span class="dt">y =</span> <span class="st">"Intelligence Quotient"</span>,</a>
+<a class="sourceLine" id="cb4-5" title="5">       <span class="dt">title =</span> <span class="st">"Comparison of IQ Scores for Twins with Different Upbringing"</span>)</a></code></pre></div>
 <p><img src="Workflow-Sample_files/figure-html/fig1-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Here are boxplots to compare IQ score differences for each twin pair across the three SES categories.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Social, <span class="dt">y =</span> IQ_Diff)) <span class="op">+</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Socioeconomic Status"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4"></a>       <span class="dt">y =</span> <span class="st">"IQ Difference Scores"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>       <span class="dt">title =</span> <span class="st">"Comparison of Twin IQ Differences for SES Categories"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Social, <span class="dt">y =</span> IQ_Diff)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Socioeconomic Status"</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">       <span class="dt">y =</span> <span class="st">"IQ Difference Scores"</span>,</a>
+<a class="sourceLine" id="cb5-5" title="5">       <span class="dt">title =</span> <span class="st">"Comparison of Twin IQ Differences for SES Categories"</span>)</a></code></pre></div>
 <p><img src="Workflow-Sample_files/figure-html/fig2-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Here is a scatterplot illustrating the relationship of IQ scores for foster home and biological twins. A regression line is included, as well as differing colors and shapes for the social categories. Social category does not appear to make much difference in the relationship, so a single regression line is sufficient.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Biological, <span class="dt">y =</span> Foster)) <span class="op">+</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> Social, <span class="dt">shape =</span> Social)) <span class="op">+</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Biological Twin IQ Score"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>       <span class="dt">y =</span> <span class="st">"Foster Home Twin IQ Score"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>       <span class="dt">title =</span> <span class="st">"Relationship of Twin IQ Scores"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">ggplot</span>(iq_data, <span class="kw">aes</span>(<span class="dt">x =</span> Biological, <span class="dt">y =</span> Foster)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> Social, <span class="dt">shape =</span> Social)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Biological Twin IQ Score"</span>,</a>
+<a class="sourceLine" id="cb6-5" title="5">       <span class="dt">y =</span> <span class="st">"Foster Home Twin IQ Score"</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">       <span class="dt">title =</span> <span class="st">"Relationship of Twin IQ Scores"</span>)</a></code></pre></div>
 <p><img src="Workflow-Sample_files/figure-html/fig3-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="descriptive-statistics" class="section level3">
@@ -187,118 +192,120 @@
 <a href="#descriptive-statistics" class="anchor"></a>Descriptive Statistics</h3>
 <p>Descriptive statistics are indices of characteristics of a set of scores. We can calculate these for the entire set of scores, or for subsets. These should align with our graphs and provide more details.</p>
 <p>Here are statistics comparing IQ scores for different types of upbringing.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>iq_data_long <span class="op">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">group_by</span>(Upbringing) <span class="op">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(IQ),</span>
-<span id="cb7-4"><a href="#cb7-4"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(IQ),</span>
-<span id="cb7-5"><a href="#cb7-5"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(IQ),</span>
-<span id="cb7-6"><a href="#cb7-6"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(IQ, <span class="fl">0.25</span>),</span>
-<span id="cb7-7"><a href="#cb7-7"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(IQ),</span>
-<span id="cb7-8"><a href="#cb7-8"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(IQ, <span class="fl">0.75</span>),</span>
-<span id="cb7-9"><a href="#cb7-9"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(IQ))</span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; # A tibble: 2 x 8</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt;   Upbringing `mean(IQ)` `sd(IQ)` `min(IQ)` `quantile(IQ, 0~ `median(IQ)`</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; 1 Biological       95.3     15.7        68             83.5           94</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; 2 Foster           95.1     16.1        63             84.5           94</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; # ... with 2 more variables: `quantile(IQ, 0.75)` &lt;dbl&gt;, `max(IQ)` &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">iq_data_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Upbringing) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(IQ),</a>
+<a class="sourceLine" id="cb7-4" title="4">            <span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(IQ),</a>
+<a class="sourceLine" id="cb7-5" title="5">            <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(IQ),</a>
+<a class="sourceLine" id="cb7-6" title="6">            <span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(IQ, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb7-7" title="7">            <span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(IQ),</a>
+<a class="sourceLine" id="cb7-8" title="8">            <span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(IQ, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb7-9" title="9">            <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(IQ))</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; # A tibble: 2 x 8</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;   Upbringing `mean(IQ)` `sd(IQ)` `min(IQ)` `quantile(IQ, 0~ `median(IQ)`</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; 1 Biological       95.3     15.7        68             83.5           94</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; 2 Foster           95.1     16.1        63             84.5           94</span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; # ... with 2 more variables: `quantile(IQ, 0.75)` &lt;dbl&gt;, `max(IQ)` &lt;dbl&gt;</span></a></code></pre></div>
 <p>Here are statistics comparing IQ difference scores for different social categories.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>iq_data <span class="op">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">group_by</span>(Social) <span class="op">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(IQ_Diff),</span>
-<span id="cb8-4"><a href="#cb8-4"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(IQ_Diff),</span>
-<span id="cb8-5"><a href="#cb8-5"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(IQ_Diff),</span>
-<span id="cb8-6"><a href="#cb8-6"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(IQ_Diff, <span class="fl">0.25</span>),</span>
-<span id="cb8-7"><a href="#cb8-7"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(IQ_Diff),</span>
-<span id="cb8-8"><a href="#cb8-8"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(IQ_Diff, <span class="fl">0.75</span>),</span>
-<span id="cb8-9"><a href="#cb8-9"></a>            <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(IQ_Diff))</span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; # A tibble: 3 x 8</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;   Social `mean(IQ_Diff)` `sd(IQ_Diff)` `min(IQ_Diff)` `quantile(IQ_Di~</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt;   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; 1 low               2.5           7.92            -13            -1.5 </span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt; 2 middle           -1.67          8.16            -12            -6.25</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; 3 high             -4.29          5.41            -12            -8.5 </span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; # ... with 3 more variables: `median(IQ_Diff)` &lt;dbl&gt;, `quantile(IQ_Diff,</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; #   0.75)` &lt;dbl&gt;, `max(IQ_Diff)` &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">iq_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Social) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb8-4" title="4">            <span class="kw"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb8-5" title="5">            <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb8-6" title="6">            <span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(IQ_Diff, <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb8-7" title="7">            <span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(IQ_Diff),</a>
+<a class="sourceLine" id="cb8-8" title="8">            <span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(IQ_Diff, <span class="fl">0.75</span>),</a>
+<a class="sourceLine" id="cb8-9" title="9">            <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(IQ_Diff))</a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;   Social `mean(IQ_Diff)` `sd(IQ_Diff)` `min(IQ_Diff)` `quantile(IQ_Di~</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; 1 low               2.5           7.92            -13            -1.5 </span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; 2 middle           -1.67          8.16            -12            -6.25</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; 3 high             -4.29          5.41            -12            -8.5 </span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; # ... with 3 more variables: `median(IQ_Diff)` &lt;dbl&gt;, `quantile(IQ_Diff,</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; #   0.75)` &lt;dbl&gt;, `max(IQ_Diff)` &lt;dbl&gt;</span></a></code></pre></div>
 <p>Here are the coefficients for the regression line in the model relating the foster home twin IQ score to the biological twin IQ score, as well as the correlation among these scores.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; lm(formula = iq_data$Foster ~ iq_data$Biological)</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; </span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;        (Intercept)  iq_data$Biological  </span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt;             9.2076              0.9014</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor">cor</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; [1] 0.8819877</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; lm(formula = iq_data$Foster ~ iq_data$Biological)</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;        (Intercept)  iq_data$Biological  </span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;             9.2076              0.9014</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="kw"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; [1] 0.8819877</span></a></code></pre></div>
 </div>
 <div id="inferential-statistics" class="section level3">
 <h3 class="hasAnchor">
 <a href="#inferential-statistics" class="anchor"></a>Inferential Statistics</h3>
 <p>Inferential statistics attach a degree of probability to point estimates that are compared to hypothesized values or to interval estimates. Such statistics are a function of effect size, variation, and form of the population distribution. Inferences should not be made in isolation, but only to supplement graphical and descriptive analysis.</p>
 <p>This generates a t-test confidence interval for the comparison of foster home twin IQ score to biological twin IQ score.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;  Welch Two Sample t-test</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; </span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; t = -0.042767, df = 51.975, p-value = 0.9661</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt;  -8.874252  8.503881</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; mean of x mean of y </span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt;  95.11111  95.29630</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt;  Welch Two Sample t-test</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; t = -0.042767, df = 51.975, p-value = 0.9661</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt;  -8.874252  8.503881</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; mean of x mean of y </span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt;  95.11111  95.29630</span></a></code></pre></div>
 <p>This provides a <em>p</em> value for the test that all social categories have the same mean IQ score. It is followed by Tukey confidence intervals, to control the overall Type I error rate.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/anova">anova</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; </span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; Response: iq_data$IQ_Diff</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt;                Df  Sum Sq Mean Sq F value Pr(&gt;F)</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; iq_data$Social  2  231.81 115.906  2.1006 0.1443</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; Residuals      24 1324.26  55.178</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/TukeyHSD">TukeyHSD</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/aov">aov</a></span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt;   Tukey multiple comparisons of means</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt;     95% family-wise confidence level</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt; </span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; Fit: aov(formula = iq_data$IQ_Diff ~ iq_data$Social)</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; </span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; $`iq_data$Social`</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt;                  diff       lwr      upr     p adj</span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; middle-low  -4.166667 -13.21826 4.884929 0.4939156</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; high-low    -6.785714 -15.37281 1.801384 0.1405651</span></span>
-<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; high-middle -2.619048 -12.93945 7.701360 0.8031459</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; Analysis of Variance Table</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; Response: iq_data$IQ_Diff</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt;                Df  Sum Sq Mean Sq F value Pr(&gt;F)</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; iq_data$Social  2  231.81 115.906  2.1006 0.1443</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co">#&gt; Residuals      24 1324.26  55.178</span></a>
+<a class="sourceLine" id="cb11-8" title="8"></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="kw"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span>(iq_data<span class="op">$</span>IQ_Diff <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Social))</a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt;   Tukey multiple comparisons of means</span></a>
+<a class="sourceLine" id="cb11-11" title="11"><span class="co">#&gt;     95% family-wise confidence level</span></a>
+<a class="sourceLine" id="cb11-12" title="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-13" title="13"><span class="co">#&gt; Fit: aov(formula = iq_data$IQ_Diff ~ iq_data$Social)</span></a>
+<a class="sourceLine" id="cb11-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-15" title="15"><span class="co">#&gt; $`iq_data$Social`</span></a>
+<a class="sourceLine" id="cb11-16" title="16"><span class="co">#&gt;                  diff       lwr      upr     p adj</span></a>
+<a class="sourceLine" id="cb11-17" title="17"><span class="co">#&gt; middle-low  -4.166667 -13.21826 4.884929 0.4939156</span></a>
+<a class="sourceLine" id="cb11-18" title="18"><span class="co">#&gt; high-low    -6.785714 -15.37281 1.801384 0.1405651</span></a>
+<a class="sourceLine" id="cb11-19" title="19"><span class="co">#&gt; high-middle -2.619048 -12.93945 7.701360 0.8031459</span></a></code></pre></div>
 <p>This provides a <em>p</em> value for the test that there is no relationshiop of the foster twin IQ score to the biological twin IQ score. It is followed by the construction of a confidence interval for the correlation among these variables.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/anova">anova</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological))</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt; </span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; Response: iq_data$Foster</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt;                    Df Sum Sq Mean Sq F value    Pr(&gt;F)    </span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; iq_data$Biological  1 5231.1  5231.1  87.563 1.204e-09 ***</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; Residuals          25 1493.5    59.7                      </span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt; ---</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt; </span></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="co">#&gt;  Pearson's product-moment correlation</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="co">#&gt; </span></span>
-<span id="cb12-15"><a href="#cb12-15"></a><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></span>
-<span id="cb12-16"><a href="#cb12-16"></a><span class="co">#&gt; t = 9.3575, df = 25, p-value = 1.204e-09</span></span>
-<span id="cb12-17"><a href="#cb12-17"></a><span class="co">#&gt; alternative hypothesis: true correlation is not equal to 0</span></span>
-<span id="cb12-18"><a href="#cb12-18"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb12-19"><a href="#cb12-19"></a><span class="co">#&gt;  0.7550380 0.9452009</span></span>
-<span id="cb12-20"><a href="#cb12-20"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb12-21"><a href="#cb12-21"></a><span class="co">#&gt;       cor </span></span>
-<span id="cb12-22"><a href="#cb12-22"></a><span class="co">#&gt; 0.8819877</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(iq_data<span class="op">$</span>Foster <span class="op">~</span><span class="st"> </span>iq_data<span class="op">$</span>Biological))</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; Analysis of Variance Table</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; Response: iq_data$Foster</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt;                    Df Sum Sq Mean Sq F value    Pr(&gt;F)    </span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt; iq_data$Biological  1 5231.1  5231.1  87.563 1.204e-09 ***</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt; Residuals          25 1493.5    59.7                      </span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></a>
+<a class="sourceLine" id="cb12-10" title="10"></a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="kw"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span>(iq_data<span class="op">$</span>Foster, iq_data<span class="op">$</span>Biological)</a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-13" title="13"><span class="co">#&gt;  Pearson's product-moment correlation</span></a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="co">#&gt; data:  iq_data$Foster and iq_data$Biological</span></a>
+<a class="sourceLine" id="cb12-16" title="16"><span class="co">#&gt; t = 9.3575, df = 25, p-value = 1.204e-09</span></a>
+<a class="sourceLine" id="cb12-17" title="17"><span class="co">#&gt; alternative hypothesis: true correlation is not equal to 0</span></a>
+<a class="sourceLine" id="cb12-18" title="18"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb12-19" title="19"><span class="co">#&gt;  0.7550380 0.9452009</span></a>
+<a class="sourceLine" id="cb12-20" title="20"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb12-21" title="21"><span class="co">#&gt;       cor </span></a>
+<a class="sourceLine" id="cb12-22" title="22"><span class="co">#&gt; 0.8819877</span></a></code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -306,12 +313,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

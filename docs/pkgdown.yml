@@ -1,11 +1,12 @@
-pandoc: 2.7.3
-pkgdown: 1.3.0
+pandoc: '2.6'
+pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   Bernoulli-Events: Bernoulli-Events.html
   binomdist: binomdist.html
   FisherIrwin: FisherIrwin.html
   gof: gof.html
+  ksamp: ksamp.html
   lsprop: lsprop.html
   OnePropExact: OnePropExact.html
   ProdBinom: ProdBinom.html

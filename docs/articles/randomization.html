@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Randomization Tests • nplearn</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Randomization Tests">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nplearn</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9018</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9019</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/gof.html">Goodness of Fit</a>
+    </li>
+    <li>
+      <a href="../articles/ksamp.html">K-Sample Methods for Quantitative Data</a>
     </li>
     <li>
       <a href="../articles/lsprop.html">Large-Sample Proportion Inference</a>
@@ -103,6 +107,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -121,8 +126,8 @@
 <h3 class="hasAnchor">
 <a href="#required-packages" class="anchor"></a>Required packages</h3>
 <p>The packages required for this vignette are nplearn and coin.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nplearn)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(coin)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nplearn)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(coin)</a></code></pre></div>
 </div>
 <div id="the-sign-test-as-a-randomization-test" class="section level3">
 <h3 class="hasAnchor">
@@ -130,271 +135,271 @@
 <p>In the sign test vignette, I introduced the sign test as a special case of the binomial test. This is an important special case because in a true experiment, when members of a matched pair are randomly assigned to conditions, the null hypothesis of no treatment effect will result in an expectation that in 50% of the pairs we will observe an outcome that favors the control condition and in 50% of the pairs we will observe an outcome that favors the treatment condition. The expectation is a consequence of chance assignment. By contrast, if the treatment has some positive effect, then we would expect a higher number of positive treatment outcomes in the set of matched pairs.</p>
 <p>Let us consider again the fertilizer study that we used when learning about the sign test. In that study, we observed 12 trees matched into 6 pairs with each pair of trees on a different plot of land from the other pairs. Fertilizers A and B were randomly assigned to trees within a pair. (We say that the trees were <em>randomized</em> to the fertilizer conditions.) Suppose that there is no difference in the effectiveness of fertilizers. Would we expect each fruit tree in a matched pair to yield the same amount of fruit? On average across all fruit trees we would expect similar fruit yield, but for any given pair of trees we could well observe different yields due to a variety of extraneous variables, such as tree size, sun exposure, water absorption, and so forth. So if fertilizer is not responsible for a difference, and if fertilizers are randomly assigned to the members of each matched pair, what is responsible for a fertilizer being associated with the tree that yields the most fruit? The answer, of course, is random assignment. So, for example, if Fertilizer B “outperforms” Fertilizer A within a particular pair, it really is not a matter of better performance, but rather due to chance assignment. One tree produced more fruit than the other, and Fertilizer B came along for the ride. Similarly for all fruit tree pairs.</p>
 <p>Here again are the observed data, both in terms of fruit production and in differences among matched pairs.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>fruit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">A =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>),</span>
-<span id="cb2-2"><a href="#cb2-2"></a>                    <span class="dt">B =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">81</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>))</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; [1,]   82   85</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; [2,]   91   89</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; [3,]   74   81</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; [4,]   90   96</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; [5,]   66   65</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; [6,]   81   93</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>A.minus.B &lt;-<span class="st"> </span>fruit<span class="op">$</span>A <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B</span>
-<span id="cb2-13"><a href="#cb2-13"></a>A.minus.B</span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">fruit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">A =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">74</span>, <span class="dv">90</span>, <span class="dv">66</span>, <span class="dv">81</span>),</a>
+<a class="sourceLine" id="cb2-2" title="2">                    <span class="dt">B =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">85</span>, <span class="dv">89</span>, <span class="dv">81</span>, <span class="dv">96</span>, <span class="dv">65</span>, <span class="dv">93</span>))</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B)</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;      [,1] [,2]</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; [1,]   82   85</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; [2,]   91   89</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; [3,]   74   81</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; [4,]   90   96</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; [5,]   66   65</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; [6,]   81   93</span></a>
+<a class="sourceLine" id="cb2-12" title="12">A.minus.B &lt;-<span class="st"> </span>fruit<span class="op">$</span>A <span class="op">-</span><span class="st"> </span>fruit<span class="op">$</span>B</a>
+<a class="sourceLine" id="cb2-13" title="13">A.minus.B</a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></a></code></pre></div>
 <p>With no difference in fertilizer effectiveness, whether a fertilizer was assigned to the tree bound to be the highest or lowest producer in a pair is a matter of chance. Thus, when looking at the differences, the sign is due to chance assignment. If the “coin flip” had assigned the fertilizers in the opposite manner, the quantities would remain the same, but the sign of each difference would be reversed. All the plus signs would become minus signs, and vice versa.</p>
 <p>Now let us consider all the possible ways this chance assignment could have taken place. This is illustrated in Figure 1.</p>
 <div class="figure">
-<img src="sign-test-patterns.jpg" alt=""><p class="caption"><em>Figure 1</em></p>
+<img src="sign-test-patterns.jpg" alt="Figure 1"><p class="caption"><em>Figure 1</em></p>
 </div>
 <p>Each row represents one possible arrangement of signs. There are 64 possible arrangements. <em>T</em> is the number of plus signs, which is what we used as our test statistic for the sign test. If there is no difference in the effectiveness of the fertilizers, then the sign for each tree-pair difference is due to chance. Further, each of the patterns of plus and minus signs are equally likely. The chance of observing a particular one of the 64 patterns is calculated below.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="dv">1</span><span class="op">/</span><span class="dv">64</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 0.015625</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="dv">1</span><span class="op">/</span><span class="dv">64</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] 0.015625</span></a></code></pre></div>
 <p>Here is another way to calculate it.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; [1] 0.015625</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; [1] 0.015625</span></a></code></pre></div>
 <p>Note, however, that some patterns contain the same number of plus signs as other patterns. For example, there are six different ways to obtain five plus signs. Thus, given that each pattern is equally likely, the probability of obtaining five plus signs can be calculated like this.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="dv">6</span><span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] 0.09375</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="dv">6</span><span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] 0.09375</span></a></code></pre></div>
 <p>This is the same probability that we obtained for the sign test when using the binomial distribution with parameters 6 and 0.5.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">dbinom</a></span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="fl">0.5</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; [1] 0.09375</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; [1] 0.09375</span></a></code></pre></div>
 <p>It should come as no surprise that the binomial distribution can be used to calculate the probability for any number of plus signs. The difference here is that we are focusing on all possible patterns, with each pattern equally likely. To make this explicit, here’s a little table in which we list the number of plus signs, the number of patterns resulting in that number of plus signs, and the probability of obtaining that number of plus signs calculated two ways: multiplying the number of patterns by the probability of one pattern and using the binomial distribution.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>T &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">6</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>num.patterns &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Special">choose</a></span>(<span class="dv">6</span>, T)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>prob<span class="fl">.1</span> &lt;-<span class="st"> </span>num.patterns<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>prob<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">dbinom</a></span>(T, <span class="dv">6</span>, <span class="fl">0.5</span>)</span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(T, num.patterns, prob<span class="fl">.1</span>, prob<span class="fl">.2</span>)</span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt;      T num.patterns   prob.1   prob.2</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; [1,] 0            1 0.015625 0.015625</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; [2,] 1            6 0.093750 0.093750</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; [3,] 2           15 0.234375 0.234375</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; [4,] 3           20 0.312500 0.312500</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; [5,] 4           15 0.234375 0.234375</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; [6,] 5            6 0.093750 0.093750</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; [7,] 6            1 0.015625 0.015625</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">T &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb7-2" title="2">num.patterns &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Special.html">choose</a></span>(<span class="dv">6</span>, T)</a>
+<a class="sourceLine" id="cb7-3" title="3">prob<span class="fl">.1</span> &lt;-<span class="st"> </span>num.patterns<span class="op">*</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span><span class="op">^</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb7-4" title="4">prob<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span>(T, <span class="dv">6</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(T, num.patterns, prob<span class="fl">.1</span>, prob<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;      T num.patterns   prob.1   prob.2</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; [1,] 0            1 0.015625 0.015625</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; [2,] 1            6 0.093750 0.093750</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; [3,] 2           15 0.234375 0.234375</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [4,] 3           20 0.312500 0.312500</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; [5,] 4           15 0.234375 0.234375</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; [6,] 5            6 0.093750 0.093750</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; [7,] 6            1 0.015625 0.015625</span></a></code></pre></div>
 <p>Notice that the number of patterns sums to what we would expect.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(num.patterns)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; [1] 64</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(num.patterns)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; [1] 64</span></a></code></pre></div>
 </div>
 <div id="the-fisher-pitman-permutation-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-fisher-pitman-permutation-test" class="anchor"></a>The Fisher-Pitman permutation test</h3>
 <p>We already know how to conduct a sign test for the fertilizer data, so why review it again with an emphasis on these 64 patterns? I’m glad you asked! By making the patterns of signs explicit, we can now associate each of these signs with some indicator of the magnitude of the difference in production for each fruit tree pair. For the sign test, we ignored this magnitude, simply considering a difference as favoring one fertilizer or the other. Now let’s look at the same 64 patterns, but this time associate each sign with the quantity of that difference. The picture is Figure 2.</p>
 <div class="figure">
-<img src="fisher-test-patterns.jpg" alt=""><p class="caption"><em>Figure 2</em></p>
+<img src="fisher-test-patterns.jpg" alt="Figure 2"><p class="caption"><em>Figure 2</em></p>
 </div>
 <p>The first row contains the magnitude of differences, in order, without a sign attached. Let’s think about that a moment, focusing on the score of “6”. In our data set, it was actually “-6”. Given that we subtracted the yield of the tree receiving Fertilizer B from the yield of the tree receiving Fertilizer A, our “-6” means that the tree receiving Fertilizer B gave us 6 more units (e.g., pieces of fruit or bushels of fruit or bushels per day of fruit) than we obtained from the tree receiving Fertilizer A. Yet if there is no difference in the effectiveness of fertilizers, this observed difference is due to other factors. So what if, when we had randomized trees to fertilizer conditions, these trees had been swapped? That is, what if the tree now receiving Fertilizer B was, instead, given Fertilizer A? Would we still expect a difference of 6 units? If the fertilizers are not causing the difference, yes we would! If we had swapped, we would still observe a 6, but this time it would be a positive 6. In short, if the fertilizers are no different in their ability to increase fruit yield, the magnitude of the differences will stay the same regardless of how we randomize. The only effect of randomization is to determine the sign associated with that magnitude.</p>
 <p>The 64 patterns of plus and minus signs represent all the possibilities for which of the quantities receive a “+” and which receive a “-”. For the sign test, we defined the test statistic, <em>T</em>, to be the number of plus signs. Similarly, when we want to take into account the quantity of the differences, we can define <em>T</em> to be the sum of the positive values. This is shown in the last column of Figure 2. When we have randomized trees to fertilizer conditions and when this is the only reason for the sign (i.e., the fertilizers are equally effective), each of the 64 patterns are equally likely. This means that the probability of many of these values is the reciprocal of the number of patterns, in this case 1/64. Sometimes, however, multiple patterns can result in the same sum of positive scores. In Figure 2, we notice that there are two values of 28. Thus, the probability of obtaining 28 is 2*(1/64).</p>
 <p>I would like to look at the entire distribution of T. Here’s a function that I wrote to help me achieve this goal.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(A.minus.B)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt;       T                               </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;  [4,] 3  0.0156250 0.0625000 0.9531250</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt;  [5,] 3  0.0156250 0.0781250 0.9375000</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt;  [6,] 4  0.0156250 0.0937500 0.9218750</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt;  [7,] 5  0.0156250 0.1093750 0.9062500</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt;  [8,] 6  0.0156250 0.1250000 0.8906250</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt;  [9,] 6  0.0156250 0.1406250 0.8750000</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; [10,] 7  0.0156250 0.1562500 0.8593750</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; [11,] 7  0.0156250 0.1718750 0.8437500</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; [12,] 8  0.0156250 0.1875000 0.8281250</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; [13,] 8  0.0156250 0.2031250 0.8125000</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; [14,] 9  0.0156250 0.2187500 0.7968750</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; [15,] 9  0.0156250 0.2343750 0.7812500</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; [16,] 9  0.0156250 0.2500000 0.7656250</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; [17,] 10 0.0156250 0.2656250 0.7500000</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; [18,] 10 0.0156250 0.2812500 0.7343750</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; [19,] 10 0.0156250 0.2968750 0.7187500</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; [20,] 11 0.0156250 0.3125000 0.7031250</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; [21,] 11 0.0156250 0.3281250 0.6875000</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; [22,] 12 0.0156250 0.3437500 0.6718750</span></span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt; [23,] 12 0.0156250 0.3593750 0.6562500</span></span>
-<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt; [24,] 12 0.0156250 0.3750000 0.6406250</span></span>
-<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt; [25,] 13 0.0156250 0.3906250 0.6250000</span></span>
-<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt; [26,] 13 0.0156250 0.4062500 0.6093750</span></span>
-<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt; [27,] 13 0.0156250 0.4218750 0.5937500</span></span>
-<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt; [28,] 14 0.0156250 0.4375000 0.5781250</span></span>
-<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt; [29,] 14 0.0156250 0.4531250 0.5625000</span></span>
-<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#&gt; [30,] 15 0.0156250 0.4687500 0.5468750</span></span>
-<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#&gt; [31,] 15 0.0156250 0.4843750 0.5312500</span></span>
-<span id="cb9-34"><a href="#cb9-34"></a><span class="co">#&gt; [32,] 15 0.0156250 0.5000000 0.5156250</span></span>
-<span id="cb9-35"><a href="#cb9-35"></a><span class="co">#&gt; [33,] 16 0.0156250 0.5156250 0.5000000</span></span>
-<span id="cb9-36"><a href="#cb9-36"></a><span class="co">#&gt; [34,] 16 0.0156250 0.5312500 0.4843750</span></span>
-<span id="cb9-37"><a href="#cb9-37"></a><span class="co">#&gt; [35,] 16 0.0156250 0.5468750 0.4687500</span></span>
-<span id="cb9-38"><a href="#cb9-38"></a><span class="co">#&gt; [36,] 17 0.0156250 0.5625000 0.4531250</span></span>
-<span id="cb9-39"><a href="#cb9-39"></a><span class="co">#&gt; [37,] 17 0.0156250 0.5781250 0.4375000</span></span>
-<span id="cb9-40"><a href="#cb9-40"></a><span class="co">#&gt; [38,] 18 0.0156250 0.5937500 0.4218750</span></span>
-<span id="cb9-41"><a href="#cb9-41"></a><span class="co">#&gt; [39,] 18 0.0156250 0.6093750 0.4062500</span></span>
-<span id="cb9-42"><a href="#cb9-42"></a><span class="co">#&gt; [40,] 18 0.0156250 0.6250000 0.3906250</span></span>
-<span id="cb9-43"><a href="#cb9-43"></a><span class="co">#&gt; [41,] 19 0.0156250 0.6406250 0.3750000</span></span>
-<span id="cb9-44"><a href="#cb9-44"></a><span class="co">#&gt; [42,] 19 0.0156250 0.6562500 0.3593750</span></span>
-<span id="cb9-45"><a href="#cb9-45"></a><span class="co">#&gt; [43,] 19 0.0156250 0.6718750 0.3437500</span></span>
-<span id="cb9-46"><a href="#cb9-46"></a><span class="co">#&gt; [44,] 20 0.0156250 0.6875000 0.3281250</span></span>
-<span id="cb9-47"><a href="#cb9-47"></a><span class="co">#&gt; [45,] 20 0.0156250 0.7031250 0.3125000</span></span>
-<span id="cb9-48"><a href="#cb9-48"></a><span class="co">#&gt; [46,] 21 0.0156250 0.7187500 0.2968750</span></span>
-<span id="cb9-49"><a href="#cb9-49"></a><span class="co">#&gt; [47,] 21 0.0156250 0.7343750 0.2812500</span></span>
-<span id="cb9-50"><a href="#cb9-50"></a><span class="co">#&gt; [48,] 21 0.0156250 0.7500000 0.2656250</span></span>
-<span id="cb9-51"><a href="#cb9-51"></a><span class="co">#&gt; [49,] 22 0.0156250 0.7656250 0.2500000</span></span>
-<span id="cb9-52"><a href="#cb9-52"></a><span class="co">#&gt; [50,] 22 0.0156250 0.7812500 0.2343750</span></span>
-<span id="cb9-53"><a href="#cb9-53"></a><span class="co">#&gt; [51,] 22 0.0156250 0.7968750 0.2187500</span></span>
-<span id="cb9-54"><a href="#cb9-54"></a><span class="co">#&gt; [52,] 23 0.0156250 0.8125000 0.2031250</span></span>
-<span id="cb9-55"><a href="#cb9-55"></a><span class="co">#&gt; [53,] 23 0.0156250 0.8281250 0.1875000</span></span>
-<span id="cb9-56"><a href="#cb9-56"></a><span class="co">#&gt; [54,] 24 0.0156250 0.8437500 0.1718750</span></span>
-<span id="cb9-57"><a href="#cb9-57"></a><span class="co">#&gt; [55,] 24 0.0156250 0.8593750 0.1562500</span></span>
-<span id="cb9-58"><a href="#cb9-58"></a><span class="co">#&gt; [56,] 25 0.0156250 0.8750000 0.1406250</span></span>
-<span id="cb9-59"><a href="#cb9-59"></a><span class="co">#&gt; [57,] 25 0.0156250 0.8906250 0.1250000</span></span>
-<span id="cb9-60"><a href="#cb9-60"></a><span class="co">#&gt; [58,] 26 0.0156250 0.9062500 0.1093750</span></span>
-<span id="cb9-61"><a href="#cb9-61"></a><span class="co">#&gt; [59,] 27 0.0156250 0.9218750 0.0937500</span></span>
-<span id="cb9-62"><a href="#cb9-62"></a><span class="co">#&gt; [60,] 28 0.0156250 0.9375000 0.0781250</span></span>
-<span id="cb9-63"><a href="#cb9-63"></a><span class="co">#&gt; [61,] 28 0.0156250 0.9531250 0.0625000</span></span>
-<span id="cb9-64"><a href="#cb9-64"></a><span class="co">#&gt; [62,] 29 0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb9-65"><a href="#cb9-65"></a><span class="co">#&gt; [63,] 30 0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb9-66"><a href="#cb9-66"></a><span class="co">#&gt; [64,] 31 0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(A.minus.B)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt;       T                               </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;  [4,] 3  0.0156250 0.0625000 0.9531250</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;  [5,] 3  0.0156250 0.0781250 0.9375000</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  [6,] 4  0.0156250 0.0937500 0.9218750</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  [7,] 5  0.0156250 0.1093750 0.9062500</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;  [8,] 6  0.0156250 0.1250000 0.8906250</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;  [9,] 6  0.0156250 0.1406250 0.8750000</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; [10,] 7  0.0156250 0.1562500 0.8593750</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; [11,] 7  0.0156250 0.1718750 0.8437500</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; [12,] 8  0.0156250 0.1875000 0.8281250</span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; [13,] 8  0.0156250 0.2031250 0.8125000</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; [14,] 9  0.0156250 0.2187500 0.7968750</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt; [15,] 9  0.0156250 0.2343750 0.7812500</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; [16,] 9  0.0156250 0.2500000 0.7656250</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt; [17,] 10 0.0156250 0.2656250 0.7500000</span></a>
+<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt; [18,] 10 0.0156250 0.2812500 0.7343750</span></a>
+<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt; [19,] 10 0.0156250 0.2968750 0.7187500</span></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="co">#&gt; [20,] 11 0.0156250 0.3125000 0.7031250</span></a>
+<a class="sourceLine" id="cb9-23" title="23"><span class="co">#&gt; [21,] 11 0.0156250 0.3281250 0.6875000</span></a>
+<a class="sourceLine" id="cb9-24" title="24"><span class="co">#&gt; [22,] 12 0.0156250 0.3437500 0.6718750</span></a>
+<a class="sourceLine" id="cb9-25" title="25"><span class="co">#&gt; [23,] 12 0.0156250 0.3593750 0.6562500</span></a>
+<a class="sourceLine" id="cb9-26" title="26"><span class="co">#&gt; [24,] 12 0.0156250 0.3750000 0.6406250</span></a>
+<a class="sourceLine" id="cb9-27" title="27"><span class="co">#&gt; [25,] 13 0.0156250 0.3906250 0.6250000</span></a>
+<a class="sourceLine" id="cb9-28" title="28"><span class="co">#&gt; [26,] 13 0.0156250 0.4062500 0.6093750</span></a>
+<a class="sourceLine" id="cb9-29" title="29"><span class="co">#&gt; [27,] 13 0.0156250 0.4218750 0.5937500</span></a>
+<a class="sourceLine" id="cb9-30" title="30"><span class="co">#&gt; [28,] 14 0.0156250 0.4375000 0.5781250</span></a>
+<a class="sourceLine" id="cb9-31" title="31"><span class="co">#&gt; [29,] 14 0.0156250 0.4531250 0.5625000</span></a>
+<a class="sourceLine" id="cb9-32" title="32"><span class="co">#&gt; [30,] 15 0.0156250 0.4687500 0.5468750</span></a>
+<a class="sourceLine" id="cb9-33" title="33"><span class="co">#&gt; [31,] 15 0.0156250 0.4843750 0.5312500</span></a>
+<a class="sourceLine" id="cb9-34" title="34"><span class="co">#&gt; [32,] 15 0.0156250 0.5000000 0.5156250</span></a>
+<a class="sourceLine" id="cb9-35" title="35"><span class="co">#&gt; [33,] 16 0.0156250 0.5156250 0.5000000</span></a>
+<a class="sourceLine" id="cb9-36" title="36"><span class="co">#&gt; [34,] 16 0.0156250 0.5312500 0.4843750</span></a>
+<a class="sourceLine" id="cb9-37" title="37"><span class="co">#&gt; [35,] 16 0.0156250 0.5468750 0.4687500</span></a>
+<a class="sourceLine" id="cb9-38" title="38"><span class="co">#&gt; [36,] 17 0.0156250 0.5625000 0.4531250</span></a>
+<a class="sourceLine" id="cb9-39" title="39"><span class="co">#&gt; [37,] 17 0.0156250 0.5781250 0.4375000</span></a>
+<a class="sourceLine" id="cb9-40" title="40"><span class="co">#&gt; [38,] 18 0.0156250 0.5937500 0.4218750</span></a>
+<a class="sourceLine" id="cb9-41" title="41"><span class="co">#&gt; [39,] 18 0.0156250 0.6093750 0.4062500</span></a>
+<a class="sourceLine" id="cb9-42" title="42"><span class="co">#&gt; [40,] 18 0.0156250 0.6250000 0.3906250</span></a>
+<a class="sourceLine" id="cb9-43" title="43"><span class="co">#&gt; [41,] 19 0.0156250 0.6406250 0.3750000</span></a>
+<a class="sourceLine" id="cb9-44" title="44"><span class="co">#&gt; [42,] 19 0.0156250 0.6562500 0.3593750</span></a>
+<a class="sourceLine" id="cb9-45" title="45"><span class="co">#&gt; [43,] 19 0.0156250 0.6718750 0.3437500</span></a>
+<a class="sourceLine" id="cb9-46" title="46"><span class="co">#&gt; [44,] 20 0.0156250 0.6875000 0.3281250</span></a>
+<a class="sourceLine" id="cb9-47" title="47"><span class="co">#&gt; [45,] 20 0.0156250 0.7031250 0.3125000</span></a>
+<a class="sourceLine" id="cb9-48" title="48"><span class="co">#&gt; [46,] 21 0.0156250 0.7187500 0.2968750</span></a>
+<a class="sourceLine" id="cb9-49" title="49"><span class="co">#&gt; [47,] 21 0.0156250 0.7343750 0.2812500</span></a>
+<a class="sourceLine" id="cb9-50" title="50"><span class="co">#&gt; [48,] 21 0.0156250 0.7500000 0.2656250</span></a>
+<a class="sourceLine" id="cb9-51" title="51"><span class="co">#&gt; [49,] 22 0.0156250 0.7656250 0.2500000</span></a>
+<a class="sourceLine" id="cb9-52" title="52"><span class="co">#&gt; [50,] 22 0.0156250 0.7812500 0.2343750</span></a>
+<a class="sourceLine" id="cb9-53" title="53"><span class="co">#&gt; [51,] 22 0.0156250 0.7968750 0.2187500</span></a>
+<a class="sourceLine" id="cb9-54" title="54"><span class="co">#&gt; [52,] 23 0.0156250 0.8125000 0.2031250</span></a>
+<a class="sourceLine" id="cb9-55" title="55"><span class="co">#&gt; [53,] 23 0.0156250 0.8281250 0.1875000</span></a>
+<a class="sourceLine" id="cb9-56" title="56"><span class="co">#&gt; [54,] 24 0.0156250 0.8437500 0.1718750</span></a>
+<a class="sourceLine" id="cb9-57" title="57"><span class="co">#&gt; [55,] 24 0.0156250 0.8593750 0.1562500</span></a>
+<a class="sourceLine" id="cb9-58" title="58"><span class="co">#&gt; [56,] 25 0.0156250 0.8750000 0.1406250</span></a>
+<a class="sourceLine" id="cb9-59" title="59"><span class="co">#&gt; [57,] 25 0.0156250 0.8906250 0.1250000</span></a>
+<a class="sourceLine" id="cb9-60" title="60"><span class="co">#&gt; [58,] 26 0.0156250 0.9062500 0.1093750</span></a>
+<a class="sourceLine" id="cb9-61" title="61"><span class="co">#&gt; [59,] 27 0.0156250 0.9218750 0.0937500</span></a>
+<a class="sourceLine" id="cb9-62" title="62"><span class="co">#&gt; [60,] 28 0.0156250 0.9375000 0.0781250</span></a>
+<a class="sourceLine" id="cb9-63" title="63"><span class="co">#&gt; [61,] 28 0.0156250 0.9531250 0.0625000</span></a>
+<a class="sourceLine" id="cb9-64" title="64"><span class="co">#&gt; [62,] 29 0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb9-65" title="65"><span class="co">#&gt; [63,] 30 0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb9-66" title="66"><span class="co">#&gt; [64,] 31 0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>This table provides the test statistic, the probability of obtaining that value of the test statistic, and the cumulative probability, both from the bottom and the top, of obtaining less than (or more than) that value of the test statistic. Keep in mind that these probabilities are only valid if the fertilizers do not differ in effectiveness, but that’s OK, because that is our null hypothesis. If the null hypothesis is true, the population median is 0. Again, we know this because half of the differences will be negative and half will be positive. So let’s test the null hypothesis against an alterative hypothesis.</p>
 <p><span class="math inline">\(H_0: \theta = 0\)</span></p>
 <p><span class="math inline">\(H_0: \theta \ne 0\)</span></p>
 <p>If most of the difference scores are negative, we expect a small value for <em>T</em>, the sum of the positive difference scores. If most of them are positive, we expect a larger value for <em>T</em>. Thus, the values of <em>T</em> on either end of the above distribution will provide evidence that the null hypothesis is false. We have a small sample size (<em>n</em> = 6), so let’s set our maximum Type I error rate at 0.10, or 10%. Taking the most extreme values at either end of the distribution, the probability of observing 0, or 1, or 2, or 29, or 30, or 31 can be calculated by summing either the individual probabilities, or the cumulative up and down.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; [1] 0.09375</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="fl">0.046875</span> <span class="op">+</span><span class="st"> </span><span class="fl">.046875</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; [1] 0.09375</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span> <span class="op">+</span><span class="st"> </span><span class="fl">.015625</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; [1] 0.09375</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="fl">0.046875</span> <span class="op">+</span><span class="st"> </span><span class="fl">.046875</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; [1] 0.09375</span></a></code></pre></div>
 <p>What if we add one more value on either end (3 and 28)? Notice that we have two ways to obtain 3 and two ways to obtain 28. We can’t pick and choose. We need to enter all values of 3 and all values of 28. Here is the probability that <em>T</em> is 3 or less or 28 or more.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fl">0.078125</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.078125</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; [1] 0.15625</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="fl">0.078125</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.078125</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; [1] 0.15625</span></a></code></pre></div>
 <p>Putting 3 or 28 in our rejection region would take us over our tolerance for Type I errors, so we will use 2 and 27 as our critical values. This means that <span class="math inline">\(\hat{\alpha} = .09375\)</span>. Here again are our difference scores.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>A.minus.B</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">A.minus.B</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; [1]  -3   2  -7  -6   1 -12</span></a></code></pre></div>
 <p>The observed value of the test statistic is the sum of the positive differences.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>((A.minus.B <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)<span class="op">*</span>A.minus.B)</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">#&gt; [1] 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((A.minus.B <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)<span class="op">*</span>A.minus.B)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
 <p>This is not in the rejection region, so we fail to reject the null hypothesis. It would have been simpler to go straight to the <em>p</em> value, so let’s do that now. Remember that this is a two-sided test and the distribution of the test statistic is symmetrical so that we can multiply a one-sided <em>p</em> value by 2.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fl">.078125</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt; [1] 0.15625</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="fl">.078125</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; [1] 0.15625</span></a></code></pre></div>
 <p>Our lives were complicated a bit by seeing duplicate values of the test statistic. These are due to various combinations of signs that can result in the same sum of positive numbers. We can simplify life by removing the duplicates, so I incorporated that possibility in the function.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(A.minus.B, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;       T                               </span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt;  [5,] 4  0.0156250 0.0937500 0.9218750</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;  [6,] 5  0.0156250 0.1093750 0.9062500</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;  [7,] 6  0.0312500 0.1406250 0.8906250</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt;  [8,] 7  0.0312500 0.1718750 0.8593750</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt;  [9,] 8  0.0312500 0.2031250 0.8281250</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt; [10,] 9  0.0468750 0.2500000 0.7968750</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt; [11,] 10 0.0468750 0.2968750 0.7500000</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; [12,] 11 0.0312500 0.3281250 0.7031250</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; [13,] 12 0.0468750 0.3750000 0.6718750</span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt; [14,] 13 0.0468750 0.4218750 0.6250000</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt; [15,] 14 0.0312500 0.4531250 0.5781250</span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt; [16,] 15 0.0468750 0.5000000 0.5468750</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; [17,] 16 0.0468750 0.5468750 0.5000000</span></span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt; [18,] 17 0.0312500 0.5781250 0.4531250</span></span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="co">#&gt; [19,] 18 0.0468750 0.6250000 0.4218750</span></span>
-<span id="cb15-22"><a href="#cb15-22"></a><span class="co">#&gt; [20,] 19 0.0468750 0.6718750 0.3750000</span></span>
-<span id="cb15-23"><a href="#cb15-23"></a><span class="co">#&gt; [21,] 20 0.0312500 0.7031250 0.3281250</span></span>
-<span id="cb15-24"><a href="#cb15-24"></a><span class="co">#&gt; [22,] 21 0.0468750 0.7500000 0.2968750</span></span>
-<span id="cb15-25"><a href="#cb15-25"></a><span class="co">#&gt; [23,] 22 0.0468750 0.7968750 0.2500000</span></span>
-<span id="cb15-26"><a href="#cb15-26"></a><span class="co">#&gt; [24,] 23 0.0312500 0.8281250 0.2031250</span></span>
-<span id="cb15-27"><a href="#cb15-27"></a><span class="co">#&gt; [25,] 24 0.0312500 0.8593750 0.1718750</span></span>
-<span id="cb15-28"><a href="#cb15-28"></a><span class="co">#&gt; [26,] 25 0.0312500 0.8906250 0.1406250</span></span>
-<span id="cb15-29"><a href="#cb15-29"></a><span class="co">#&gt; [27,] 26 0.0156250 0.9062500 0.1093750</span></span>
-<span id="cb15-30"><a href="#cb15-30"></a><span class="co">#&gt; [28,] 27 0.0156250 0.9218750 0.0937500</span></span>
-<span id="cb15-31"><a href="#cb15-31"></a><span class="co">#&gt; [29,] 28 0.0312500 0.9531250 0.0781250</span></span>
-<span id="cb15-32"><a href="#cb15-32"></a><span class="co">#&gt; [30,] 29 0.0156250 0.9687500 0.0468750</span></span>
-<span id="cb15-33"><a href="#cb15-33"></a><span class="co">#&gt; [31,] 30 0.0156250 0.9843750 0.0312500</span></span>
-<span id="cb15-34"><a href="#cb15-34"></a><span class="co">#&gt; [32,] 31 0.0156250 1.0000000 0.0156250</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="../reference/rand_dist.html">rand_dist</a></span>(A.minus.B, <span class="dt">show.all =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt;       T                               </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co">#&gt;  [1,] 0  0.0156250 0.0156250 1.0000000</span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co">#&gt;  [2,] 1  0.0156250 0.0312500 0.9843750</span></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="co">#&gt;  [3,] 2  0.0156250 0.0468750 0.9687500</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt;  [4,] 3  0.0312500 0.0781250 0.9531250</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt;  [5,] 4  0.0156250 0.0937500 0.9218750</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt;  [6,] 5  0.0156250 0.1093750 0.9062500</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;  [7,] 6  0.0312500 0.1406250 0.8906250</span></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt;  [8,] 7  0.0312500 0.1718750 0.8593750</span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt;  [9,] 8  0.0312500 0.2031250 0.8281250</span></a>
+<a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt; [10,] 9  0.0468750 0.2500000 0.7968750</span></a>
+<a class="sourceLine" id="cb15-13" title="13"><span class="co">#&gt; [11,] 10 0.0468750 0.2968750 0.7500000</span></a>
+<a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt; [12,] 11 0.0312500 0.3281250 0.7031250</span></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="co">#&gt; [13,] 12 0.0468750 0.3750000 0.6718750</span></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="co">#&gt; [14,] 13 0.0468750 0.4218750 0.6250000</span></a>
+<a class="sourceLine" id="cb15-17" title="17"><span class="co">#&gt; [15,] 14 0.0312500 0.4531250 0.5781250</span></a>
+<a class="sourceLine" id="cb15-18" title="18"><span class="co">#&gt; [16,] 15 0.0468750 0.5000000 0.5468750</span></a>
+<a class="sourceLine" id="cb15-19" title="19"><span class="co">#&gt; [17,] 16 0.0468750 0.5468750 0.5000000</span></a>
+<a class="sourceLine" id="cb15-20" title="20"><span class="co">#&gt; [18,] 17 0.0312500 0.5781250 0.4531250</span></a>
+<a class="sourceLine" id="cb15-21" title="21"><span class="co">#&gt; [19,] 18 0.0468750 0.6250000 0.4218750</span></a>
+<a class="sourceLine" id="cb15-22" title="22"><span class="co">#&gt; [20,] 19 0.0468750 0.6718750 0.3750000</span></a>
+<a class="sourceLine" id="cb15-23" title="23"><span class="co">#&gt; [21,] 20 0.0312500 0.7031250 0.3281250</span></a>
+<a class="sourceLine" id="cb15-24" title="24"><span class="co">#&gt; [22,] 21 0.0468750 0.7500000 0.2968750</span></a>
+<a class="sourceLine" id="cb15-25" title="25"><span class="co">#&gt; [23,] 22 0.0468750 0.7968750 0.2500000</span></a>
+<a class="sourceLine" id="cb15-26" title="26"><span class="co">#&gt; [24,] 23 0.0312500 0.8281250 0.2031250</span></a>
+<a class="sourceLine" id="cb15-27" title="27"><span class="co">#&gt; [25,] 24 0.0312500 0.8593750 0.1718750</span></a>
+<a class="sourceLine" id="cb15-28" title="28"><span class="co">#&gt; [26,] 25 0.0312500 0.8906250 0.1406250</span></a>
+<a class="sourceLine" id="cb15-29" title="29"><span class="co">#&gt; [27,] 26 0.0156250 0.9062500 0.1093750</span></a>
+<a class="sourceLine" id="cb15-30" title="30"><span class="co">#&gt; [28,] 27 0.0156250 0.9218750 0.0937500</span></a>
+<a class="sourceLine" id="cb15-31" title="31"><span class="co">#&gt; [29,] 28 0.0312500 0.9531250 0.0781250</span></a>
+<a class="sourceLine" id="cb15-32" title="32"><span class="co">#&gt; [30,] 29 0.0156250 0.9687500 0.0468750</span></a>
+<a class="sourceLine" id="cb15-33" title="33"><span class="co">#&gt; [31,] 30 0.0156250 0.9843750 0.0312500</span></a>
+<a class="sourceLine" id="cb15-34" title="34"><span class="co">#&gt; [32,] 31 0.0156250 1.0000000 0.0156250</span></a></code></pre></div>
 <p>You will now notice varying probabilities for each specific value. These are due to the varying number of permutations that result in this value of the test statistic.</p>
 <p>The size of the distribution of <em>T</em> can grow quickly, so with larger sample sizes we need to curb our enthusiasm. For example, in the sign test vingette we looked at differences for 60 pairs of fruit trees. Let’s see how many possible joint events we have when considering the sign of the difference.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="dv">2</span><span class="op">^</span><span class="dv">60</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; [1] 1.152922e+18</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="dv">2</span><span class="op">^</span><span class="dv">60</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; [1] 1.152922e+18</span></a></code></pre></div>
 <p>If you are planning to create this distribution, you will be waiting awhile! Assuming that R is fast enough to generate 10,000,000 of the possible permutations each second (which would be quite impressive!), this is how long we would have to wait, in years.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="dv">2</span><span class="op">^</span><span class="dv">60</span><span class="op">/</span><span class="dv">10000000</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">24</span><span class="op">/</span><span class="dv">365</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; [1] 3655.89</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="dv">2</span><span class="op">^</span><span class="dv">60</span><span class="op">/</span><span class="dv">10000000</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">60</span><span class="op">/</span><span class="dv">24</span><span class="op">/</span><span class="dv">365</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt; [1] 3655.89</span></a></code></pre></div>
 <p>Make sure you have an ample supply of food and water before locking yourself in a room to calculate this distribution. Most of us are unwilling to wait that long, even if it means that we can calculate exact results. We have several options available to us. Some of these I will discuss in future vignettes. One option will be discussed below: using a large-sample approximation.</p>
 <p>Again you are probably wondering if there are R functions that give us what we need in order to make inferences without computing and examining the entire distribution of the test statistic. Again, the answer is “yes.” This is not in the Base R system, but can be found in the <em>coin</em> package. (The term “coin” is used as an acronym for <em>conditional inference procedures in a permutation test framework</em>.) The package is powerful and extends well beyond what we have been learning using a general framework. As such, the way you will need to use functions seem a bit over-the-top for this seemingly simple task, yet that is only because a single function can do so much. We will see this in later discussions. For now, and without explanation, I’ll show you how to get what we need using the fertilizer data.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># Our observations are in two variables that have been matched.</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a></span>
-<span id="cb18-4"><a href="#cb18-4"></a>fruit<span class="op">$</span>A</span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; [1] 82 91 74 90 66 81</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>fruit<span class="op">$</span>B</span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; [1] 85 89 81 96 65 93</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a></span>
-<span id="cb18-9"><a href="#cb18-9"></a>dta &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</span>
-<span id="cb18-10"><a href="#cb18-10"></a>  <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B),</span>
-<span id="cb18-11"><a href="#cb18-11"></a>  <span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/gl">gl</a></span>(<span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(fruit<span class="op">$</span>A)),</span>
-<span id="cb18-12"><a href="#cb18-12"></a>  <span class="dt">block =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(fruit<span class="op">$</span>A), <span class="dv">2</span>))</span>
-<span id="cb18-13"><a href="#cb18-13"></a>)</span>
-<span id="cb18-14"><a href="#cb18-14"></a></span>
-<span id="cb18-15"><a href="#cb18-15"></a><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block, <span class="dt">data =</span> dta,</span>
-<span id="cb18-16"><a href="#cb18-16"></a>              <span class="dt">distribution =</span> <span class="st">"exact"</span>)</span>
-<span id="cb18-17"><a href="#cb18-17"></a><span class="co">#&gt; </span></span>
-<span id="cb18-18"><a href="#cb18-18"></a><span class="co">#&gt;  Exact General Symmetry Test</span></span>
-<span id="cb18-19"><a href="#cb18-19"></a><span class="co">#&gt; </span></span>
-<span id="cb18-20"><a href="#cb18-20"></a><span class="co">#&gt; data:  y by x (1, 2) </span></span>
-<span id="cb18-21"><a href="#cb18-21"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb18-22"><a href="#cb18-22"></a><span class="co">#&gt; Z = -1.6038, p-value = 0.1562</span></span>
-<span id="cb18-23"><a href="#cb18-23"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="co"># Our observations are in two variables that have been matched.</span></a>
+<a class="sourceLine" id="cb18-3" title="3"></a>
+<a class="sourceLine" id="cb18-4" title="4">fruit<span class="op">$</span>A</a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt; [1] 82 91 74 90 66 81</span></a>
+<a class="sourceLine" id="cb18-6" title="6">fruit<span class="op">$</span>B</a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt; [1] 85 89 81 96 65 93</span></a>
+<a class="sourceLine" id="cb18-8" title="8"></a>
+<a class="sourceLine" id="cb18-9" title="9">dta &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb18-10" title="10">  <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(fruit<span class="op">$</span>A, fruit<span class="op">$</span>B),</a>
+<a class="sourceLine" id="cb18-11" title="11">  <span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/gl.html">gl</a></span>(<span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(fruit<span class="op">$</span>A)),</a>
+<a class="sourceLine" id="cb18-12" title="12">  <span class="dt">block =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span>(fruit<span class="op">$</span>A), <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb18-13" title="13">)</a>
+<a class="sourceLine" id="cb18-14" title="14"></a>
+<a class="sourceLine" id="cb18-15" title="15"><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block, <span class="dt">data =</span> dta,</a>
+<a class="sourceLine" id="cb18-16" title="16">              <span class="dt">distribution =</span> <span class="st">"exact"</span>)</a>
+<a class="sourceLine" id="cb18-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-18" title="18"><span class="co">#&gt;  Exact General Symmetry Test</span></a>
+<a class="sourceLine" id="cb18-19" title="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-20" title="20"><span class="co">#&gt; data:  y by x (1, 2) </span></a>
+<a class="sourceLine" id="cb18-21" title="21"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb18-22" title="22"><span class="co">#&gt; Z = -1.6038, p-value = 0.1562</span></a>
+<a class="sourceLine" id="cb18-23" title="23"><span class="co">#&gt; alternative hypothesis: two.sided</span></a></code></pre></div>
 <p>This function calculates a Z statistic based on our data, but then creates an exact distribution of this statistic, so the <em>p</em> value we obtained is the same as what we obtained earlier. Here’s what we would have done if we were confirming that Fertilizer B was more effective, based on theory-based development of the fertilizer. The function is going to subtract Fertilizer B outcomes from Fertilizer A outcomes, just like we did, so we need to test in the lower tail.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block, <span class="dt">data =</span> dta,</span>
-<span id="cb19-2"><a href="#cb19-2"></a>              <span class="dt">distribution =</span> <span class="st">"exact"</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt; </span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt;  Exact General Symmetry Test</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt; </span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt; data:  y by x (1, 2) </span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt; Z = -1.6038, p-value = 0.07812</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt; alternative hypothesis: less</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block, <span class="dt">data =</span> dta,</a>
+<a class="sourceLine" id="cb19-2" title="2">              <span class="dt">distribution =</span> <span class="st">"exact"</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>)</a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="co">#&gt;  Exact General Symmetry Test</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="co">#&gt; data:  y by x (1, 2) </span></a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb19-8" title="8"><span class="co">#&gt; Z = -1.6038, p-value = 0.07812</span></a>
+<a class="sourceLine" id="cb19-9" title="9"><span class="co">#&gt; alternative hypothesis: less</span></a></code></pre></div>
 <p>If you have already created the difference scores, the code used is a bit different, but the results are the same.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(A.minus.B) <span class="op">*</span><span class="st"> </span>(A.minus.B <span class="op">&gt;=</span><span class="dv">0</span>),</span>
-<span id="cb20-2"><a href="#cb20-2"></a>                     <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(A.minus.B) <span class="op">*</span><span class="st"> </span>(A.minus.B <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)))</span>
-<span id="cb20-3"><a href="#cb20-3"></a></span>
-<span id="cb20-4"><a href="#cb20-4"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(A.minus.B)), <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pos"</span>, <span class="st">"neg"</span>))</span>
-<span id="cb20-5"><a href="#cb20-5"></a>block &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/gl">gl</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(A.minus.B), <span class="dv">2</span>)</span>
-<span id="cb20-6"><a href="#cb20-6"></a></span>
-<span id="cb20-7"><a href="#cb20-7"></a><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block,</span>
-<span id="cb20-8"><a href="#cb20-8"></a>              <span class="dt">distribution =</span> <span class="st">"exact"</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; </span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt;  Exact General Symmetry Test</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt; </span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt; data:  y by x (pos, neg) </span></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#&gt; Z = -1.6038, p-value = 0.07812</span></span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt; alternative hypothesis: less</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(A.minus.B) <span class="op">*</span><span class="st"> </span>(A.minus.B <span class="op">&gt;=</span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb20-2" title="2">                     <span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(A.minus.B) <span class="op">*</span><span class="st"> </span>(A.minus.B <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)))</a>
+<a class="sourceLine" id="cb20-3" title="3"></a>
+<a class="sourceLine" id="cb20-4" title="4">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(A.minus.B)), <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pos"</span>, <span class="st">"neg"</span>))</a>
+<a class="sourceLine" id="cb20-5" title="5">block &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/gl.html">gl</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(A.minus.B), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb20-6" title="6"></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block,</a>
+<a class="sourceLine" id="cb20-8" title="8">              <span class="dt">distribution =</span> <span class="st">"exact"</span>, <span class="dt">alternative =</span> <span class="st">"less"</span>, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-10" title="10"><span class="co">#&gt;  Exact General Symmetry Test</span></a>
+<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-12" title="12"><span class="co">#&gt; data:  y by x (pos, neg) </span></a>
+<a class="sourceLine" id="cb20-13" title="13"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb20-14" title="14"><span class="co">#&gt; Z = -1.6038, p-value = 0.07812</span></a>
+<a class="sourceLine" id="cb20-15" title="15"><span class="co">#&gt; alternative hypothesis: less</span></a></code></pre></div>
 <p>You can check these results with our complete distribution above. Let’s try one more trick. Here are the data from the larger example we used in the sign test vignette.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>B.minus.A &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">125</span>, <span class="dv">61</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">-2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">12</span>,</span>
-<span id="cb21-2"><a href="#cb21-2"></a>               <span class="dv">23</span>, <span class="dv">1</span>, <span class="dv">86</span>, <span class="dv">17</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-2</span>, <span class="dv">58</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">18</span>, <span class="dv">1</span>, <span class="dv">40</span>, <span class="dv">-1</span>,</span>
-<span id="cb21-3"><a href="#cb21-3"></a>               <span class="dv">2</span>, <span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">-2</span>, <span class="dv">1</span>, <span class="dv">56</span>, <span class="dv">5</span>, <span class="dv">-2</span>, <span class="dv">8</span>, <span class="dv">-2</span>, <span class="dv">-1</span>, <span class="dv">30</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">52</span>,</span>
-<span id="cb21-4"><a href="#cb21-4"></a>               <span class="dv">3</span>, <span class="dv">-1</span>, <span class="dv">52</span>, <span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">9</span>, <span class="dv">145</span>, <span class="dv">17</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">B.minus.A &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">125</span>, <span class="dv">61</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">-2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">12</span>,</a>
+<a class="sourceLine" id="cb21-2" title="2">               <span class="dv">23</span>, <span class="dv">1</span>, <span class="dv">86</span>, <span class="dv">17</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-2</span>, <span class="dv">58</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">18</span>, <span class="dv">1</span>, <span class="dv">40</span>, <span class="dv">-1</span>,</a>
+<a class="sourceLine" id="cb21-3" title="3">               <span class="dv">2</span>, <span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">-2</span>, <span class="dv">1</span>, <span class="dv">56</span>, <span class="dv">5</span>, <span class="dv">-2</span>, <span class="dv">8</span>, <span class="dv">-2</span>, <span class="dv">-1</span>, <span class="dv">30</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">52</span>,</a>
+<a class="sourceLine" id="cb21-4" title="4">               <span class="dv">3</span>, <span class="dv">-1</span>, <span class="dv">52</span>, <span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">9</span>, <span class="dv">145</span>, <span class="dv">17</span>)</a></code></pre></div>
 <p>We saw that an exact test would take many years, even with a fast computer, so what does the symmetry_test function do with these data? First, let’s set it up. Note that I subtracted A from B in this example, so you need to switch around to an upper-sided test.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(B.minus.A) <span class="op">*</span><span class="st"> </span>(B.minus.A <span class="op">&gt;=</span><span class="dv">0</span>),</span>
-<span id="cb22-2"><a href="#cb22-2"></a>                     <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(B.minus.A) <span class="op">*</span><span class="st"> </span>(B.minus.A <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)))</span>
-<span id="cb22-3"><a href="#cb22-3"></a></span>
-<span id="cb22-4"><a href="#cb22-4"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(B.minus.A)), <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pos"</span>, <span class="st">"neg"</span>))</span>
-<span id="cb22-5"><a href="#cb22-5"></a>block &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/gl">gl</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(B.minus.A), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(B.minus.A) <span class="op">*</span><span class="st"> </span>(B.minus.A <span class="op">&gt;=</span><span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb22-2" title="2">                     <span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(B.minus.A) <span class="op">*</span><span class="st"> </span>(B.minus.A <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)))</a>
+<a class="sourceLine" id="cb22-3" title="3"></a>
+<a class="sourceLine" id="cb22-4" title="4">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(B.minus.A)), <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pos"</span>, <span class="st">"neg"</span>))</a>
+<a class="sourceLine" id="cb22-5" title="5">block &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/gl.html">gl</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(B.minus.A), <span class="dv">2</span>)</a></code></pre></div>
 <p>Now try running this function.</p>
 <blockquote>
 <p>symmetry_test(y ~ x | block, distribution = “exact”, alternative = “greater”, paired = TRUE)</p>
 </blockquote>
 <p>No surprise. It tells us to take a hike. Let’s tweak this just a bit by taking out the request for an exact test.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block,</span>
-<span id="cb23-2"><a href="#cb23-2"></a>              <span class="dt">distribution =</span> <span class="st">"approximate"</span>,</span>
-<span id="cb23-3"><a href="#cb23-3"></a>              <span class="dt">alternative =</span> <span class="st">"greater"</span>,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>              <span class="dt">paired =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#&gt; </span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co">#&gt;  Approximative General Symmetry Test</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt; </span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt; data:  y by x (pos, neg) </span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt;   stratified by block</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; Z = 3.7089, p-value &lt; 1e-04</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#&gt; alternative hypothesis: greater</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">symmetry_test</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">|</span><span class="st"> </span>block,</a>
+<a class="sourceLine" id="cb23-2" title="2">              <span class="dt">distribution =</span> <span class="st">"approximate"</span>,</a>
+<a class="sourceLine" id="cb23-3" title="3">              <span class="dt">alternative =</span> <span class="st">"greater"</span>,</a>
+<a class="sourceLine" id="cb23-4" title="4">              <span class="dt">paired =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="co">#&gt;  Approximative General Symmetry Test</span></a>
+<a class="sourceLine" id="cb23-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="co">#&gt; data:  y by x (pos, neg) </span></a>
+<a class="sourceLine" id="cb23-9" title="9"><span class="co">#&gt;   stratified by block</span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="co">#&gt; Z = 3.7089, p-value &lt; 1e-04</span></a>
+<a class="sourceLine" id="cb23-11" title="11"><span class="co">#&gt; alternative hypothesis: greater</span></a></code></pre></div>
 <p>Oh, that’s nice! But what is it? You’ll have to wait for me to provide the details in another vignette. You should already have figured out that this is providing an approximate <em>p</em> value. Approximations in the world of nonparametric statistics are of a different type than those in traditional parametric statistics, so we’ll need to spend a bit of time on this; but not now.</p>
 </div>
 <div id="the-need-for-symmetry" class="section level3">
@@ -412,18 +417,18 @@
 <p>Yet the fact that the mean <em>could have</em> been used as our test statistic opens up an obvious approximate test when we have large samples. We know, by the Central Limit Theorem, that for many distributions and with large samples that the sampling distribution of the mean is approximately normal. with this in mind, we can propose the use of normal-distribution methods when we have large samples. For the mean, we could have tested the hypothesis that the median of differences is 0 using a single-sample <em>t</em> test. (We began by testing the median, so I’m sticking with it. Recall that with the null hypothesis of no treatment effect and with randomization, the differences are symmetrical, so the median and the mean are the same.)</p>
 <p>One of the beauties of the nonparametric framework is the merging of methods that are considered nonparametric and parametric. We will see this with multiple methods, culminating in generalized linear models. For now, it is gratifying to note that when we are studying potential treatment effects with a matched-pair design and are true to the conditions for valid inference (random sampling, independence of pairs, and randomization), a nonparametric method (the Fisher-Pitman permutation test) will provide exact Type I error rates for every sample size, when the parametric method (the <em>t</em> test) may not. Yet when sample sizes get so large as to render the permutation test results inaccessible in a reasonable period of time, the <em>t</em> test can be called in as a surrogate and will yield Type I error rates that are very close to actual error rates.</p>
 <p>Here’s the large-sample approximation for the B minus A differences that we considered above.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/t.test">t.test</a></span>(B.minus.A)</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#&gt; </span></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#&gt;  One Sample t-test</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co">#&gt; </span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="co">#&gt; data:  B.minus.A</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="co">#&gt; t = 4.1893, df = 59, p-value = 9.481e-05</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a><span class="co">#&gt;   8.279309 23.420691</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt; sample estimates:</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="co">#&gt; mean of x </span></span>
-<span id="cb24-12"><a href="#cb24-12"></a><span class="co">#&gt;     15.85</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span>(B.minus.A)</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="co">#&gt;  One Sample t-test</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="co">#&gt; data:  B.minus.A</span></a>
+<a class="sourceLine" id="cb24-6" title="6"><span class="co">#&gt; t = 4.1893, df = 59, p-value = 9.481e-05</span></a>
+<a class="sourceLine" id="cb24-7" title="7"><span class="co">#&gt; alternative hypothesis: true mean is not equal to 0</span></a>
+<a class="sourceLine" id="cb24-8" title="8"><span class="co">#&gt; 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb24-9" title="9"><span class="co">#&gt;   8.279309 23.420691</span></a>
+<a class="sourceLine" id="cb24-10" title="10"><span class="co">#&gt; sample estimates:</span></a>
+<a class="sourceLine" id="cb24-11" title="11"><span class="co">#&gt; mean of x </span></a>
+<a class="sourceLine" id="cb24-12" title="12"><span class="co">#&gt;     15.85</span></a></code></pre></div>
 <p>As noted earlier, we have a different type of large-sample approximation for the Fisher-Pitman permutation test that is based on approximating what the <em>p</em> value would be if we had actually been able to perform all permutations without waiting for the end of the world. When we used that with these data, we were given this.</p>
 <p><span class="math inline">\(p = .0001\)</span></p>
 <p>When we used the <em>t</em> test, we were given this.</p>
@@ -443,16 +448,18 @@
 <p>The Fisher-Pitman permutation test is so-named because we look at all possible permutations of the signs of the differences. If under the null hypothesis these signs are due to random assignment to conditions, we could just as well call this the Fisher-Pitman randomization test. Indeed, provides the strongest use of the test. Permuting signs of potential differences takes us to the realm of strong conditions, such as that of symmetry.</p>
 <p>In most introductory statistics books that I have encountered, reference is made to random sampling from a population in order to make observations, calculate statistics, and infer back to a parameter. For example, we might select a random sample of American teenagers and record a body mass index as a way of understanding the body mass index for the larger population. Specifically, we might calculate the mean for our sample and use that to make inferences about the population mean. We might refer to this as <em>population inference</em>. Randomization tests offer another perspective on inference. We calculate probabilities based on all possible randomizations, yet we only “sample” one of these. From this sample we then decide if we can infer that there is a treatment effect. We might call this <em>causal inference</em>.</p>
 <div class="figure">
-<img src="types_of_inference.jpg" alt=""><p class="caption"><em>Figure 3</em></p>
+<img src="types_of_inference.jpg" alt="Figure 3"><p class="caption"><em>Figure 3</em></p>
 </div>
 <p>As researchers, one of our greatest wishes would be to randomly sample and then randomize to conditions, thus giving us a means to make both an inference about cause-effect and an inference about the size of this effect in a larger population. Unfortunately, few studies do both. The good news is that if we can randomize, we can make causal inferences regardless of the nature of our sample. We certainly cannot make these inferences pertain to broader populations than those represented by the units in our sample, yet understanding cause-effect relationships is a primary goal of science. The ability to infer such a relationship is a large step toward addressing our research goals.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -460,12 +467,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
