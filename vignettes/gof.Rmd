@@ -1,0 +1,408 @@
+---
+title: "Goodness of Fit"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Goodness of Fit}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+We use the binomial distribution when our measure consists of only two possible 
+outcomes, such as "pass" and "fail". Yet when we have a categorical response 
+variable, we might still have more than two potential outcomes. Examples of 
+this would be responses on a Likert scale, such as "Strongly Disagree", 
+"Disagree", "Agree", and "Strongly Agree", or the classification of a person's 
+political preference, such as "Democrat", "Republican", and "independent". This 
+vignette is about inference with a categorical response variable for which 
+there are at least two potential responses.
+
+### Required packages
+
+The packages required for this vignette are nplearn and EMT.
+
+```{r setup, echo = TRUE, message = FALSE}
+library(nplearn)
+library(EMT)
+```
+
+### The multinomial coefficient
+
+Consider a hypothetical scenario in which an instructor teaches five students 
+how to take notes about a lecture one of three ways: linear notes, outline 
+notes, or matrix notes. The students are provided opportunities to take and use 
+each of these note types, after which each student is asked to identify their 
+preferred notetaking type. The question of interest is whether one type of 
+notetaking is preferred over the other types.
+
+Consider *n* objects grouped into *k* mutually exclusive and exhaustive 
+subsets. The term *mutually exclusive* means that an object can be put in one 
+and only one subset. The term *exhaustive* means that we are considering all 
+subsets of interest so that the sum of the number of objects in all subsets is 
+equal to the total number of objects. The multinomial coefficient can be used 
+to calculate the number of unique permutations when subsets consist of like 
+objects. Here's the formula for the multinomial coefficient.
+
+$\binom{n}{x_1 \;x_2 \;... \;x_k}$
+
+In this equation, each *x* represents the number of objects in a particular 
+response category. For example, suppose we want to know how many permutations 
+of our seven student responses will involve 1 who prefers linear notes, 1 who 
+prefers outline notes, and 3 who prefer matrix notes. Here's the calculation.
+
+$\frac{5!}{1!1!3!}$
+
+```{r}
+factorial(5)/(factorial(1)*factorial(1)*factorial(3))
+```
+
+
+There are 20 different permutation of choices for these five students. You 
+likely noticed by now that the multinomial coefficient is simply an extension 
+of the binomial coefficient. Indeed, when we only have two possible response 
+categories, the formula becomes the formula for the binomial coefficient.
+
+$\binom{n}{x_1 \;x_2} = \frac{n!}{x!(n-x)!}$
+
+### The multinomial distribution
+
+Knowing that this is an extension of the binomial coefficient should lead you 
+to surmise that the multinomial distribution is an extension of the binomial 
+distribution, and indeed that is the case. A multinomial event is an event with 
+*k* possible outcomes that are mutually exclusive. The probability of one 
+ordering of multinomial events is the product of the individual event 
+probabilities. If there are *x* units in a category, then we can write the 
+formula for the probability of one ordering of multinomial events like this.
+
+$\left( \pi^{x_1}_1 \right)\left( \pi^{x_2}_2 \right)...\left( \pi^{x_k}_k \right)$
+
+Suppose in our notes example we hypothesize that each type of note is equally 
+liked in the population of notetakers. Then the probability of specific named 
+students responding such that one prefers linear, one prefers outline, and 
+three prefer matrix would be calculated like this.
+
+$\left( \frac{1}{3} \right)\left( \frac{1}{3} \right)\left( \frac{1}{3} \right)^3$
+
+```{r}
+(1/3)*(1/3)*(1/3)^3
+```
+
+
+Of course it doesn't matter to our study which particular student is in each of 
+the three conditions, as long as we know that the pattern is 1, 1, and 3. We 
+saw above that this pattern can occur 20 different ways with five students, so 
+our total probability of obtaining this pattern is the probability of one 
+particular ordering, multipled by 20.
+
+```{r}
+20*(1/3)*(1/3)*(1/3)^3
+```
+
+
+To construct the entire multinomial distribution, we have to consider all 
+possible outcomes. Thus, we have to vary the number in each group from 0 to 
+the total number of units, but do so in such a way that the total in all groups 
+is equal to the total number of units. For example, with our five students we 
+could have patterns like these.
+
+$5 \;0 \;0$
+
+$4 \;1 \;0$
+
+$2 \;2 \;1$
+
+But we could not have the following patterns, even though we are keeping the 
+number in each notetaking type no more than 5.
+
+$5 \;4 \;1$
+
+$3 \;3 \;3$
+
+These are not possible because the total number must sum to 5. Forunately, our 
+*nplearn* package has a function that will produce the entire multinomial 
+distribution. We have to send it our observation as well as our hypothesized 
+probability of preference for each note taking type.
+
+```{r}
+observed <- c(1, 1, 3)
+probs <- c(1/3, 1/3, 1/3)
+mult_dist(observed, probs)
+```
+
+If we sum these probabilities, we had better get unity!
+
+```{r}
+our.dist <- mult_dist(observed, probs)
+sum(our.dist$prob)
+```
+
+### The multinomial test
+
+A reasonable null hypothesis in our study of notetaking preference would be 
+this.
+
+$H_0: \pi_1 = \frac{1}{3} \;\pi_2 = \frac{1}{3} \;\pi_3 = \frac{1}{3}$
+
+That is, there is an equal probability of a particular notetaking type being 
+named as the preferred type. The alternative hypothesis here is that these 
+proportions are not all the same, because of course we are speculating that 
+one type may be preferred.
+
+If you look at the multinomial distribution, it is clear that with five 
+students we can't actually observe 1/3 preferring each type. The numbers just 
+don't work out for that possibility. We can get close, for example, 1, 1, and 
+2 would be close. We want to reject the null hypothesis when our observations 
+are most inconsistent with the null hypothesis. When is that? It's not obvious, 
+for example, whether an observation of 2, 3, 0 or an observation of 4, 1, 0 
+would be considered more inconsistent with the null hypothesis of preference 
+equality.
+
+To solve this dilemma, we can resurrect a statistic you likely learned about 
+in an earlier statistics course: $\chi^2$. Under the null hypothesis, we can 
+calculate the expected number of preferences for that notetaking type.
+
+$E(X_k) = n*P(X_k|H_0)$
+
+For example, if the null hypothesis is true, here's how many students we expect 
+to prefer outline notes.
+
+```{r}
+5 * (1/3)
+```
+
+There is no way to observe that many students preferring outline notes, but it 
+doesn't matter. What we are working on is obtaining an index of incompatibility 
+with the null hypothesis. Such an index does not need to be an integer, even 
+though students come in integer intervals.
+
+For any given response, we can calculate an index of how far our response is 
+from the expected value when the null hypothesis is true.
+
+$\chi^2_k = \frac{\left[ X_k - E(X_k) \right]^2}{E(X_k)}$
+
+To obtain an "incompatibility index" (i.e., an index with higher values for 
+observations that are more incompatible with the null hypothesis), we simply 
+sum these values across all responses.
+
+$\chi^2 = \sum \chi^2_k$
+
+This is often referred to as a *goodness of fit statistic*. This term is a bit 
+misleading, because it is really a measure of **lack** of goodness of fit. The 
+higher the value of the goodness of fit statistic, the more our oberved values 
+are incompatible with the null hypothesis. As always, we conduct a hypothesis 
+test by looking at the distribution of the goodness of fit statistic, along 
+with the probability of obtaining the values of the statistic when the null 
+hypothesis is true, and we first reject those values that are most incompatible 
+with the null hypothesis.
+
+The mult_dist function has an option for us to include the $\chi^2$ statistic 
+in our distribution results and sort the distribution on the basis of this 
+statistic.
+
+```{r}
+mult_dist(observed, probs, chi2.sort = TRUE)
+```
+
+We now are ready to test the hypothesis of equal preference for each of the 
+notetaking types. Given the small sample size, let's use $\alpha = .10$.
+
+Our observed frequencies of preference were 1, 1, and 3. This corresponds to 
+$\chi^2 = 1.6$ and the probability of 1.6, or greater, when the null hypothesis 
+is true is 0.63. (Remember that we must include all values of 1.6 when 
+determining the cumulative probability.)
+
+We have just determined that if there is equal preference for each note taking 
+type that there is a 63% chance of observing the preferences that we observed, 
+or preferences even more incompatible with the null hypothesis. In 
+goodness-of-fit terms, we can state that our observations are not incompatible 
+with a model of equal preference.
+
+One sidenote: We are dealing with unordered categories, so there is no 
+direction to our hypothesis. Regardless of which notetaking type is preferred, 
+as we deviate from the null hypothesis the value of $\chi^2$ grows, so we only 
+need to perform a one-sided test in order to test for all types of 
+incompatibility. This upper-tailed test is reflected in our statistic which 
+is based on squared values, thus eliminating the chance for a lower tail in 
+our distribution.
+
+As you might suspect from your association with R, someone has created a 
+function that makes it unnecessary to create the entire multinomial 
+distribution. This is in the "EMT" package. The name of the package comes from 
+"exact multinomial test," which is exactly (bad pun!) what we are doing here.
+
+```{r}
+multinomial.test(observed, probs, useChisq = TRUE)
+```
+
+Imagine the same notetaking study, but this time with a larger sample size. 
+Suppose that out of 100 students, 7 prefer linear notes, 21 prefer outline 
+notes, and 72 prefer matrix notes. Let's see what we get.
+
+```{r}
+observed <- c(7, 21, 72)
+multinomial.test(observed, probs, useChisq = TRUE)
+```
+
+The *p* value is not really 0, but it is so small that 0 provides a good 
+estimate. We have sufficient evidence to declare preferences in the population 
+of notetaking users who are trained in all three methods. Our best guess here 
+is that matrix notetaking is the preferred method.
+
+If we want to see the entire output of this rather large distribution, we can 
+do so, but we probably don't want to print it to the screen. Let's save the 
+distribution and put it in a csv file.
+
+```{r}
+big.dist <- mult_dist(observed, probs, chi2.sort = TRUE)
+write.csv(big.dist, file = "myoutput.csv")
+```
+
+You'll find our observation on row 1320. The reason that the exact multinomial 
+test function gave us a 0 is because the actual value is 
+0.00000000000000193, so 0 seems close enough.
+
+One other item of interest while we are looking at our file. You'll see that 
+the largest value of $\chi^2$ is 200. It turns out that the maximum value that 
+we can observe for $\chi^2$ is given by this formula.
+
+$n*(k-1)$
+
+We have *n* = 100 and *k* = 3, so the value of 200 is what we should have 
+expected.
+
+Let me show you one more item of interest with the multinomial test function. 
+I'm going to change the observed pattern to make it a bit more compatiable 
+with the null hypothesis. I'm doing this so that we can look at *p* values 
+that are not so close to 0.
+
+```{r}
+observed <- c(22, 37, 41)
+multinomial.test(observed, probs, useChisq = TRUE)
+multinomial.test(observed, probs)
+```
+
+Notice the two different *p* values. They are not much different, but if we 
+are using a 95% level of confidence, we would reject the null hypothesis with 
+one of these values, but not with the other. Which one is correct? The first 
+one. Notice in the two function calls that I set the third parameter (useChisq) 
+to "true". The default is "false". What is the function doing if this 
+parameter is false? It is sorting based on probabilities, rather than based 
+on the chi-square statistic. Why? I have no idea, but what I can tell you is 
+that many researchers (even some statisticians!) have the idea that we should 
+put the lowest probabilities in our rejection region first. What we should put 
+in our rejection region first are the observations that are most inconsistent 
+with the null hypothesis, and these are encapsulated with the chi-square 
+statistic. It turns out that most of the time the largest values of chi square 
+are associated with the smallest probabilities, yet as we move to smaller and 
+smaller values of chi-square, this may not always be the case. When it is not, 
+our rule is to use values that align with incompatibility with the null 
+hypothesis rather than the probability. The author of the function is aware 
+of this issue, or he wouldn't have put in a "useChisq" parameter. In my view, 
+at the very least, he should have made "true" the default, rather than "false." 
+At least we know to set this to "true" each time we use the function.
+
+### Large-sample approximations for the multinomial distribution
+
+We have already seen that we can do an exact test with a sample size as large 
+as 100. Let's look at a study with an even bigger sample. A district manager 
+tracked sales in three bookstores. Bookstore A and B are the same size, but 
+Bookstore C is twice as big. The manager therefore believed that Bookstore C 
+should be selling twice as many books as Bookstores A and B. Here are the data 
+for one month.
+
+Bookstore A: 5,325 books
+
+Bookstore B: 6,202 books
+
+Bookstore C: 9,849 books
+
+Let's try this. Note the null hypothesized proportions of total sales. Put 
+these in and then go ahead and run the multinomial test.
+
+```{r}
+observed <- c(5325, 6202, 9849)
+probs <- c(0.25, 0.25, 0.50)
+```
+
+I'm not sure if this would work or not if we waited long enough, but if you're 
+like me, you gave up. What can we do? We have two good options. First, we can 
+use a Monte Carlo method.
+
+```{r}
+multinomial.test(observed,
+                 probs,
+                 useChisq = TRUE,
+                 MonteCarlo = TRUE,
+                 ntrial = 100000)
+```
+
+We can reject the null hypothesis. The bookstores are not all matching with 
+our expectations. Look at the proportions.
+
+```{r}
+observed/sum(observed)
+```
+
+Bookstore A is right on target. Bookstore B is overperforming and Bookstore C 
+is underperforming. Before we start firing employees, consider that *p* values 
+are a function of both effect size and sample size. The effect size here is not 
+very large, but the *p* value is very small because the sample size is very 
+large. The combination of a large sample size and small effect size led to a 
+small p value.
+
+We know that a Monte Carlo study is one that involves simulation, so what did 
+our Monte Carlo parameter do for us here. It simulated drawing multiple samples 
+(100,000, in fact, because that is what the "ntrial" parameter tells us) from 
+the null-hypothesized distribution. Each time, it calculated chi square and 
+determined if that value of chi square equaled or exceeded our observed value 
+of 204. The empirical *p* value is the number of times, out of 100,000, that 
+it did equal or exceed 204. Pretty nifty, eh? Monte Carlo can be used to 
+create empirical *p* values in situations where there are just far too many 
+possible permutations to do in a reasonable amount of time. Thinking about 
+this should lead you to consider new approaches to methods such as the 
+Fisher-Pitman test.
+
+The second option when we have a large sample size is to utilize an intriguing 
+property of the $\chi^2$ statistic. As the sample size increases, the 
+distribution of this statistic approaches that of a chi-square distribution 
+with k-1 degrees of freedom. In this study we have three bookstores, so we will 
+use 2 degrees of freedom. Note that observed chi-square value of 203.6837. We 
+can use the "pchisq" function to obtain our *p* value.
+
+```{r}
+pchisq(203.6837, df = 2, lower.tail = FALSE)
+```
+
+That's pretty close to 0!
+
+Just for grins, let's go back to my earlier example when I obtained *p* values 
+not so close to 0 with *n* = 100. Let's now compare the exact method, the 
+Monte Carlo method, and the large-sample chi-square distribution method.
+
+```{r}
+observed <- c(22, 37, 41)
+probs <- c(1/3, 1/3, 1/3)
+
+multinomial.test(observed, probs, useChisq = TRUE)
+
+multinomial.test(observed,
+                 probs,
+                 useChisq = TRUE,
+                 MonteCarlo = TRUE,
+                 ntrial = 100000)
+
+expected <- sum(observed)*probs
+x2 <- (observed - expected)^2/expected
+x2 <- sum(x2)
+pchisq(x2, df = 2, lower.tail = FALSE)
+```
+
+The results are all quite close, but the Monte Carlo results are better than 
+those using the asymptotic distribution. Most of the world uses this latter 
+method, but you now know that there is a better way.
