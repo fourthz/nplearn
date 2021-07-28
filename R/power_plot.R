@@ -25,6 +25,6 @@ power_plot <- function(h_0, h_1, alpha = .05, line = 0) {
        ylab = "Power")
 
   if (line > 0 & line < 1) {
-    abline(h = 0.80)
+    abline(h = line)
   }
 }
