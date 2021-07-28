@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
 
 data_file <- system.file("extdata", "IQ_Study_Data.csv", package = "nplearn")
 
-## ----setup, message = FALSE----------------------------------------------
+## ----setup, echo = TRUE, message = FALSE---------------------------------
 library(nplearn)
 library(tidyverse)
 

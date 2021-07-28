@@ -51,12 +51,11 @@ individuals collaborate on a measurement task.
 It is probably obvious to you that in many disciplines it is the first of these 
 conditions that is more difficult to achieve. We seldom have access to the 
 entire population of interest, even if we do have the means to select a random 
-sample. All is not lost! If can randomly sample from an accessible population, 
-and if we know something about the characteristics of this population, 
-we can estimate the proportion for this population. If our real interest is in 
-some larger population, we at least have more information about a subset of 
-that population, which would suggest that future study might be replication 
-with additional subsets.
+sample. All is not lost! If we can randomly sample from an accessible 
+population, and if we know something about the characteristics of this 
+population, we can estimate the proportion for this population. If our real 
+interest is in some larger population, we at least have more information about 
+a subset of that population, which would suggest that future study might be replication with additional subsets.
 
 What if we cannot randomly sample from any population but are instead 
 confined to something a bit more convenient? This may happen due to limited 
@@ -68,7 +67,7 @@ sample we have at hand. For example, a study conducted with a class of
 undergraduate psychology students could be considered as representative of 
 undergraduate psychology students in other classes that semester, as well as 
 the type of students who very well might have enrolled in psychology, but 
-decided to postpone it for another time. Assuming that time dose not influence 
+decided to postpone it for another time. Assuming that time does not influence 
 the response variable of interest (which is probably not a very reasonable 
 assumption for many response variables as more time goes by), we can even 
 consider past students in undergraduate psychology courses as part of this 
@@ -305,7 +304,7 @@ a new function for you. Keep your fingers crossed!
 ### A confidence interval for a proportion
 
 Using both of the examples above, I will build confidence intervals (one 
-lower-bounded and one two-sided)by inverting the hypothesis tests.
+lower-bounded and one two-sided) by inverting the hypotheses tests.
 
 If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 
 16 patients who agreed to try the new treatment, how much better is the new 
@@ -374,6 +373,8 @@ pi_hat_less <- function(a, b, c) {
   return(pbinom(a, b, c) + pbinom(up_val - 1, b, c, lower.tail = FALSE))
 }
 
+# Determine whether pi_hat is above or below h_0, then call the appropriate 
+# function.
 p_val <- ifelse (pi_hat > h_0,
                  pi_hat_greater(x, n, h_0),
                  pi_hat_less(x, n, h_0))
@@ -398,7 +399,7 @@ to the test of a single hypothesis.
 ### Power for the exact test of a proportion
 
 Power is the probability of rejecting a null hypothesis when a specific 
-alternative hypothesis is correct. Recall this question that we consider 
+alternative hypothesis is correct. Recall this question that we considered 
 earlier.
 
 If a treatment has a known cure rate of 60% and a new treatment cures 14 out of 
@@ -465,7 +466,7 @@ the correct distribution? Here are the steps.
 alternative hypothesis is correct.
 
 Let's do it. First, let's adopt a maximum acceptable Type I error rate of 
-10%, or 0.10. Now we need the critical value for our one-sided test. we want 
+10%, or 0.10. Now we need the critical value for our one-sided test. We want 
 our rejection region to be no more than 10% so we seek the 90th percentile, our sample size is 16, and the null hypothesized probability is 0.60.
 
 ```{r}
@@ -525,7 +526,7 @@ We have several options.
 The first option means that we can make mistakes more often. We will have a 
 hard time establishing credibility in our discipline if we raise this too high. 
 The second option suggests we are not really interesting in detecting a cure 
-rate of 70%, yet have the rate increase by 10 percentage points would seem 
+rate of 70%, yet having the rate increase by 10 percentage points would seem 
 quite substantial to most people, especially if you have contracted this 
 illness. That leaves us with the final option, which may be costly, but such 
 is the price of science. If we can't increase our sample size, we'll have to 
@@ -542,7 +543,7 @@ cv <- qbinom(0.90, 100, 0.60) + 1
 pbinom(cv-1, 100, 0.70, lower.tail = FALSE)
 ```
 
-We're still not there, but almost! We can actually all of the above on one 
+We're still not there, but almost! We can actually put all of the above on one 
 line. Let's try 105.
 
 ```{r}

@@ -1,0 +1,384 @@
+---
+title: "K-Sample Methods for Quantitative Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{K-Sample Methods for Quantitative Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+One of the most commonly-used designs in behavioral and social research 
+involves the comparison of scores in *K* conditions, where *K* > 2. These 
+conditions could be part of an experiment, with each participant randomly 
+assigned to one of the conditions, or they could be defined by an existing 
+categorical variable. In this vignette we will explore nonparametric methods 
+for analyzing both experimental or observational data in which there are *K* 
+groups or conditions.
+
+### Required packages
+
+The only package required for this vignette is nplearn. Make certain that 
+you have installed this packages before attempting to load the library.
+
+```{r setup}
+library(nplearn)
+```
+
+### The Fisher-Pitman Randomization Test
+
+A study of the effectiveness of metaphors compared three conditions: a control 
+condition, an advance metaphor condition, and an extended metaphor condition. 
+Participants in the control condition received a difficult textual passage. For 
+the advance metaphor condition the same passage was preceded by a familiar 
+metaphor. In the extended metaphor condition the metaphors were embedded in the 
+passage. All participants completed a comprehension test about the passage.
+
+This is a small experiment in which 12 participants were randomly assigned to 
+one of three conditions so that each condition included four participants. Here 
+are the scores for the three conditions.
+
+```{r}
+control <- c(9, 10, 6, 11)
+advance <- c(13, 5, 7, 8)
+extended <- c(15, 12, 17, 14)
+```
+
+The hypotheses of interest can be expressed in terms of medians or means. Here 
+they are expressed in terms of means.
+
+$H_0: \mu_c = \mu_a = \mu_e$
+
+$H_a: \mu_k \ne \mu_{k'}, k \ne k'$
+
+Note that the alternative hypothesis (which matches our research hypothesis) is 
+that some of the means are different from the others. It is possible for the 
+alternative hypothesis to be true even if there are two conditions with equal 
+means, as long as there are also at least two conditions that do not have equal 
+means.
+
+The normal approach to analyzing such data is with one-factor analysis of 
+variance (ANOVA). The conditions for such inference to be valid are these.
+
+* Observations within conditions are independent of each other
+* The *K* conditions are independent of each other
+* The population of scores represented by participants in each condition have a 
+normal distribution
+
+The strongest of these conditions is that scores follow a normal distribution. 
+For inference using the Fisher-Pitman randomization test, we can replace this 
+with a weaker condition.
+
+* Population distributions have the same shape
+
+This condition is going to be valid if the effect of any treatment is to 
+"shift" the distribution one way or the other. This will occur if the treatment 
+has a similar effect for all participants in the study. For observational 
+studies in which there is no treatment, such a condition implies that 
+differences associated with the explanatory variable are similar across the 
+range of population attributes.
+
+Whether the study involves the administration of a treatment or the measurement 
+for different categories of an explanatory variable, under the null hypothesis 
+of no mean (or median) difference, we consider any differences that we observe 
+as a consequence of who was assigned to which condition (in an experiment) or 
+who we observed in existing conditions (in an observational study). Considering 
+all possible randomizations (or all possible selections of 12 individuals with 
+these scores), Here are the number of ways that we could have observed these 
+same 12 scores across the three conditions. That is, this is the number of 
+combinations we could obtain for three groups with four participants in each 
+group.
+
+```{r}
+factorial(12)/(factorial(4)*factorial(4)*factorial(4))
+```
+
+Under the null hypothesis, we have observed one of these 34,650 possible 
+arrangement of scores, each of which is equally likely. On the other hand, if 
+the null hypothesis is false and the alternative hypothesis is true, then 
+combinations that lead to a difference in means or medians are more likely than 
+those in which we have equal (or close to equal) means or medians. As usual, we 
+will select a test statistic and then look at the distribution of that test 
+statistic when the null hypothesis is true.
+
+When we perform a one-way ANOVA, we use the *F* statistic.
+
+$F = MS_B/MS_W$
+
+That is, *F* is the ratio of two mean squares, one that estimates error, 
+$MS_W$, and one that estimates the sum of error and group differences, $MS_B$. 
+For the Fisher-Pitman procedure, we can use that same test statistic. We can 
+create the distribution of all 34,650 values of *F* by calculating *F* for all 
+of these possible arrangements of scores. We know that when the alternative 
+hypothesis is true, the probabilities are higher for obtaining larger values of 
+*F* than for obtaining smaller values of *F*. If the null hypothesis is true, 
+each value of *F* is equally likely (except that some values of *F* may occur 
+more than once, in which case we would have to add the individual 
+probabilities). We form a rejection region by putting the largest values of 
+*F* in the rejection region, as these are most incompatible with the null 
+hypothesis yet most likely to occur if the alternative hypothesis is true.
+
+The problem with conducting the Fisher-Pitman test for *K* samples is that the 
+number of combinations grows rapidly, thus making the test difficult, at best, 
+and potentially impossible without huge computing resources. For example, 
+consider a moderately-sized study with 30 participants, 10 in each of 3 
+conditions.
+
+```{r}
+factorial(30)/(factorial(10)*factorial(10)*factorial(10))
+```
+
+This is a bunch of possibilities! We quickly turn our attention to  a 
+large-sample approximation to the Fisher-Pitman randomization procedure. When 
+the null hypothesis is true, with a large-enough sample, the *F* statistic is 
+approximately distributed as an *F* distribution with *k-1* and *n-k* degrees 
+of freedom. For students who have taken traditional parametric statistics 
+courses, you will recognize both the statistic and the distribution used for 
+testing the statistic as those you used when analyzing data with one-way ANOVA. 
+In other words, the large-sample approximation to the Fisher-Pitman 
+randomization procedure is one-way ANOVA!
+
+### The Kruskal-Wallis Test
+
+If we replace our scores with ranks, an exact test is available for both small- 
+and moderately-sized studies. The conditions for valid inference are the same 
+as for the Fisher-Pitman randomization test, meaning that we can relax the 
+normality condition and use the condition that our populations have the same 
+shape. Additionally, we know that using ranks might buy us more power when 
+scores are not normally distributed, yet not lose us much if the scores are 
+normally distributed.
+
+For no particular reason, other than that the median is robust to outliers and 
+skew, let us express the hypotheses in terms of the median.
+
+$H_0: \theta_1 = \theta_2 = \theta_3$
+
+$H_a: \theta_k \ne \theta_{k'}, k \ne k'$
+
+Again we create all possible combinations, but this time using ranks instead of 
+original scores. Kruskal and Wallis defined their test statistic, *H* using 
+this formula.
+
+$H = (n-1)SS_B/SS_T$
+
+Here, $n$ is the total sample size and $SS_B$ and $SS_T$ are the between 
+conditions sum-of-squares and the total sum-of-squares, respectively. These are 
+calculated in the same manner as we would calculate sums-of-squares if we were 
+creating a one-way ANOVA table, except that we rank scores without regard to 
+condition before making these calculations.
+
+As with the *F* test, we construct a rejection region by putting the largest 
+possible values of *H* in the rejection region, but only putting enough values 
+in this region so that the rejection region has a proportion that is less than 
+or equal to $\alpha$, our tolerance for Type I errors.
+
+Returning to the metaphor example, here are the sample medians for the four 
+conditions.
+
+```{r}
+median(control)
+median(advance)
+median(extended)
+```
+
+The extended metaphor condition is performing well in our study, but is this 
+enough evidence that we can make inferences to other randomizations or to 
+individuals outside the study but like those in our study, with respect to 
+relevant variables?
+
+We can calculate H using ranks and ANOVA procedures. Note that we have to set 
+up another variable for our explanatory variable: metaphor condition. Normally 
+in your research you'll begin with a data frame (for example, what you read 
+in from a CSV file) that will have the scores and the grouping variable, so 
+most of the first part of this script will be unnecessary, other than creating 
+ranks.
+
+```{r}
+
+# Set up the data
+
+y <- c(control, advance, extended)
+y.rank = rank(y)
+group <- c(rep("control", 4), rep("advance", 4), rep("extended", 4))
+metaphor <- data.frame(y.rank, group)
+
+# Now run ANOVA procedures
+
+our.model <- aov(y.rank ~ group, data = metaphor)
+our.results <- anova(our.model)
+
+# Calculate H
+
+df.total <- (our.results[1,1] + our.results[2,1])
+ss.bet <- our.results[1,2]
+ss.total <- our.results[1,2] + our.results[2,2]
+
+H <- df.total*ss.bet/ss.total
+H
+```
+
+We now need to determine if the value of *H* is in our rejection region. That, 
+of course, depends on our tolerance for errors. For this example, given the 
+small sample size, let's set that at 10%.
+
+We have already seen that even with this small sample size there are over 
+34,000 combinations, so looking through that distribution can be tedious. 
+Fortunately, someone has done that for us and created a table of critical 
+values. Looking at the table, we find that the critical value is 4.65. We also 
+can determine from this table that $\hat{\alpha} = 0.097$, which is quite good, 
+especially considering our sample size of 12 units.
+
+### A Kruskal-Wallis function and exact critical values
+
+Fortunately, there is a function for the Kruskal-Wallis test. It's in your 
+plain old R install, so you don't need to install a package. We also don't 
+need to do any ranking, because it will do it for us. The command is similar 
+to when we are running one-way ANOVA.
+
+```{r}
+kruskal.test(y ~ group, data = metaphor)
+```
+
+We painlessly obtained the same value for *H* as we did above. Note that it is 
+called a chi-squared statistic in the function output. Why? Because the
+large-sample approximation for *H* is a chi-square distribution with *k*-1 
+degrees of freedom. So the *p* value you are seeing is not an exact *p* value, 
+but a large-sample approximation, even though our sample size is only 12! That 
+doesn't seem very large-sample to me. Here's the large-sample calculation of 
+the *p* value.
+
+```{r}
+pchisq(H, 3-1, lower.tail = FALSE)
+```
+
+Why did this function provide us a large-sample approximation with a sample 
+size of 12? Remember that even for small sample sizes, there are many, many 
+combinations. (We have already seen that even with this small sample size there 
+are over 34,000 combinations!) The distribution of *H* becomes huge very 
+quickly. Remember what we saw above for a sample of size 30.
+
+```{r}
+factorial(30)/(factorial(10)*factorial(10)*factorial(10))
+```
+
+A sample size of 30 is still not large, yet there are so many combinations. 
+Further, a computer doing this for us would have to find all combinations, 
+calculate *H* for every combination, and then store that *H*. After storing all 
+5.55 trillion values of *H*, it would then have to determine that largest 10% 
+(or 5%, or 1%, or whatever our tolerance for error). If we rented space on a 
+very fast computer that could do all the calculations for 1,000,000 of the 
+combinations in a second (that would indeed be a fast computer!), here is how 
+long it would take in days.
+
+```{r}
+num.combs <- factorial(30)/(factorial(10)*factorial(10)*factorial(10))
+num.seconds <- num.combs/1000000
+num.minutes <- num.seconds/60
+num.hours <- num.minutes/60
+num.days <- num.hours/24
+num.days
+```
+
+Hopefully the computer rental is cheap and not by the hour! Remember, if we 
+suddenly decide to use 31 people instead of 30 (or perhaps 29, because someone 
+drops out of the study), we have to do it all over again.
+
+There is no way that the folk who write R functions for us are going to make 
+us wait that long. Also, our computers are not supercomputers like the one 
+we speculated about above. We'd miss meals and classes (and most of our 
+lifetime) waiting for the *p* value. It's just not worth it. Unfortunately, the 
+R function, and functions built into other popular packages for that matter, do 
+not have a Monte Carlo simulation (they should!), so we are forced to use the 
+mathematical distribution method for our approximation.
+
+I'm not a fan of large-sample approximations for small samples. Experience has 
+shown that the approximation can be way off. Fortunately, as we saw with the 
+example above, for smaller samples we can do an exact test by looking up the 
+exact critical value in a table of Kruskal-Wallis critical values. Do the 
+critical value tables go far enough so that we no longer have to consider our 
+sample small, thus we can be more comfortable with the large sample 
+approximation? Yes!
+
+Remarkably, the critical value tables for three groups (*k* = 3) go up to
+*n* = 105, or 35 units in each of the three conditions. Let's see how long that 
+would take for our supercomputer, but we had better calculate it in years.
+
+```{r}
+num.combs <- factorial(105)/(factorial(35)*factorial(35)*factorial(35))
+num.seconds <- num.combs/1000000
+num.minutes <- num.seconds/60
+num.hours <- num.minutes/60
+num.days <- num.hours/24
+num.years <- num.days/365.25
+num.years
+```
+
+Ummmmm, that's substantially longer than the age of the universe. Believe it 
+or not, there's a name for a number this large. It is 31 Decillion. And keep in 
+mind that that's for a single value of *n*! We will spend almost as long again 
+calculating the critical value for *n* = 104, then again for *n* = 103, and so 
+on. (Remember at the beginning of the course I told you that a drawback of 
+nonparametric methods was computing time? I wasn't joking!)
+
+OK, what's the catch. Is there a supercomputer substantially faster than the 
+one we are imagining? I don't think so.
+
+I heard a cool little story about this at the annual conference of the American 
+Educational Research Association about 15 years ago. Back in the late 1980s, a 
+young doctoral student was working on a dissertation that involved a 
+nonparametric technique. The Kruskal-Wallis test was not the focus of his 
+dissertation, but he wanted to make some comparisons to the Kruskal-Wallis 
+test. Given that he was working on exact methods, he did not think it would be 
+fair (or accurate) to compare exact results to large-sample approximate 
+results. When he looked to see how far the existing Kruskal-Wallis critical 
+value tables, he discovered that they all went up to *n* = 15, with three 
+conditions of five in each condition. (Actually, that was not too bad for the 
+computing power available when those tables were created in the 50s!)
+
+```{r}
+factorial(15)/(factorial(5)*factorial(5)*factorial(5))
+```
+
+The doctoral student did some calculations like the ones we did above and came 
+to the same conclusion that we did: To go further would take more time than he 
+was willing to give, or for that matter had time enough in the remaining 
+history of the world. According to the story, that bothered him, so he got 
+very little sleep for several weeks as he tried to create a way around the 
+problem. Finally he hit on an idea. I won't go into the details. (I kept the 
+details, as they were presented at AERA, in case anyone is interested.) Suffice 
+it to say that he found a way to trade off time for space by building 
+distributions on top of one another. It would not take as long, but it would 
+take a lot of space on his computer. Nonetheless, he purchased the largest hard 
+drive he could find at the time (and afford as a graduate student), wrote a 
+program, and set it in action. By the time his drive was completely full, he 
+had calculated critical values for *n* = 45, with 15 units per condition for 
+three conditions. That was sufficient for him to finish his dissertation and 
+use the exact Kruskal-Wallis, with this method of creating critical values 
+becoming a footnote in the dissertation.
+
+Fast forward about fifteen years. By this time this former doctoral student was 
+a university professor, with students of his own. For several years he had a 
+student who loved writing computer programs. That gave him an idea. His program 
+no longer worked (computer code compilers had evolved), yet hard drives had 
+become much, much bigger. He presented his student with a proposal. If the 
+student would update the code so that it would work with the new compilers, and 
+if they could build an even bigger table of critical values, the student could 
+get a publication as first author. The student happily agreed. The code was 
+updated, new hard drives were purchased, and the program was set in motion. The 
+result is the table of Kruskal-Wallis critical values that we have today, going 
+up to *n* = 105 for three groups and *n* = 32 for four groups. (Doing the 
+calculations for four groups took much more space on the hard drives.)
+
+In sum, you can use the Kruskal-Wallis function to obtain the value of H. If 
+your sample size is within the limit of the critical value table, you can do 
+an exact test for $\alpha$ of .10, .05, or .01. Once the sample size exceeds 
+what is available in the tables, you can feel safer about using a mathematical 
+distribution (the chi-square distribution) for a large-sample approximation.
+
+
