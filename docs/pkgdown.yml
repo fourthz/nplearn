@@ -1,5 +1,5 @@
-pandoc: '2.6'
-pkgdown: 1.4.1
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   Bernoulli-Events: Bernoulli-Events.html
@@ -16,4 +16,5 @@ articles:
   signtest: signtest.html
   twosamp: twosamp.html
   Workflow-Sample: Workflow-Sample.html
+last_built: 2023-04-18T10:33Z
 

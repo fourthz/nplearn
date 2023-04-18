@@ -23,13 +23,7 @@ vignettes to exemplify concepts.
 
 ## Installation
 
-You can install the released version of nplearn from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("nplearn")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

@@ -14,14 +14,7 @@ also provides vignettes to exemplify concepts.
 
 ## Installation
 
-You can install the released version of nplearn from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("nplearn")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -38,4 +31,4 @@ library(nplearn)
 binom_plot(8, .4)
 ```
 
-<img src="README_files/figure-gfm/example-1.png" width="100%" />
+<img src="man/figures/example-1.png" width="100%" />
